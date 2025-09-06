@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Applications Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        .applications-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tr:hover {
+            background: #e3f2fd;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pdf-created {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .status-applied {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .status-interview {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-rejected {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>🎯 Job Applications Dashboard</h1>
+            <p>Track your career journey with analytics and insights</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalApps">-</div>
+                <div class="stat-label">Total Applications</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="todayApps">-</div>
+                <div class="stat-label">Today's Applications</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="uniqueCompanies">-</div>
+                <div class="stat-label">Unique Companies</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="thisWeek">-</div>
+                <div class="stat-label">This Week</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>📊 Analytics</h2>
+                <div class="chart-container">
+                    <h3 style="margin-bottom: 20px; color: #666;">Applications Over Time</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="chart-container">
+                        <h3 style="margin-bottom: 20px; color: #666;">Applications by Company</h3>
+                        <div class="chart-wrapper" style="height: 300px;">
+                            <canvas id="companyChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <h3 style="margin-bottom: 20px; color: #666;">Application Status</h3>
+                        <div class="chart-wrapper" style="height: 300px;">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📋 Recent Applications</h2>
+                <div class="applications-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Company</th>
+                                <th>Position</th>
+                                <th>Status</th>
+                                <th>Files</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicationsTable">
+                            <tr>
+                                <td colspan="6" class="no-data">Loading applications...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="loadData()">🔄 Refresh</button>
+
+    <script>
+        let applicationsData = [];
+        let timelineChart, companyChart, statusChart;
+
+        // Parse CSV data
+        async function loadCSVData() {
+            try {
+                // Check if we're running on localhost (server mode)
+                if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+                    // Server mode - fetch CSV file directly
+                    const response = await fetch('job_applications.csv');
+                    const csvText = await response.text();
+                    
+                    const lines = csvText.trim().split('\n');
+                    const headers = lines[0].split(',');
+                    
+                    applicationsData = lines.slice(1).map(line => {
+                        const values = line.split(',');
+                        const obj = {};
+                        headers.forEach((header, index) => {
+                            obj[header.trim()] = values[index] ? values[index].trim() : '';
+                        });
+                        return obj;
+                    }).filter(app => app.Date && app.Company);
+                    
+                } else {
+                    // File mode - use embedded data
+                    const csvText = `Date,Time,Company,Position,Resume_File,PDF_File,Status,Notes
+2025-09-05,18:34:37,Tesla,Optimus Simulation,resume_tesla-optimus-simulation.html,resume_tesla-optimus-simulation.pdf,PDF Created,Auto-generated from tesla-optimus-simulation
+2025-09-05,18:58:44,Tesla,Optimus Simulation,../Resume/HTMLs\resume_tesla-optimus-simulation.html,../Resume/To_Apply\resume_tesla-optimus-simulation.pdf,PDF Created,Auto-generated from tesla-optimus-simulation
+2025-09-05,19:33:21,Tesla,Ai Ml Intern Fall2025,../Resume/HTMLs\resume_tesla-ai-ml-intern-fall2025.html,../Resume/To_Apply\resume_tesla-ai-ml-intern-fall2025.pdf,PDF Created,Auto-generated from tesla-ai-ml-intern-fall2025
+2025-09-05,19:45:18,Cognitiv,Ml Engineer Intern,../Resume/HTMLs\resume_cognitiv-ml-engineer-intern.html,../Resume/To_Apply\resume_cognitiv-ml-engineer-intern.pdf,PDF Created,Auto-generated from cognitiv-ml-engineer-intern
+2025-09-05,19:55:19,Lyft,Data Science Algorithms Intern,../Resume/HTMLs\resume_lyft-data-science-algorithms-intern.html,../Resume/To_Apply\resume_lyft-data-science-algorithms-intern.pdf,PDF Created,Auto-generated from lyft-data-science-algorithms-intern
+2025-09-05,20:04:26,Cna,Ai Engineering Tech Intern,../Resume/HTMLs/resume_cna-ai-engineering-tech-intern.html,../Resume/To_Apply/resume_cna-ai-engineering-tech-intern.pdf,PDF Created,Auto-generated from cna-ai-engineering-tech-intern`;
+                    
+                    const lines = csvText.trim().split('\n');
+                    const headers = lines[0].split(',');
+                    
+                    applicationsData = lines.slice(1).map(line => {
+                        const values = line.split(',');
+                        const obj = {};
+                        headers.forEach((header, index) => {
+                            obj[header.trim()] = values[index] ? values[index].trim() : '';
+                        });
+                        return obj;
+                    }).filter(app => app.Date && app.Company);
+                }
+                
+                return applicationsData;
+            } catch (error) {
+                console.error('Error loading CSV:', error);
+                return [];
+            }
+        }
+
+        function updateStats() {
+            const today = new Date().toISOString().split('T')[0];
+            const todayFormatted = today.replace(/-/g, '-'); // 2025-09-05 format
+            
+            // Calculate stats
+            const totalApps = applicationsData.length;
+            const todayApps = applicationsData.filter(app => app.Date === todayFormatted).length;
+            const uniqueCompanies = [...new Set(applicationsData.map(app => app.Company))].length;
+            
+            // Calculate this week's applications
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            const weekAgoStr = weekAgo.toISOString().split('T')[0];
+            const thisWeekApps = applicationsData.filter(app => app.Date >= weekAgoStr).length;
+            
+            // Update DOM
+            document.getElementById('totalApps').textContent = totalApps;
+            document.getElementById('todayApps').textContent = todayApps;
+            document.getElementById('uniqueCompanies').textContent = uniqueCompanies;
+            document.getElementById('thisWeek').textContent = thisWeekApps;
+        }
+
+        function createTimelineChart() {
+            const ctx = document.getElementById('timelineChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (timelineChart) {
+                timelineChart.destroy();
+            }
+            
+            // Group applications by date
+            const dateGroups = applicationsData.reduce((acc, app) => {
+                const date = app.Date;
+                acc[date] = (acc[date] || 0) + 1;
+                return acc;
+            }, {});
+            
+            const sortedDates = Object.keys(dateGroups).sort();
+            const counts = sortedDates.map(date => dateGroups[date]);
+            
+            timelineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: sortedDates,
+                    datasets: [{
+                        label: 'Applications',
+                        data: counts,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createCompanyChart() {
+            const ctx = document.getElementById('companyChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (companyChart) {
+                companyChart.destroy();
+            }
+            
+            // Group applications by company
+            const companyGroups = applicationsData.reduce((acc, app) => {
+                const company = app.Company;
+                acc[company] = (acc[company] || 0) + 1;
+                return acc;
+            }, {});
+            
+            const companies = Object.keys(companyGroups);
+            const counts = Object.values(companyGroups);
+            
+            companyChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: companies,
+                    datasets: [{
+                        data: counts,
+                        backgroundColor: [
+                            '#667eea',
+                            '#764ba2',
+                            '#f093fb',
+                            '#f5576c',
+                            '#4facfe',
+                            '#00f2fe'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        function createStatusChart() {
+            const ctx = document.getElementById('statusChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (statusChart) {
+                statusChart.destroy();
+            }
+            
+            // Group applications by status
+            const statusGroups = applicationsData.reduce((acc, app) => {
+                const status = app.Status || 'Unknown';
+                acc[status] = (acc[status] || 0) + 1;
+                return acc;
+            }, {});
+            
+            const statuses = Object.keys(statusGroups);
+            const counts = Object.values(statusGroups);
+            
+            statusChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: statuses,
+                    datasets: [{
+                        label: 'Applications',
+                        data: counts,
+                        backgroundColor: '#667eea'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateTable() {
+            const tableBody = document.getElementById('applicationsTable');
+            
+            if (applicationsData.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="no-data">No applications found</td></tr>';
+                return;
+            }
+            
+            // Sort by date (newest first)
+            const sortedData = [...applicationsData].sort((a, b) => {
+                const dateA = new Date(a.Date + ' ' + a.Time);
+                const dateB = new Date(b.Date + ' ' + b.Time);
+                return dateB - dateA;
+            });
+            
+            tableBody.innerHTML = sortedData.map(app => {
+                const statusClass = `status-${app.Status.toLowerCase().replace(/\s+/g, '-')}`;
+                return `
+                    <tr>
+                        <td>${app.Date}<br><small style="color: #666;">${app.Time}</small></td>
+                        <td><strong>${app.Company}</strong></td>
+                        <td>${app.Position}</td>
+                        <td><span class="status-badge ${statusClass}">${app.Status}</span></td>
+                        <td>
+                            <small style="color: #666;">
+                                HTML: ${app.Resume_File.split('/').pop()}<br>
+                                PDF: ${app.PDF_File.split('/').pop()}
+                            </small>
+                        </td>
+                        <td><small>${app.Notes}</small></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function loadData() {
+            await loadCSVData();
+            updateStats();
+            createTimelineChart();
+            createCompanyChart();
+            createStatusChart();
+            updateTable();
+        }
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', loadData);
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadData, 30000);
+    </script>
+</body>
+</html>

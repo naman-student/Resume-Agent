@@ -7,6 +7,7 @@ Converts customized JD resume HTML to PDF with matching name
 import os
 import sys
 import csv
+import argparse
 from datetime import datetime
 from pathlib import Path
 
@@ -119,7 +120,7 @@ def log_application(jd_name, html_file, pdf_file):
         print(f"⚠️  Warning: Could not log to CSV: {e}")
         return False
 
-def convert_jd_to_pdf(jd_name):
+def convert_jd_to_pdf(jd_name, log_to_csv=True):
     """Convert JD-specific resume to PDF using the same methods as quick_pdf.py"""
     
     # Clean the JD name for filename
@@ -144,6 +145,8 @@ def convert_jd_to_pdf(jd_name):
     print(f"🎯 Converting JD-Specific Resume: {jd_name}")
     print(f"📄 Input: Resume/HTMLs/{os.path.basename(html_file)}")
     print(f"📄 Output: Resume/To_Apply/{os.path.basename(pdf_file)}")
+    if not log_to_csv:
+        print("🔄 Reconversion mode: CSV logging disabled")
     print("-" * 50)
     
     # Try WeasyPrint first (most reliable)
@@ -157,8 +160,11 @@ def convert_jd_to_pdf(jd_name):
         print(f"✅ SUCCESS! PDF created: {pdf_file}")
         print("📄 Margins and formatting preserved exactly")
         
-        # Log the application
-        log_application(jd_name, html_file, pdf_file)
+        # Log the application only if requested
+        if log_to_csv:
+            log_application(jd_name, html_file, pdf_file)
+        else:
+            print("📊 CSV logging skipped (reconversion mode)")
         
         return True
         
@@ -195,8 +201,11 @@ def convert_jd_to_pdf(jd_name):
         print(f"✅ SUCCESS! PDF created: {pdf_file}")
         print("📄 Perfect web rendering with exact margins")
         
-        # Log the application
-        log_application(jd_name, html_file, pdf_file)
+        # Log the application only if requested
+        if log_to_csv:
+            log_application(jd_name, html_file, pdf_file)
+        else:
+            print("📊 CSV logging skipped (reconversion mode)")
         
         return True
         
@@ -252,12 +261,15 @@ def show_usage():
     print("=" * 45)
     print()
     print("USAGE:")
-    print("  python convert_jd_pdf.py 'job-description-name'")
+    print("  python convert_jd_pdf.py 'job-description-name' [--no-log]")
     print()
     print("EXAMPLES:")
     print("  python convert_jd_pdf.py 'google-swe'")
     print("  python convert_jd_pdf.py 'microsoft-ai-engineer'")
-    print("  python convert_jd_pdf.py 'startup-fullstack'")
+    print("  python convert_jd_pdf.py 'startup-fullstack' --no-log")
+    print()
+    print("FLAGS:")
+    print("  --no-log    Skip CSV logging (for reconversions)")
     print()
     print("NOTES:")
     print("  - Converts resume_[name].html to resume_[name].pdf")
@@ -290,18 +302,27 @@ def validate_jd_customization(html_file, jd_name):
 
 def main():
     """Main function"""
+    try:
+        # Parse command line arguments
+        parser = argparse.ArgumentParser(description='Convert JD-specific resume to PDF')
+        parser.add_argument('jd_name', help='Job description name (e.g., "google-swe")')
+        parser.add_argument('--no-log', action='store_true', help='Skip CSV logging (for reconversions)')
+        
+        args = parser.parse_args()
+        jd_name = args.jd_name
+        log_to_csv = not args.no_log
+        
+    except SystemExit:
+        # Handle case where argparse fails (wrong arguments)
+        show_usage()
+        return
+    
     print("🎯 JD-Specific Resume PDF Converter")
     print("=" * 45)
     
     # Show available resumes
     show_available_resumes()
     
-    # Check command line arguments
-    if len(sys.argv) != 2:
-        show_usage()
-        return
-    
-    jd_name = sys.argv[1]
     jd_clean = jd_name.strip().lower().replace(' ', '-').replace('_', '-')
     jd_clean = ''.join(c for c in jd_clean if c.isalnum() or c in '-.')
     html_file = os.path.join("../Resume/HTMLs", f"resume_{jd_clean}.html")
@@ -312,7 +333,7 @@ def main():
         print()
     
     # Convert to PDF
-    success = convert_jd_to_pdf(jd_name)
+    success = convert_jd_to_pdf(jd_name, log_to_csv)
     
     if success:
         print()

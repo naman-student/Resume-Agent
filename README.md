@@ -97,6 +97,9 @@ Identify key requirements:
 
 ### **Step 2: Create JD-Specific Copy**
 ```bash
+powershell cmd 
+cd "c:\Users\naman\Desktop\Resume Project\Scripts" ; python create_jd_resume.py "marvell-ai-platform-intern"
+
 python create_jd_resume.py "company-role"
 # Creates: resume_company-role.html (exact copy of master)
 ```
@@ -120,6 +123,13 @@ The AI will analyze the JD and provide specific suggestions focused on:
 - **Visual Proportions**: Maintain balanced spacing across all categories
 - **Smart Curation**: Remove less relevant skills when adding JD-specific ones
 - **Addition/Removal Strategy**: Add JD keywords while removing non-essential items
+
+**🛡️ Conservative Customization Rule (CRITICAL):**
+- **Authenticity First**: Only use keywords and skills that genuinely exist in your background
+- **Real Experience Only**: Don't add technologies you haven't actually used
+- **JD Intersection**: Focus on the overlap between your real skills and JD requirements
+- **Missing Keywords OK**: It's acceptable to miss some JD keywords if you don't have that experience
+- **Genuine Representation**: Maintain honest representation of your capabilities
 
 **⚠️ Focus**: Structural changes and keyword optimization rather than complete content rewrites
 

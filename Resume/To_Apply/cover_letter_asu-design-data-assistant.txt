@@ -1,0 +1,31 @@
+Naman Yeshwanth Kumar
+COVER LETTER
+
+Date: September 15, 2025
+
+The Design School
+Herberger Institute for Design and the Arts
+Arizona State University
+Tempe, AZ
+
+Dear Hiring Manager,
+
+I am writing to express my strong interest in the Data Analysis Assistant position at The Design School, as posted on the ASU student employment portal. As a current Master of Science in Computer Engineering student at ASU with hands-on experience in data management and visualization, I am excited about the opportunity to contribute to The Design School's administrative team while supporting student affairs initiatives.
+
+My passion for data-driven solutions became evident through my current project, Trezzit, an expense tracking and bill splitting application I've been developing specifically for ASU students. This endeavor has given me practical experience in the core responsibilities outlined for this position. Through Trezzit, I've been managing expense data and transaction records from over 150 student users, analyzing spending patterns to improve the app's categorization features, and creating intuitive dashboards that help students track their shared expenses and individual spending. This experience has taught me the importance of maintaining accuracy in data entry while ensuring user privacy—skills directly applicable to handling confidential student information in an administrative setting.
+
+The process of building Trezzit has required me to balance multiple concurrent tasks: user feedback analysis, database maintenance, feature development, and creating presentation materials for stakeholder updates. I've become proficient in transforming raw data into meaningful insights through visualization tools, which aligns perfectly with the collaborative work mentioned with the Communications team. Additionally, my regular interactions with users have strengthened my communication skills, as I've learned to present complex technical information in accessible formats.
+
+My academic coursework in computer engineering, combined with my practical experience in software development at NCR GOLD, has given me a solid foundation in database management and analytical thinking. I'm comfortable working with various software platforms and can quickly adapt to new tools as needed. Having spent time in collaborative environments, from my research at the Indian Institute of Science to my open-source contributions with distributed teams, I understand the importance of clear communication and reliable teamwork.
+
+What particularly draws me to this role is the opportunity to apply my technical skills in a creative, student-centered environment. The Design School's commitment to innovation and interdisciplinary collaboration resonates with my own approach to problem-solving, and I'm eager to contribute to projects that directly impact the student experience at ASU.
+
+Thank you for considering my application. I would welcome the opportunity to discuss how my experience with data analysis and student-focused project development can support The Design School's administrative goals.
+
+Sincerely,
+
+Naman Yeshwanth Kumar
+(623) 249-1265
+nyeshwan@asu.edu
+
+1 of 1, Updated September 15, 2025

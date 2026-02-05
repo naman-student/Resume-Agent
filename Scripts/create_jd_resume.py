@@ -85,7 +85,53 @@ def create_jd_resume(jd_name):
         with open(jd_file, 'w', encoding='utf-8') as f:
             f.write(updated_content)
         
-        print(f"✅ SUCCESS! Created JD-specific resume: Resume/HTMLs/{os.path.basename(jd_file)}")
+        # --- V2 Logging Logic ---
+        try:
+            BASE_DIR = project_root # Define BASE_DIR for logging
+            csv_file = os.path.join(BASE_DIR, "job_applications.csv")
+            
+            # Extract company and role from jd_name for logging
+            parts = jd_name.split('-', 1)
+            cleaned_company = parts[0].strip().title() if parts else "Unknown"
+            cleaned_role = parts[1].strip().title() if len(parts) > 1 else "Unknown"
+
+            # ID is basename without extension
+            job_id = f"{jd_clean}" # Use the already cleaned jd_clean as ID
+            
+            # Current time
+            now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            
+            # Relative paths for CSV
+            output_filename = os.path.basename(jd_file)
+            html_rel_path = f"Resume/Drafts/{output_filename}" # Relative to project_root
+            
+            # Prepare Row: ID,Date,Company,Position,Status,HTML_Path,PDF_Path,Notes
+            new_row = [
+                job_id,
+                now_str,
+                cleaned_company,
+                cleaned_role,
+                "DRAFT",
+                html_rel_path,
+                "",  # PDF Path empty initially
+                f"Created from {os.path.basename(master_file)}"
+            ]
+            
+            # Append to CSV
+            file_exists = os.path.exists(csv_file)
+            with open(csv_file, 'a', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                if not file_exists:
+                    writer.writerow(["ID","Date","Company","Position","Status","HTML_Path","PDF_Path","Notes"])
+                writer.writerow(new_row)
+                
+            print(f"✅ Logged DRAFT to job_applications.csv (ID: {job_id})")
+
+        except Exception as e:
+            print(f"⚠️ Failed to log to CSV: {e}")
+        # --- End V2 Logging Logic ---
+
+        print(f"✅ SUCCESS! Created JD-specific resume: {html_rel_path}")
         print(f"📄 Based on: Master_Resume/resume_clean.html")
         print(f"🎯 Job Description: {jd_name}")
         print()

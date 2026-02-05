@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -203,17 +204,18 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
+
             .header h1 {
                 font-size: 2rem;
             }
-            
+
             table {
                 font-size: 0.9rem;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="dashboard">
         <div class="header">
@@ -265,6 +267,26 @@
                 </div>
             </div>
 
+            <!-- Action Queue Section -->
+            <div class="section" id="actionQueueSection" style="display: none;">
+                <h2>🚀 Ready to Apply</h2>
+                <div class="applications-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Company</th>
+                                <th>Action</th>
+                                <th>File</th>
+                            </tr>
+                        </thead>
+                        <tbody id="actionQueueTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="section">
                 <h2>📋 Recent Applications</h2>
                 <div class="applications-table">
@@ -299,59 +321,24 @@
         // Parse CSV data
         async function loadCSVData() {
             try {
-                // Check if we're running on localhost (server mode)
-                if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
-                    // Server mode - fetch CSV file directly
-                    const response = await fetch('job_applications.csv');
-                    const csvText = await response.text();
-                    
-                    const lines = csvText.trim().split('\n');
-                    const headers = lines[0].split(',');
-                    
-                    applicationsData = lines.slice(1).map(line => {
-                        const values = line.split(',');
-                        const obj = {};
-                        headers.forEach((header, index) => {
-                            obj[header.trim()] = values[index] ? values[index].trim() : '';
-                        });
-                        return obj;
-                    }).filter(app => app.Date && app.Company);
-                    
-                } else {
-                    // File mode - use embedded data
-                    const csvText = `Date,Time,Company,Position,Resume_File,PDF_File,Status,Notes
-2025-09-05,18:34:37,Tesla,Optimus Simulation,resume_tesla-optimus-simulation.html,resume_tesla-optimus-simulation.pdf,PDF Created,Auto-generated from tesla-optimus-simulation
-2025-09-05,18:58:44,Tesla,Optimus Simulation,../Resume/HTMLs\resume_tesla-optimus-simulation.html,../Resume/To_Apply\resume_tesla-optimus-simulation.pdf,PDF Created,Auto-generated from tesla-optimus-simulation
-2025-09-05,19:33:21,Tesla,Ai Ml Intern Fall2025,../Resume/HTMLs\resume_tesla-ai-ml-intern-fall2025.html,../Resume/To_Apply\resume_tesla-ai-ml-intern-fall2025.pdf,PDF Created,Auto-generated from tesla-ai-ml-intern-fall2025
-2025-09-05,19:45:18,Cognitiv,Ml Engineer Intern,../Resume/HTMLs\resume_cognitiv-ml-engineer-intern.html,../Resume/To_Apply\resume_cognitiv-ml-engineer-intern.pdf,PDF Created,Auto-generated from cognitiv-ml-engineer-intern
-2025-09-05,19:55:19,Lyft,Data Science Algorithms Intern,../Resume/HTMLs\resume_lyft-data-science-algorithms-intern.html,../Resume/To_Apply\resume_lyft-data-science-algorithms-intern.pdf,PDF Created,Auto-generated from lyft-data-science-algorithms-intern
-2025-09-05,20:04:26,Cna,Ai Engineering Tech Intern,../Resume/HTMLs/resume_cna-ai-engineering-tech-intern.html,../Resume/To_Apply/resume_cna-ai-engineering-tech-intern.pdf,PDF Created,Auto-generated from cna-ai-engineering-tech-intern
-2025-09-05,20:36:36,Waters,Research Ml Coop,../Resume/HTMLs/resume_waters-research-ml-coop.html,../Resume/To_Apply/resume_waters-research-ml-coop.pdf,PDF Created,Auto-generated from waters-research-ml-coop
-2025-09-05,21:06:12,Cirrus,Logic Aiml Intern,../Resume/HTMLs/resume_cirrus-logic-aiml-intern.html,../Resume/To_Apply/resume_cirrus-logic-aiml-intern.pdf,PDF Created,Auto-generated from cirrus-logic-aiml-intern
-2025-09-05,21:22:43,Texas,Instruments It Intern,../Resume/HTMLs/resume_texas-instruments-it-intern.html,../Resume/To_Apply/resume_texas-instruments-it-intern.pdf,PDF Created,Auto-generated from texas-instruments-it-intern
-2025-09-05,21:44:55,Waymo,Systems Genai Intern,../Resume/HTMLs/resume_waymo-systems-genai-intern.html,../Resume/To_Apply/resume_waymo-systems-genai-intern.pdf,PDF Created,Auto-generated from waymo-systems-genai-intern
-2025-09-15,18:48:30,Asu,Design Data Assistant,../Resume/HTMLs/resume_asu-design-data-assistant.html,../Resume/To_Apply/resume_asu-design-data-assistant.pdf,PDF Created,Auto-generated from asu-design-data-assistant
-2025-09-20,11:33:25,Honeywell,Aiml Intern,../Resume/HTMLs/resume_honeywell-aiml-intern.html,../Resume/To_Apply/resume_honeywell-aiml-intern.pdf,PDF Created,Auto-generated from honeywell-aiml-intern
-2025-10-02,17:57:51,Medtronic,Ai Data Science,../Resume/HTMLs/resume_medtronic-ai-data-science.html,../Resume/To_Apply/resume_medtronic-ai-data-science.pdf,PDF Created,Auto-generated from medtronic-ai-data-science
-2025-10-02,18:07:20,Aparavi,Ai Developer Intern,../Resume/HTMLs/resume_aparavi-ai-developer-intern.html,../Resume/To_Apply/resume_aparavi-ai-developer-intern.pdf,PDF Created,Auto-generated from aparavi-ai-developer-intern
-2025-10-02,18:30:38,Marvell,Ai Platform Intern,../Resume/HTMLs/resume_marvell-ai-platform-intern.html,../Resume/To_Apply/resume_marvell-ai-platform-intern.pdf,PDF Created,Auto-generated from marvell-ai-platform-intern
-2025-10-02,18:31:11,Raydar,Ml Nlp Engineer,../Resume/HTMLs/resume_raydar-ml-nlp-engineer.html,../Resume/To_Apply/resume_raydar-ml-nlp-engineer.pdf,PDF Created,Auto-generated from raydar-ml-nlp-engineer
-2025-10-02,18:34:18,Dex,Founding Engineer Graduate,../Resume/HTMLs/resume_dex-founding-engineer-graduate.html,../Resume/To_Apply/resume_dex-founding-engineer-graduate.pdf,PDF Created,Auto-generated from dex-founding-engineer-graduate
-2025-10-02,18:39:51,Lyft,Software Engineer Rider,../Resume/HTMLs/resume_lyft-software-engineer-rider.html,../Resume/To_Apply/resume_lyft-software-engineer-rider.pdf,PDF Created,Auto-generated from lyft-software-engineer-rider`;
-                    
-                    const lines = csvText.trim().split('\n');
-                    const headers = lines[0].split(',');
-                    
-                    applicationsData = lines.slice(1).map(line => {
-                        const values = line.split(',');
-                        const obj = {};
-                        headers.forEach((header, index) => {
-                            obj[header.trim()] = values[index] ? values[index].trim() : '';
-                        });
-                        return obj;
-                    }).filter(app => app.Date && app.Company);
-                }
-                
+                // Server mode - fetch CSV file directly
+                const response = await fetch('job_applications.csv');
+                const csvText = await response.text();
+
+                const lines = csvText.trim().split('\n');
+                const headers = lines[0].split(',');
+
+                applicationsData = lines.slice(1).map(line => {
+                    // Start simplified CSV parser to handle quotes if needed, 
+                    // but for now basic split is fine as we control the input
+                    const values = line.split(',');
+                    const obj = {};
+                    headers.forEach((header, index) => {
+                        obj[header.trim()] = values[index] ? values[index].trim() : '';
+                    });
+                    return obj;
+                }).filter(app => app.ID && app.Company);
+
                 return applicationsData;
             } catch (error) {
                 console.error('Error loading CSV:', error);
@@ -360,45 +347,42 @@
         }
 
         function updateStats() {
-            const today = new Date().toISOString().split('T')[0];
-            const todayFormatted = today.replace(/-/g, '-'); // 2025-09-05 format
-            
-            // Calculate stats
+            // Stats logic
             const totalApps = applicationsData.length;
-            const todayApps = applicationsData.filter(app => app.Date === todayFormatted).length;
-            const uniqueCompanies = [...new Set(applicationsData.map(app => app.Company))].length;
-            
-            // Calculate this week's applications
-            const weekAgo = new Date();
-            weekAgo.setDate(weekAgo.getDate() - 7);
-            const weekAgoStr = weekAgo.toISOString().split('T')[0];
-            const thisWeekApps = applicationsData.filter(app => app.Date >= weekAgoStr).length;
-            
+            const appliedApps = applicationsData.filter(app => app.Status === 'APPLIED').length;
+            const readyApps = applicationsData.filter(app => app.Status === 'READY').length;
+            // Use Date for today calculation
+            const today = new Date().toISOString().split('T')[0];
+            const todayApps = applicationsData.filter(app => app.Date.startsWith(today)).length;
+
             // Update DOM
             document.getElementById('totalApps').textContent = totalApps;
             document.getElementById('todayApps').textContent = todayApps;
-            document.getElementById('uniqueCompanies').textContent = uniqueCompanies;
-            document.getElementById('thisWeek').textContent = thisWeekApps;
+            document.getElementById('uniqueCompanies').textContent = appliedApps; // repurposed as "Applied Count"
+            document.getElementById('uniqueCompanies').parentNode.querySelector('.stat-label').textContent = "Applied";
+
+            document.getElementById('thisWeek').textContent = readyApps; // repurposed as "Ready Count"
+            document.getElementById('thisWeek').parentNode.querySelector('.stat-label').textContent = "Ready to Apply";
         }
 
         function createTimelineChart() {
             const ctx = document.getElementById('timelineChart').getContext('2d');
-            
+
             // Destroy existing chart if it exists
             if (timelineChart) {
                 timelineChart.destroy();
             }
-            
+
             // Group applications by date
             const dateGroups = applicationsData.reduce((acc, app) => {
                 const date = app.Date;
                 acc[date] = (acc[date] || 0) + 1;
                 return acc;
             }, {});
-            
+
             const sortedDates = Object.keys(dateGroups).sort();
             const counts = sortedDates.map(date => dateGroups[date]);
-            
+
             timelineChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -429,22 +413,22 @@
 
         function createCompanyChart() {
             const ctx = document.getElementById('companyChart').getContext('2d');
-            
+
             // Destroy existing chart if it exists
             if (companyChart) {
                 companyChart.destroy();
             }
-            
+
             // Group applications by company
             const companyGroups = applicationsData.reduce((acc, app) => {
                 const company = app.Company;
                 acc[company] = (acc[company] || 0) + 1;
                 return acc;
             }, {});
-            
+
             const companies = Object.keys(companyGroups);
             const counts = Object.values(companyGroups);
-            
+
             companyChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -470,22 +454,22 @@
 
         function createStatusChart() {
             const ctx = document.getElementById('statusChart').getContext('2d');
-            
+
             // Destroy existing chart if it exists
             if (statusChart) {
                 statusChart.destroy();
             }
-            
+
             // Group applications by status
             const statusGroups = applicationsData.reduce((acc, app) => {
                 const status = app.Status || 'Unknown';
                 acc[status] = (acc[status] || 0) + 1;
                 return acc;
             }, {});
-            
+
             const statuses = Object.keys(statusGroups);
             const counts = Object.values(statusGroups);
-            
+
             statusChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -511,33 +495,97 @@
             });
         }
 
+        async function handleAction(filename, action) {
+            // User Confirmation
+            const niceAction = action === 'mark_applied' ? 'Applied' : 'Skipped';
+            if (!confirm(`Mark this resume as ${niceAction}?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/${action}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filename: filename })
+                });
+
+                if (response.ok) {
+                    loadData(); // Reload all data
+                } else {
+                    alert('Error updating status');
+                }
+            } catch (e) {
+                console.error(e);
+                alert('Network error');
+            }
+        }
+
+        function updateActionQueue() {
+            const queueTable = document.getElementById('actionQueueTable');
+            const queueSection = document.getElementById('actionQueueSection');
+
+            // Filter for "READY" status (V2 Schema)
+            const pendingApps = applicationsData.filter(app => app.Status === 'READY');
+
+            if (pendingApps.length === 0) {
+                queueSection.style.display = 'none';
+                return;
+            }
+
+            queueSection.style.display = 'block';
+            queueTable.innerHTML = pendingApps.map(app => {
+                const pdfName = app.PDF_Path.split('/').pop();
+                return `
+                <tr>
+                    <td>${app.Date}</td>
+                    <td><strong>${app.Company}</strong><br><small>${app.Position}</small></td>
+                    <td>
+                        <button onclick="handleAction('${pdfName}', 'mark_applied')" 
+                                style="background: #e8f5e8; color: #2e7d32; border: 1px solid #2e7d32; padding: 5px 15px; border-radius: 15px; cursor: pointer; margin-right: 10px;">
+                            ✅ Apply
+                        </button>
+                        <button onclick="handleAction('${pdfName}', 'mark_skipped')" 
+                                style="background: #ffebee; color: #d32f2f; border: 1px solid #d32f2f; padding: 5px 15px; border-radius: 15px; cursor: pointer;">
+                            ⏭️ Skip
+                        </button>
+                    </td>
+                    <td><a href="${app.PDF_Path}" target="_blank">View PDF</a></td>
+                </tr>
+            `}).join('');
+        }
+
         function updateTable() {
             const tableBody = document.getElementById('applicationsTable');
-            
+
             if (applicationsData.length === 0) {
                 tableBody.innerHTML = '<tr><td colspan="6" class="no-data">No applications found</td></tr>';
                 return;
             }
-            
-            // Sort by date (newest first)
-            const sortedData = [...applicationsData].sort((a, b) => {
-                const dateA = new Date(a.Date + ' ' + a.Time);
-                const dateB = new Date(b.Date + ' ' + b.Time);
-                return dateB - dateA;
-            });
-            
-            tableBody.innerHTML = sortedData.map(app => {
-                const statusClass = `status-${app.Status.toLowerCase().replace(/\s+/g, '-')}`;
+
+            // Show all history EXCEPT Ready (which are in queue) and Drafts
+            const historyData = applicationsData
+                .filter(app => app.Status !== 'READY' && app.Status !== 'DRAFT')
+                .sort((a, b) => new Date(b.Date) - new Date(a.Date));
+
+            if (historyData.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="no-data">No history yet. Check your Action Queue!</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = historyData.map(app => {
+                const statusClass = `status-${app.Status.toLowerCase()}`;
+                const pdfName = app.PDF_Path ? app.PDF_Path.split('/').pop() : '-';
+                const htmlName = app.HTML_Path ? app.HTML_Path.split('/').pop() : '-';
+
                 return `
                     <tr>
-                        <td>${app.Date}<br><small style="color: #666;">${app.Time}</small></td>
+                        <td>${app.Date}</td>
                         <td><strong>${app.Company}</strong></td>
                         <td>${app.Position}</td>
                         <td><span class="status-badge ${statusClass}">${app.Status}</span></td>
                         <td>
                             <small style="color: #666;">
-                                HTML: ${app.Resume_File.split('/').pop()}<br>
-                                PDF: ${app.PDF_File.split('/').pop()}
+                                ${pdfName}
                             </small>
                         </td>
                         <td><small>${app.Notes}</small></td>
@@ -549,9 +597,13 @@
         async function loadData() {
             await loadCSVData();
             updateStats();
-            createTimelineChart();
-            createCompanyChart();
-            createStatusChart();
+            // Charts can stay as is, they just visualize counts
+            if (applicationsData.length > 0) {
+                createTimelineChart();
+                createCompanyChart();
+                createStatusChart();
+            }
+            updateActionQueue();
             updateTable();
         }
 
@@ -562,4 +614,5 @@
         setInterval(loadData, 30000);
     </script>
 </body>
+
 </html>

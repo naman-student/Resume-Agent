@@ -7,6 +7,7 @@ Creates a copy of resume_clean.html with JD-relevant naming for customization
 import os
 import sys
 import shutil
+import csv
 from datetime import datetime
 
 def create_jd_resume(jd_name):

@@ -1,0 +1,38 @@
+name: Generate Resumes
+
+on:
+  push:
+    paths:
+      - 'Resume/Drafts/**.html'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build_resumes:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip python3-cffi python3-brotli libpango-1.0-0 libpangoft2-1.0-0
+          pip install weasyprint
+
+      - name: Process Resumes
+        run: python Scripts/ci_process_resumes.py
+
+      - name: Commit and Push Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 Auto-generated PDFs from drafts"
+          file_pattern: 'Resume/To_Apply/*.pdf Resume/HTMLs/*.html Resume/Drafts/*.html'

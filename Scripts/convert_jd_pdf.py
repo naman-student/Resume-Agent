@@ -128,7 +128,7 @@ def convert_jd_to_pdf(jd_name, log_to_csv=True):
     jd_clean = ''.join(c for c in jd_clean if c.isalnum() or c in '-.')
     
     # Define file paths
-    html_dir = "../Resume/HTMLs"
+    html_dir = "../Resume/Drafts"
     pdf_dir = "../Resume/To_Apply"
     html_file = os.path.join(html_dir, f"resume_{jd_clean}.html")
     pdf_file = os.path.join(pdf_dir, f"resume_{jd_clean}.pdf")

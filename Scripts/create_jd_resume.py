@@ -23,8 +23,12 @@ def create_jd_resume(jd_name):
     jd_clean = ''.join(c for c in jd_clean if c.isalnum() or c in '-.')
     
     # Define file paths
-    master_file = "../Master_Resume/resume_clean.html"
-    output_dir = "../Resume/HTMLs"
+    # Define file paths relative to script location
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)
+    
+    master_file = os.path.join(project_root, "Master_Resume", "resume_clean.html")
+    output_dir = os.path.join(project_root, "Resume", "Drafts")
     jd_file = os.path.join(output_dir, f"resume_{jd_clean}.html")
     
     # Ensure output directory exists

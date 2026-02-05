@@ -304,6 +304,27 @@ python Scripts/create_jd_resume.py "tesla-optimus-simulation"
 4. **Feedback Loop**: Update based on application results
 5. **Regular Review**: Update base template quarterly
 
+## ☁️ Cloud Automation (New!)
+This project now supports **GitHub Actions** for fully automated PDF generation.
+
+### **The Workflow**
+1.  **Draft**: Use an AI agent (like GitHub Copilot) to create a resume.
+    *   Command: `python Scripts/create_jd_resume.py "netflix-senior-swe"`
+    *   This creates a file in `Resume/Drafts/`.
+2.  **Push**: Commit and push your changes to GitHub.
+3.  **Auto-Build**:
+    *   GitHub Actions detects the new draft.
+    *   It converts it to PDF automatically (using WeasyPrint).
+    *   It moves the HTML to `Resume/HTMLs/` (archive).
+    *   It commits the final PDF to `Resume/To_Apply/`.
+4.  **Result**: Just `git pull` to get your fresh PDF!
+
+## 💻 Local Automation
+If you prefer running everything on your own machine:
+1.  Create draft: `python Scripts/create_jd_resume.py "company-role"`
+2.  Convert locally: `python Scripts/convert_jd_pdf.py "company-role"`
+    *   *Requires `playwright` or `weasyprint` installed locally.*
+
 ---
 
 **Last Updated**: September 2025  

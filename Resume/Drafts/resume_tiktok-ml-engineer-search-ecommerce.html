@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naman Yeshwanth Kumar - Resume (tiktok-ml-engineer-search-ecommerce)</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Times New Roman", serif;
+            background: #f5f5f5;
+            padding: 15px;
+            line-height: 1.1;
+            font-size: 11pt;
+        }
+
+        /* Main container */
+        .resume-container {
+            max-width: 8.5in;
+            width: 100%;
+            margin: 0 auto;
+            background: white;
+            padding: 0.3in 0.5in;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-height: 11in;
+        }
+
+        /* Header styles */
+        .header {
+            text-align: center;
+            border-bottom: 1pt solid white;
+            padding-bottom: 4pt;
+            margin-bottom: 20pt;
+            margin-top: 8pt;
+        }
+
+        .header h1 {
+            font-size: 17pt;
+            font-weight: bold;
+            margin-bottom: 3pt;
+            line-height: 17pt;
+            letter-spacing: 0.5pt;
+        }
+
+        .header .contact-info {
+            font-size: 9pt;
+            line-height: 9pt;
+        }
+
+        .header .contact-info a {
+            color: #0563C1;
+            text-decoration: none;
+        }
+
+        .header .contact-info .separator {
+            color: black;
+            margin: 0 4px;
+        }
+
+        /* Section styles */
+        .section {
+            margin-bottom: 20pt;
+        }
+
+        .section-title {
+            font-size: 9pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 1.5pt solid black;
+            padding-bottom: 0pt;
+            margin-bottom: 4pt;
+            line-height: 9pt;
+        }
+
+        /* Education, Experience, Project entries */
+        .entry {
+            margin-bottom: 8pt;
+        }
+        
+        .entry:last-child {
+            margin-bottom: 0pt;
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1pt;
+            line-height: 9pt;
+        }
+
+        .entry-title {
+            font-size: 9pt;
+            font-weight: bold;
+            flex: 1;
+        }
+
+        .entry-date {
+            font-size: 9pt;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .entry-subtitle {
+            font-size: 9pt;
+            font-weight: normal;
+            margin-bottom: 2pt;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            line-height: 9pt;
+        }
+
+        .entry-location {
+            font-size: 9pt;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        /* Bullet points */
+        .bullet-list {
+            margin-bottom: 0pt;
+        }
+
+        .bullet-item {
+            font-size: 9pt;
+            line-height: 10pt;
+            margin-left: 0.35in;
+            text-indent: -10pt;
+            padding-left: 10.0pt;
+            margin-bottom: 2pt;
+        }
+
+        .bullet-item:before {
+            content: "● ";
+            font-family: "Times New Roman", serif;
+            font-size: 8pt;
+            margin-right: 3pt;
+            vertical-align: middle;
+            position: relative;
+            left: -10.4pt;
+        }
+
+        /* Technical skills specific styling */
+        .skills-section {
+            font-size: 9pt;
+            line-height: 9pt;
+        }
+
+        .skills-section p {
+            margin-bottom: 3pt;
+        }
+
+        /* Print styles */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0;
+            }
+            
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                font-size: 11pt !important;
+                line-height: 1.0 !important;
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            
+            * {
+                margin: 0 !important;
+                box-sizing: border-box !important;
+            }
+            
+            .resume-container {
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0.3in 0.5in !important;
+                max-width: 8.5in !important;
+                width: 100% !important;
+                min-height: auto !important;
+            }
+            
+            .header {
+                margin-top: 8pt !important;
+                margin-bottom: 20pt !important;
+            }
+            
+            .header h1 {
+                font-size: 17pt !important;
+                letter-spacing: 0.5pt !important;
+            }
+            
+            .header .contact-info {
+                font-size: 9pt !important;
+                line-height: 9pt !important;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+                margin-bottom: 20pt !important;
+            }
+            
+            .section-title {
+                font-size: 9pt !important;
+                border-bottom: 1.5pt solid black !important;
+                padding-bottom: 0pt !important;
+                margin-bottom: 4pt !important;
+            }
+            
+            .entry {
+                page-break-inside: avoid;
+                margin-bottom: 8pt !important;
+            }
+            
+            .entry-title, .entry-date, .entry-subtitle, .entry-location {
+                font-size: 9pt !important;
+                line-height: 9pt !important;
+            }
+            
+            .entry-header {
+                margin-bottom: 1pt !important;
+            }
+            
+            .entry-subtitle {
+                margin-bottom: 2pt !important;
+            }
+            
+            .bullet-item {
+                font-size: 9pt !important;
+                line-height: 10pt !important;
+                margin-left: 0.35in !important;
+                text-indent: -10pt !important;
+                padding-left: 10.0pt !important;
+                margin-bottom: 2pt !important;
+            }
+            
+            .bullet-item:before {
+                content: "● " !important;
+                font-family: "Times New Roman", serif !important;
+                font-size: 8pt !important;
+                margin-right: 3pt !important;
+                position: relative !important;
+                left: -10.4pt !important;
+            }
+            
+            .skills-section p {
+                font-size: 9pt !important;
+                line-height: 9pt !important;
+                margin-bottom: 3pt !important;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .resume-container {
+                padding: 20px;
+            }
+            
+            .entry-header {
+                flex-direction: column;
+            }
+            
+            .entry-date,
+            .entry-location {
+                text-align: left;
+                margin-top: 2pt;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>NAMAN YESHWANTH KUMAR</h1>
+            <div class="contact-info">
+                <a href="https://www.linkedin.com/in/namany">https://www.linkedin.com/in/namany</a>
+                <span class="separator">|</span>
+                <a href="https://github.com/naman-ranka">https://github.com/naman-ranka</a>
+                <span class="separator">|</span>
+                <a href="mailto:nyeshwan@asu.edu">nyeshwan@asu.edu</a>
+                <span class="separator">|</span>
+                (623) 249-1265
+            </div>
+        </div>
+
+        <!-- Education Section -->
+        <div class="section">
+            <div class="section-title">EDUCATION</div>
+            
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Master of Science</div>
+                    <div class="entry-date">Expected: May 2026</div>
+                </div>
+                <div class="entry-subtitle">
+                    <div>Arizona State University - Computer Eng (GPA 3.8/4.0)</div>
+                    <div class="entry-location">Tempe, AZ</div>
+                </div>
+                <div class="bullet-list">
+                    <div class="bullet-item">Relevant course work: VLSI, Foundations of Algorithms, Reinforcement Learning in Robotics, Artificial Intelligence, Perception in Robotics, Hardware Co-design, SoC Design, Advanced Computer Architecture</div>
+                </div>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Nanodegree - Self-Driving Car Engineer</div>
+                    <div class="entry-date">February 2023</div>
+                </div>
+                <div class="entry-subtitle">
+                    <div>Udacity</div>
+                </div>
+                <div class="bullet-list">
+                    <div class="bullet-item">Key Areas: Machine Learning, Sensor Fusion, Computer Vision, Path Planning, and Control, with hands-on projects in object detection, trajectory tracking, and autonomous vehicle motion</div>
+                </div>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Bachelor of Engineering</div>
+                    <div class="entry-date">June 2022</div>
+                </div>
+                <div class="entry-subtitle">
+                    <div>BMS College of Engineering - Electrical and Electronics Eng</div>
+                    <div class="entry-location">Bengaluru, India</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Skills Section -->
+        <div class="section">
+            <div class="section-title">TECHNICAL SKILLS</div>
+            <div class="skills-section">
+                <p><strong>HDLs / EDA:</strong> SystemVerilog | Synopsys Design Compiler (DC) | Cadence Innovus | Siemens ModelSim | Cadence Virtuoso</p>
+                <p><strong>Languages:</strong> Python | C++ | MATLAB | Lua | PHP | JavaScript | HTML | CSS | SQL | Shell Script</p>
+                <p><strong>AI and Robotics:</strong> Machine Learning | Data Analytics | Sensor Fusion | Computer Vision | ROS | ROS 2 | Reinforcement Learning | Gen AI</p>
+                <p><strong>Tools and Hardware:</strong> TensorFlow | PyTorch | Docker | Simulink | CoppeliaSim | LTspice | Plotly | Arduino | Raspberry Pi | ARM</p>
+            </div>
+        </div>
+
+        <!-- Work Experience Section -->
+        <div class="section">
+            <div class="section-title">WORK EXPERIENCE</div>
+            
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Software Developer</div>
+                    <div class="entry-date">October 2022 - April 2024</div>
+                </div>
+                <div class="entry-subtitle">
+                    <div>NCR GOLD</div>
+                    <div class="entry-location">Bengaluru, India</div>
+                </div>
+                <div class="bullet-list">
+                    <div class="bullet-item">Designed and deployed a custom ordering platform (Django) to streamline inventory and billing for a wholesale jewelry business; processed 10,000+ orders to improve efficiency.</div>
+                    <div class="bullet-item">Containerized applications using Docker and integrated AWS cloud deployment, providing scalable performance and seamless updates.</div>
+                </div>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Research Intern</div>
+                    <div class="entry-date">October 2021 - August 2022</div>
+                </div>
+                <div class="entry-subtitle">
+                    <div>Indian Institute of Science</div>
+                    <div class="entry-location">Bengaluru, India</div>
+                </div>
+                <div class="bullet-list">
+                    <div class="bullet-item">Led the Propulsion Circuit Team, optimizing a 1.5kW axial flux BLDC motor with Ansys Maxwell; boosted efficiency and responsiveness by upgrading material and coil designs and implementing a new FOC system.</div>
+                    <div class="bullet-item">Conducted advanced research on speed control algorithms and battery management systems for eVTOL aircraft leveraging Simulink, contributing to notable improvements in efficiency and reliability of aircraft propulsion systems.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Experience Section -->
+        <div class="section">
+            <div class="section-title">PROJECT EXPERIENCE</div>
+            
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Trezzit - Full Stack Bill Splitting Application</div>
+                    <div class="entry-date">February 2025 - Present</div>
+                </div>
+                <div class="bullet-list">
+                    <div class="bullet-item">Engineered Trezzit, a full-stack expense management application that solves the dual challenges of intuitive item-wise bill splitting and integrated personal finance tracking using AI-powered categorization.</div>
+                    <div class="bullet-item">Managed the complete project lifecycle, acquiring and supporting an initial beta community of 120+ active users from the ASU student body.</div>
+                    <div class="bullet-item">Currently leading the next phase of growth, focused on scaling the user base to 1,000 members on campus by leveraging iterative development and community feedback. Tech Stack: Django | React | Google Generative AI (Gemini) | Material-UI | Docker</div>
+                </div>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Intel Automated Self-Checkout (Open Source Contributor)</div>
+                    <div class="entry-date">January 2025 - February 2025</div>
+                </div>
+                <div class="bullet-list">
+                    <div class="bullet-item">Developed a framework in Python to publish and analyze LiDAR sensor data for autonomous checkout systems; successfully merged contributions to the main branch after comprehensive code review.</div>
+                    <div class="bullet-item">Leveraged Docker and CI/CD pipelines, collaborating with a distributed team to enhance sensor fusion accuracy.</div>
+                </div>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Raspberry Pi Self-Driving Car</div>
+                    <div class="entry-date">February 2022 - July 2022</div>
+                </div>
+                <div class="bullet-list">
+                    <div class="bullet-item">Developed an autonomous vehicle using Raspberry Pi and Arduino, featuring lane detection, traffic sign recognition, and seamless integration via the I2C communication protocol.</div>
+                    <div class="bullet-item">Streamlined data collection and neural network training with a Bluetooth joystick mode in a collaborative team effort; project received the Best Project Award in the EEE Department among approximately 40 submissions.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Awards & Honors Section -->
+        <div class="section">
+            <div class="section-title">AWARDS & HONORS</div>
+            <div class="bullet-list">
+                <div class="bullet-item">Won the 'Best Use of AI' award at Strategy X DevHacks'25 at ASU for developing AdaptED AI, a platform leveraging Google's Gemini AI to generate personalized learning paths and resources for students.</div>
+                <div class="bullet-item">Secured second place in the Hack SoDA 2024 at ASU with a team of four, developing PassGen, a secure and offline Chrome Extension for generating unique passwords, during a 24-hour hackathon sponsored by Amazon.</div>
+                <div class="bullet-item">Ranked among the Top Ten teams in the e-Yantra national-level robotics competition organized by IIT Bombay, for designing and developing a self-balancing dairy bike on CoppeliaSim, February 2022.</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -35,4 +35,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "🤖 Auto-generated PDFs from drafts"
-          file_pattern: 'Resume/To_Apply/*.pdf Resume/HTMLs/*.html Resume/Drafts/*.html'
+          file_pattern: 'Resume/To_Apply/*.pdf Resume/Archive/*.html Resume/Drafts/*.html job_applications.csv'

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naman Yeshwanth Kumar - Resume</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Times New Roman", serif; background: #f5f5f5; padding: 15px; line-height: 1.1; font-size: 11pt; }
+        .resume-container { max-width: 8.5in; width: 100%; margin: 0 auto; background: white; padding: 0.3in 0.5in; box-shadow: 0 0 10px rgba(0,0,0,0.1); min-height: 11in; }
+        .header { text-align: center; border-bottom: 1pt solid white; padding-bottom: 4pt; margin-bottom: 20pt; margin-top: 8pt; }
+        .header h1 { font-size: 17pt; font-weight: bold; margin-bottom: 3pt; line-height: 17pt; letter-spacing: 0.5pt; }
+        .header .contact-info { font-size: 9pt; line-height: 9pt; }
+        .header .contact-info a { color: #0563C1; text-decoration: none; }
+        .header .contact-info .separator { color: black; margin: 0 4px; }
+        .section { margin-bottom: 14pt; }
+        .section-title { font-size: 9pt; font-weight: bold; text-transform: uppercase; border-bottom: 1.5pt solid black; padding-bottom: 0pt; margin-bottom: 4pt; line-height: 9pt; }
+        .entry { margin-bottom: 7pt; }
+        .entry:last-child { margin-bottom: 0pt; }
+        .entry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1pt; line-height: 9pt; }
+        .entry-title { font-size: 9pt; font-weight: bold; flex: 1; }
+        .entry-date { font-size: 9pt; font-weight: bold; text-align: right; }
+        .entry-subtitle { font-size: 9pt; font-weight: normal; margin-bottom: 2pt; display: flex; justify-content: space-between; align-items: flex-start; line-height: 9pt; }
+        .entry-location { font-size: 9pt; font-weight: bold; text-align: right; }
+        .bullet-list { margin-bottom: 0pt; }
+        .bullet-item { font-size: 9pt; line-height: 10pt; margin-left: 0.35in; text-indent: -10pt; padding-left: 10.0pt; margin-bottom: 2pt; }
+        .bullet-item:before { content: "● "; font-family: "Times New Roman", serif; font-size: 8pt; margin-right: 3pt; vertical-align: middle; position: relative; left: -10.4pt; }
+        .skills-section { font-size: 9pt; line-height: 9pt; }
+        .skills-section p { margin-bottom: 3pt; }
+        .summary-text { font-size: 9pt; line-height: 10pt; }
+        @media print {
+            @page { size: A4; margin: 0; }
+            body { background: white !important; padding: 0 !important; margin: 0 !important; font-size: 11pt !important; line-height: 1.0 !important; -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
+            * { box-sizing: border-box !important; }
+            .resume-container { box-shadow: none !important; margin: 0 !important; padding: 0.3in 0.5in !important; max-width: 8.5in !important; width: 100% !important; min-height: auto !important; }
+            .header { margin-top: 8pt !important; margin-bottom: 20pt !important; }
+            .header h1 { font-size: 17pt !important; letter-spacing: 0.5pt !important; }
+            .header .contact-info { font-size: 9pt !important; line-height: 9pt !important; }
+            .section { page-break-inside: avoid; margin-bottom: 14pt !important; }
+            .section-title { font-size: 9pt !important; border-bottom: 1.5pt solid black !important; padding-bottom: 0pt !important; margin-bottom: 4pt !important; }
+            .entry { page-break-inside: avoid; margin-bottom: 7pt !important; }
+            .entry-title, .entry-date, .entry-subtitle, .entry-location { font-size: 9pt !important; line-height: 9pt !important; }
+            .entry-header { margin-bottom: 1pt !important; }
+            .entry-subtitle { margin-bottom: 2pt !important; }
+            .bullet-item { font-size: 9pt !important; line-height: 10pt !important; margin-left: 0.35in !important; text-indent: -10pt !important; padding-left: 10.0pt !important; margin-bottom: 2pt !important; }
+            .bullet-item:before { content: "● " !important; font-family: "Times New Roman", serif !important; font-size: 8pt !important; margin-right: 3pt !important; position: relative !important; left: -10.4pt !important; }
+            .skills-section p { font-size: 9pt !important; line-height: 9pt !important; margin-bottom: 3pt !important; }
+            .summary-text { font-size: 9pt !important; line-height: 10pt !important; }
+        }
+    </style>
+</head>
+<body>
+<div class="resume-container">
+
+    <div class="header">
+        <h1>NAMAN YESHWANTH KUMAR</h1>
+        <div class="contact-info">
+            <a href="https://linkedin.com/in/namany">linkedin.com/in/namany</a>
+            <span class="separator">|</span>
+            <a href="https://github.com/naman-ranka">github.com/naman-ranka</a>
+            <span class="separator">|</span>
+            <a href="mailto:nyeshwan@asu.edu">nyeshwan@asu.edu</a>
+            <span class="separator">|</span>
+            (623) 249-1265
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">SUMMARY</div>
+        <div class="summary-text">MS Computer Engineering (ASU, May 2026, GPA 3.8) with end-to-end RTL-to-GDSII tape-out experience: synthesized a GCN ASIC on ASAP7 7nm (Synopsys DC + Cadence Innovus, 10,878 cells, 52.29 mW) and built SiliconCrew &mdash; an LLM agent that autonomously drives OpenROAD from natural language spec to GDSII.</div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">TECHNICAL SKILLS</div>
+        <div class="skills-section">
+            <p><strong>RTL / EDA:</strong> SystemVerilog | Synopsys Design Compiler | Cadence Innovus | Voltus | OpenROAD | Calibre DRC/LVS | ASAP7 7nm | SkyWater 130nm</p>
+            <p><strong>Architecture / Compute:</strong> gem5 C++ | CUDA | C++ | Python | Static Timing Analysis | MATLAB</p>
+            <p><strong>AI / Tooling:</strong> LangGraph | FastAPI | MCP Protocol | Docker | GitHub Actions CI/CD</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">PROJECT EXPERIENCE</div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">SiliconCrew &mdash; Autonomous LLM Agent for RTL Design</div>
+                <div class="entry-date">Nov 2025 &ndash; Present</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Built LangGraph ReAct agent (21 tools, MCP server) translating natural language specs to GDSII &mdash; RTL generation, simulation, VCD waveform-guided debug, synthesis, and APR &mdash; routing across Gemini/OpenAI/Anthropic and SkyWater 130nm / ASAP7 7nm PDKs.</div>
+                <div class="bullet-item">Engineered 933-line async synthesis manager: per-run isolation, exponential backoff (30s&rarr;10min cap), SDC constraint validation, equivalence checking, and SHA-256 standard-cell bootstrapping.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">GCN ASIC Accelerator &mdash; RTL to GDSII on ASAP7 7nm</div>
+                <div class="entry-date">Spring 2025</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Designed GCN accelerator in SystemVerilog (11 modules): Transform_Block with 8 parallel MACs, 12-state COO aggregation FSM, Argmax_Block &mdash; synthesized with Synopsys DC on ASAP7 7nm RVT to 10,878 cells, 20,676 &mu;m&sup2; cell area, 1 ns clock.</div>
+                <div class="bullet-item">Completed Cadence Innovus APR + Voltus post-APR power analysis: 50,300 &mu;m&sup2; chip area, 50.6% core density, 52.29 mW total power (64.8% switching), 200.7 ns latency.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">5-Stage Pipelined MIPS Processor</div>
+                <div class="entry-date">Fall 2025 &ndash; Spring 2026</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Implemented 5-stage pipelined MIPS CPU in SystemVerilog: 33 instructions, 12-path forwarding network (EX-to-EX, MEM-to-EX, WB-to-ID, branch, JR), 6 stall conditions; extended with CAM instruction cache (FIFO) and LL/SC atomic operations.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">LRU-IPV Cache Replacement &mdash; gem5 C++</div>
+                <div class="entry-date">Fall 2024</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Implemented LRU with Insertion Position Vector as a first-class gem5 SimObject (4 interface methods, 5 source files); validated across 128/256/512 kB L2 &mdash; replacements collapsed 637&rarr;112&rarr;2 at 2.04 IPC, 41.8M instructions.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="section">
+        <div class="section-title">WORK EXPERIENCE</div>
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Software Developer</div>
+                <div class="entry-date">Oct 2022 &ndash; Apr 2024</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>NCR GOLD</div>
+                <div class="entry-location">Bengaluru, India</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Built and shipped a Django REST platform on DigitalOcean processing 10,000+ wholesale orders; Docker + Nginx, Redis caching, Celery async workers, automated CI/CD for zero-downtime releases.</div>
+            </div>
+        </div>
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Research Intern</div>
+                <div class="entry-date">Oct 2021 &ndash; Aug 2022</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>Indian Institute of Science</div>
+                <div class="entry-location">Bengaluru, India</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Developed FOC control algorithms and PID signal processing for a 1.5 kW BLDC motor using Ansys Maxwell and Simulink; contributed to battery management research for eVTOL propulsion.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">EDUCATION</div>
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Master of Science &mdash; Computer Engineering (GPA 3.8/4.0)</div>
+                <div class="entry-date">Expected May 2026</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>Arizona State University &mdash; Coursework: Advanced Computer Architecture | VLSI Design | VLSI Design Automation | SoC Design | Hardware Co-design</div>
+                <div class="entry-location">Tempe, AZ</div>
+            </div>
+        </div>
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Bachelor of Engineering &mdash; Electrical and Electronics</div>
+                <div class="entry-date">June 2022</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>BMS College of Engineering</div>
+                <div class="entry-location">Bengaluru, India</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">AWARDS &amp; HONORS</div>
+        <div class="bullet-list">
+            <div class="bullet-item">Won &lsquo;Best Use of AI&rsquo; DevHacks&rsquo;25 (ASU) for AdaptED AI; 1st place Devlabs Hackathon (HEAL.AI); 2nd place Hack SoDA 2024 (Amazon-sponsored); Top 10 nationally, e-Yantra robotics (IIT Bombay).</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -301,7 +301,6 @@
     .badge.interesting { background: #fff1cf; color: #765411; }
     .badge.promoted { background: #e7f6ee; color: #1f6f50; }
     .badge.duplicate { background: #ececec; color: #555; }
-    .badge.shortlisted { background: #fff1cf; color: #765411; }
     .badge.tailoring,
     .badge.tailored { background: #e7f6ee; color: #1f6f50; }
     .badge.applied { background: #efe8ff; color: #593b89; }
@@ -486,7 +485,7 @@
       <div>
         <h1>Job tracker</h1>
         <p class="subtitle">
-          Fresh Supabase-backed pipeline for discovered jobs, shortlisted roles, tailored resumes, and final application status.
+          Fresh Supabase-backed pipeline for researched roles, tailored resumes, and final application status.
           This dashboard does not read the old CSV.
         </p>
       </div>
@@ -515,7 +514,6 @@
         <input id="researchSearchInput" type="search" placeholder="Search researched jobs, company, role, reasoning">
         <select id="researchDecisionFilter">
           <option value="">All decisions</option>
-          <option value="new">New</option>
           <option value="interesting">Interesting</option>
           <option value="promoted">Promoted</option>
           <option value="skipped">Skipped</option>
@@ -536,17 +534,13 @@
         <input id="searchInput" type="search" placeholder="Search company, role, location, notes">
         <select id="statusFilter">
           <option value="">All statuses</option>
-          <option value="new">New</option>
-          <option value="shortlisted">Shortlisted</option>
           <option value="tailoring">Tailoring</option>
           <option value="tailored">Tailored</option>
           <option value="applied">Applied</option>
           <option value="interviewing">Interviewing</option>
           <option value="offer">Offer</option>
           <option value="rejected">Rejected</option>
-          <option value="skipped">Skipped</option>
           <option value="withdrawn">Withdrawn</option>
-          <option value="closed">Closed</option>
         </select>
         <select id="sortSelect">
           <option value="applied_at.desc">Recently active</option>
@@ -559,9 +553,9 @@
 
       <section class="stats">
         <div class="stat panel"><strong id="statTotal">0</strong><span>Total</span></div>
-        <div class="stat panel"><strong id="statNew">0</strong><span>To Review</span></div>
-        <div class="stat panel"><strong id="statShortlisted">0</strong><span>To Tailor</span></div>
-        <div class="stat panel"><strong id="statTailored">0</strong><span>Ready</span></div>
+        <div class="stat panel"><strong id="statNew">0</strong><span>Tailoring</span></div>
+        <div class="stat panel"><strong id="statShortlisted">0</strong><span>Ready</span></div>
+        <div class="stat panel"><strong id="statTailored">0</strong><span>Applied</span></div>
         <div class="stat panel"><strong id="statApplied">0</strong><span>Active Apps</span></div>
       </section>
     </section>
@@ -641,29 +635,24 @@
       interesting: "Interesting",
       promoted: "Promoted",
       duplicate: "Duplicate",
-      shortlisted: "Shortlisted",
       tailoring: "Tailoring",
       tailored: "Tailored",
       applied: "Applied",
       interviewing: "Interviewing",
       offer: "Offer",
       rejected: "Rejected",
-      skipped: "Skipped",
       withdrawn: "Withdrawn",
-      closed: "Closed"
+      closed: "Closed",
+      skipped: "Skipped"
     };
     const STATUS_TRANSITIONS = {
-      new: ["shortlisted", "skipped", "closed"],
-      shortlisted: ["tailoring", "tailored", "applied", "new", "skipped"],
-      tailoring: ["tailored", "shortlisted", "new", "skipped"],
-      tailored: ["applied", "tailoring", "shortlisted", "skipped"],
-      applied: ["interviewing", "rejected", "withdrawn", "tailored", "shortlisted", "closed"],
-      interviewing: ["offer", "applied", "rejected", "withdrawn", "closed"],
-      offer: ["interviewing", "applied", "withdrawn", "closed"],
-      rejected: ["applied", "interviewing", "closed"],
-      skipped: ["new", "shortlisted", "closed"],
-      withdrawn: ["applied", "interviewing", "closed"],
-      closed: ["applied", "interviewing", "offer", "rejected", "new"]
+      tailoring: ["tailored", "withdrawn"],
+      tailored: ["applied", "tailoring", "withdrawn"],
+      applied: ["interviewing", "rejected", "withdrawn", "tailored"],
+      interviewing: ["offer", "applied", "rejected", "withdrawn"],
+      offer: ["interviewing", "applied", "withdrawn"],
+      rejected: ["applied", "interviewing", "withdrawn"],
+      withdrawn: ["applied", "tailored", "tailoring"]
     };
 
     const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -951,7 +940,7 @@
       const relatedJobs = jobsForCompany(company.name);
       return {
         total: relatedJobs.length,
-        applied: relatedJobs.filter((job) => ["applied", "interviewing", "offer", "rejected", "withdrawn", "closed"].includes(job.status)).length,
+        applied: relatedJobs.filter((job) => ["applied", "interviewing", "offer", "rejected", "withdrawn"].includes(job.status)).length,
         active: relatedJobs.filter((job) => ["applied", "interviewing", "offer"].includes(job.status)).length,
         rejected: relatedJobs.filter((job) => job.status === "rejected").length,
         latest: relatedJobs
@@ -996,9 +985,9 @@
 
     function renderStats(sourceJobs) {
       els.statTotal.textContent = sourceJobs.length;
-      els.statNew.textContent = sourceJobs.filter((job) => job.status === "new").length;
-      els.statShortlisted.textContent = sourceJobs.filter((job) => ["shortlisted", "tailoring"].includes(job.status)).length;
-      els.statTailored.textContent = sourceJobs.filter((job) => job.status === "tailored").length;
+      els.statNew.textContent = sourceJobs.filter((job) => job.status === "tailoring").length;
+      els.statShortlisted.textContent = sourceJobs.filter((job) => job.status === "tailored").length;
+      els.statTailored.textContent = sourceJobs.filter((job) => job.status === "applied").length;
       els.statApplied.textContent = sourceJobs.filter((job) => ["applied", "interviewing", "offer"].includes(job.status)).length;
     }
 
@@ -1192,12 +1181,11 @@
               </div>
             </div>
             <div class="actions">
-              ${statusButton(job, "shortlisted", "Shortlist")}
               ${statusButton(job, "tailoring", "Tailoring")}
               ${statusButton(job, "tailored", "Tailored")}
               ${statusButton(job, "applied", "Applied", "warning")}
               ${statusButton(job, "rejected", "Rejected", "danger")}
-              ${statusButton(job, "skipped", "Skip", "secondary")}
+              ${statusButton(job, "withdrawn", "Withdrawn", "secondary")}
             </div>
           </article>
         `;
@@ -1454,7 +1442,7 @@
       if (existing) {
         const { error } = await client
           .from("jobs")
-          .update({ researched_job_id: researchJob.id, status: existing.status || "shortlisted" })
+          .update({ researched_job_id: researchJob.id, status: existing.status || "tailoring" })
           .eq("id", existing.id);
 
         if (error) {
@@ -1473,7 +1461,7 @@
           role: researchJob.role,
           url: researchJob.url,
           location: researchJob.location,
-          status: "shortlisted",
+          status: "tailoring",
           fit_score: researchJob.fit_score,
           reason: researchJob.fit_reason,
           job_description: researchJob.job_description,

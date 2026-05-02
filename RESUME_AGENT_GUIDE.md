@@ -109,7 +109,7 @@ Supabase uses a two-table funnel:
 | Table | Purpose |
 |---|---|
 | `researched_jobs` | Broad research inbox for jobs found by agents or manually reviewed later |
-| `jobs` | Committed application pipeline: shortlisted, tailoring, tailored, applied, interviewing, etc. |
+| `jobs` | Committed application pipeline: tailoring, tailored, applied, interviewing, etc. |
 
 Research agents should write to `public.researched_jobs`, not directly to `public.jobs`, unless the user explicitly says to add the job to the pipeline.
 
@@ -150,12 +150,10 @@ Status semantics:
 
 | Status | Meaning |
 |---|---|
-| `new` | Found or manually added, not yet reviewed |
-| `shortlisted` | User wants to pursue |
 | `tailoring` | Resume draft is being created |
 | `tailored` | Resume draft is ready |
 | `applied` | User actually submitted the application |
-| `interviewing` / `offer` / `rejected` / `withdrawn` / `closed` | Post-application lifecycle |
+| `interviewing` / `offer` / `rejected` / `withdrawn` | Post-application lifecycle |
 
 Research agent integration:
 
@@ -169,7 +167,7 @@ researched_jobs row: decision = new
 User promotes/shortlists
         |
         v
-jobs row: status = shortlisted, researched_job_id set
+jobs row: status = tailoring, researched_job_id set
         |
         v
 Tailoring agent creates draft

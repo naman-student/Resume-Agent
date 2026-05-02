@@ -96,6 +96,28 @@
       margin-bottom: 12px;
     }
 
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 0 0 12px;
+    }
+
+    .tab {
+      background: rgba(255, 253, 247, 0.78);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .tab.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .view[hidden] {
+      display: none;
+    }
+
     input,
     select,
     textarea,
@@ -286,6 +308,10 @@
     .badge.closed,
     .badge.withdrawn { background: #f8e2df; color: #8a302b; }
     .badge.skipped { background: #ececec; color: #555; }
+    .badge.dream { background: #ffe5da; color: #9b3f1f; }
+    .badge.strong { background: #fff1cf; color: #765411; }
+    .badge.normal { background: #e7f6ee; color: #1f6f50; }
+    .badge.backup { background: #ececec; color: #555; }
 
     .row-actions {
       display: flex;
@@ -324,6 +350,12 @@
 
     .date {
       color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .num {
+      font-weight: 900;
+      text-align: right;
       white-space: nowrap;
     }
 
@@ -455,7 +487,10 @@
           This dashboard does not read the old CSV.
         </p>
       </div>
-      <button id="addJobButton">Add job</button>
+      <div>
+        <button id="addJobButton">Add job</button>
+        <button id="addCompanyButton" class="secondary">Add company</button>
+      </div>
     </section>
 
     <section class="config panel">
@@ -466,37 +501,64 @@
       <div id="sessionLabel" class="session">Not signed in</div>
     </section>
 
-    <section class="toolbar panel">
-      <input id="searchInput" type="search" placeholder="Search company, role, location, notes">
-      <select id="statusFilter">
-        <option value="">All statuses</option>
-        <option value="new">New</option>
-        <option value="shortlisted">Shortlisted</option>
-        <option value="tailoring">Tailoring</option>
-        <option value="tailored">Tailored</option>
-        <option value="applied">Applied</option>
-        <option value="interviewing">Interviewing</option>
-        <option value="offer">Offer</option>
-        <option value="rejected">Rejected</option>
-        <option value="skipped">Skipped</option>
-        <option value="withdrawn">Withdrawn</option>
-        <option value="closed">Closed</option>
-      </select>
-      <select id="sortSelect">
-        <option value="applied_at.desc">Recently active</option>
-        <option value="created_at.desc">Newest added</option>
-        <option value="fit_score.desc">Best fit</option>
-        <option value="company.asc">Company</option>
-      </select>
-      <button id="refreshButton" class="secondary">Refresh</button>
+    <section class="tabs">
+      <button id="jobsTabButton" class="tab active" type="button">Jobs</button>
+      <button id="companiesTabButton" class="tab" type="button">Companies</button>
     </section>
 
-    <section class="stats">
-      <div class="stat panel"><strong id="statTotal">0</strong><span>Total</span></div>
-      <div class="stat panel"><strong id="statNew">0</strong><span>To Review</span></div>
-      <div class="stat panel"><strong id="statShortlisted">0</strong><span>To Tailor</span></div>
-      <div class="stat panel"><strong id="statTailored">0</strong><span>Ready</span></div>
-      <div class="stat panel"><strong id="statApplied">0</strong><span>Active Apps</span></div>
+    <section id="jobsView" class="view">
+      <section class="toolbar panel">
+        <input id="searchInput" type="search" placeholder="Search company, role, location, notes">
+        <select id="statusFilter">
+          <option value="">All statuses</option>
+          <option value="new">New</option>
+          <option value="shortlisted">Shortlisted</option>
+          <option value="tailoring">Tailoring</option>
+          <option value="tailored">Tailored</option>
+          <option value="applied">Applied</option>
+          <option value="interviewing">Interviewing</option>
+          <option value="offer">Offer</option>
+          <option value="rejected">Rejected</option>
+          <option value="skipped">Skipped</option>
+          <option value="withdrawn">Withdrawn</option>
+          <option value="closed">Closed</option>
+        </select>
+        <select id="sortSelect">
+          <option value="applied_at.desc">Recently active</option>
+          <option value="created_at.desc">Newest added</option>
+          <option value="fit_score.desc">Best fit</option>
+          <option value="company.asc">Company</option>
+        </select>
+        <button id="refreshButton" class="secondary">Refresh</button>
+      </section>
+
+      <section class="stats">
+        <div class="stat panel"><strong id="statTotal">0</strong><span>Total</span></div>
+        <div class="stat panel"><strong id="statNew">0</strong><span>To Review</span></div>
+        <div class="stat panel"><strong id="statShortlisted">0</strong><span>To Tailor</span></div>
+        <div class="stat panel"><strong id="statTailored">0</strong><span>Ready</span></div>
+        <div class="stat panel"><strong id="statApplied">0</strong><span>Active Apps</span></div>
+      </section>
+    </section>
+
+    <section id="companiesView" class="view" hidden>
+      <section class="toolbar panel">
+        <input id="companySearchInput" type="search" placeholder="Search company, priority, notes">
+        <select id="companyPriorityFilter">
+          <option value="">All priorities</option>
+          <option value="dream">Dream</option>
+          <option value="strong">Strong</option>
+          <option value="normal">Normal</option>
+          <option value="backup">Backup</option>
+        </select>
+        <select id="companySortSelect">
+          <option value="priority">Priority</option>
+          <option value="applied">Most applied</option>
+          <option value="zero">Zero applied first</option>
+          <option value="name">Company</option>
+        </select>
+        <button id="refreshCompaniesButton" class="secondary">Refresh</button>
+      </section>
     </section>
 
     <section id="message" class="message panel" hidden></section>
@@ -519,6 +581,29 @@
       <div class="modal-actions">
         <button id="cancelAddButton" type="button" class="secondary">Cancel</button>
         <button type="submit">Save job</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="companyDialog">
+    <form id="companyForm" class="modal" method="dialog">
+      <h2>Add company</h2>
+      <div class="form-grid">
+        <input id="companyNameInput" name="name" placeholder="Company" required>
+        <select id="companyPriorityInput" name="priority">
+          <option value="">No priority</option>
+          <option value="dream">Dream</option>
+          <option value="strong">Strong</option>
+          <option value="normal">Normal</option>
+          <option value="backup">Backup</option>
+        </select>
+        <input id="companyWebsiteInput" name="website" class="wide" type="url" placeholder="Website">
+        <input id="companyCareersInput" name="careers_url" class="wide" type="url" placeholder="Careers URL">
+        <textarea id="companyNotesInput" name="notes" class="wide" placeholder="Personal notes"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button id="cancelCompanyButton" type="button" class="secondary">Cancel</button>
+        <button type="submit">Save company</button>
       </div>
     </form>
   </dialog>
@@ -556,6 +641,8 @@
     const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let currentUser = null;
     let jobs = [];
+    let companies = [];
+    let activeView = "jobs";
 
     const els = {
       emailInput: document.querySelector("#emailInput"),
@@ -564,15 +651,27 @@
       signOutButton: document.querySelector("#signOutButton"),
       sessionLabel: document.querySelector("#sessionLabel"),
       addJobButton: document.querySelector("#addJobButton"),
+      addCompanyButton: document.querySelector("#addCompanyButton"),
+      jobsTabButton: document.querySelector("#jobsTabButton"),
+      companiesTabButton: document.querySelector("#companiesTabButton"),
+      jobsView: document.querySelector("#jobsView"),
+      companiesView: document.querySelector("#companiesView"),
       refreshButton: document.querySelector("#refreshButton"),
+      refreshCompaniesButton: document.querySelector("#refreshCompaniesButton"),
       searchInput: document.querySelector("#searchInput"),
       statusFilter: document.querySelector("#statusFilter"),
       sortSelect: document.querySelector("#sortSelect"),
+      companySearchInput: document.querySelector("#companySearchInput"),
+      companyPriorityFilter: document.querySelector("#companyPriorityFilter"),
+      companySortSelect: document.querySelector("#companySortSelect"),
       jobsGrid: document.querySelector("#jobsGrid"),
       message: document.querySelector("#message"),
       jobDialog: document.querySelector("#jobDialog"),
       jobForm: document.querySelector("#jobForm"),
       cancelAddButton: document.querySelector("#cancelAddButton"),
+      companyDialog: document.querySelector("#companyDialog"),
+      companyForm: document.querySelector("#companyForm"),
+      cancelCompanyButton: document.querySelector("#cancelCompanyButton"),
       statTotal: document.querySelector("#statTotal"),
       statNew: document.querySelector("#statNew"),
       statShortlisted: document.querySelector("#statShortlisted"),
@@ -609,12 +708,15 @@
       els.emailInput.hidden = Boolean(currentUser);
       els.passwordInput.hidden = Boolean(currentUser);
       els.addJobButton.disabled = !currentUser;
+      els.addCompanyButton.disabled = !currentUser;
       els.refreshButton.disabled = !currentUser;
+      els.refreshCompaniesButton.disabled = !currentUser;
       if (currentUser) {
-        await loadJobs();
+        await loadAllData();
       } else {
         jobs = [];
-        renderJobsTable();
+        companies = [];
+        renderActiveView();
         showMessage("Sign in to view and update your jobs.");
       }
     }
@@ -643,14 +745,37 @@
       await refreshSession();
     }
 
+    function setActiveView(view) {
+      activeView = view;
+      els.jobsView.hidden = view !== "jobs";
+      els.companiesView.hidden = view !== "companies";
+      els.jobsTabButton.classList.toggle("active", view === "jobs");
+      els.companiesTabButton.classList.toggle("active", view === "companies");
+      renderActiveView();
+    }
+
+    function renderActiveView() {
+      if (activeView === "companies") {
+        renderCompaniesTable();
+      } else {
+        renderJobsTable();
+      }
+    }
+
+    async function loadAllData() {
+      await loadJobs(false);
+      await loadCompanies(false);
+      renderActiveView();
+    }
+
     function sortOptions() {
       const [column, direction] = els.sortSelect.value.split(".");
       return { column, ascending: direction === "asc" };
     }
 
-    async function loadJobs() {
+    async function loadJobs(render = true) {
       if (!currentUser) {
-        renderJobsTable();
+        renderActiveView();
         showMessage("Sign in to view and update your jobs.");
         return;
       }
@@ -664,13 +789,36 @@
         .order("created_at", { ascending: false });
 
       if (error) {
-        renderJobsTable();
+        renderActiveView();
         showMessage(error.message, true);
         return;
       }
 
       jobs = data || [];
-      renderJobsTable();
+      if (render) renderActiveView();
+    }
+
+    async function loadCompanies(render = true) {
+      if (!currentUser) {
+        renderActiveView();
+        showMessage("Sign in to view and update your companies.");
+        return;
+      }
+
+      clearMessage();
+      const { data, error } = await client
+        .from("companies")
+        .select("*")
+        .order("name", { ascending: true });
+
+      if (error) {
+        renderActiveView();
+        showMessage(error.message, true);
+        return;
+      }
+
+      companies = data || [];
+      if (render) renderActiveView();
     }
 
     function filteredJobs() {
@@ -690,6 +838,70 @@
         ].join(" ").toLowerCase();
         return statusOk && (!term || haystack.includes(term));
       });
+    }
+
+    function normalizeCompanyName(name) {
+      return String(name || "")
+        .toLowerCase()
+        .replaceAll("&", "and")
+        .replace(/\b(inc|corp|corporation|company|systems|technology|technologies|design systems|labs|lab)\b/g, "")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+    }
+
+    function jobsForCompany(companyName) {
+      const normalized = normalizeCompanyName(companyName);
+      return jobs.filter((job) => {
+        const jobCompany = normalizeCompanyName(job.company);
+        return jobCompany === normalized || jobCompany.includes(normalized) || normalized.includes(jobCompany);
+      });
+    }
+
+    function companyStats(company) {
+      const relatedJobs = jobsForCompany(company.name);
+      return {
+        total: relatedJobs.length,
+        applied: relatedJobs.filter((job) => ["applied", "interviewing", "offer", "rejected", "withdrawn", "closed"].includes(job.status)).length,
+        active: relatedJobs.filter((job) => ["applied", "interviewing", "offer"].includes(job.status)).length,
+        rejected: relatedJobs.filter((job) => job.status === "rejected").length,
+        latest: relatedJobs
+          .map((job) => job.applied_at || job.updated_at || job.created_at)
+          .filter(Boolean)
+          .sort()
+          .at(-1)
+      };
+    }
+
+    function priorityRank(priority) {
+      return { dream: 0, strong: 1, normal: 2, backup: 3 }[priority] ?? 4;
+    }
+
+    function filteredCompanies() {
+      const term = els.companySearchInput.value.trim().toLowerCase();
+      const priority = els.companyPriorityFilter.value;
+      let visibleCompanies = companies.filter((company) => {
+        const priorityOk = !priority || company.priority === priority;
+        const haystack = [
+          company.name,
+          company.priority,
+          company.website,
+          company.careers_url,
+          company.notes
+        ].join(" ").toLowerCase();
+        return priorityOk && (!term || haystack.includes(term));
+      });
+
+      const sort = els.companySortSelect.value;
+      visibleCompanies = [...visibleCompanies].sort((a, b) => {
+        const aStats = companyStats(a);
+        const bStats = companyStats(b);
+        if (sort === "applied") return bStats.applied - aStats.applied || a.name.localeCompare(b.name);
+        if (sort === "zero") return Number(aStats.applied > 0) - Number(bStats.applied > 0) || a.name.localeCompare(b.name);
+        if (sort === "name") return a.name.localeCompare(b.name);
+        return priorityRank(a.priority) - priorityRank(b.priority) || a.name.localeCompare(b.name);
+      });
+
+      return visibleCompanies;
     }
 
     function renderStats(sourceJobs) {
@@ -883,6 +1095,63 @@
       `;
     }
 
+    function renderCompaniesTable() {
+      const visibleCompanies = filteredCompanies();
+
+      if (!visibleCompanies.length) {
+        els.jobsGrid.innerHTML = `<div class="empty panel">No companies match this view.</div>`;
+        return;
+      }
+
+      const rows = visibleCompanies.map((company) => {
+        const stats = companyStats(company);
+        const websiteLink = company.website
+          ? `<a class="compact-link" href="${escapeHtml(company.website)}" target="_blank" rel="noreferrer">Site</a>`
+          : "";
+        const careersLink = company.careers_url
+          ? `<a class="compact-link" href="${escapeHtml(company.careers_url)}" target="_blank" rel="noreferrer">Careers</a>`
+          : "";
+
+        return `
+          <tr>
+            <td class="company">${escapeHtml(company.name)}</td>
+            <td>${company.priority ? statusBadge(company.priority) : `<span class="subtle">None</span>`}</td>
+            <td class="num">${stats.applied}</td>
+            <td class="num">${stats.active}</td>
+            <td class="num">${stats.rejected}</td>
+            <td class="num">${stats.total}</td>
+            <td class="date">${escapeHtml(formatDate(stats.latest)) || "-"}</td>
+            <td class="notes-cell"><div class="truncate">${escapeHtml(company.notes || "No notes yet.")}</div></td>
+            <td>
+              <div class="row-actions">
+                ${websiteLink}
+                ${careersLink}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      els.jobsGrid.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Priority</th>
+              <th>Applied</th>
+              <th>Active</th>
+              <th>Rejected</th>
+              <th>Total Jobs</th>
+              <th>Latest</th>
+              <th>Notes</th>
+              <th>Links</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
     async function updateStatus(id, status) {
       const patch = { status };
       if (status === "applied") {
@@ -934,6 +1203,32 @@
       await loadJobs();
     }
 
+    async function addCompany(event) {
+      event.preventDefault();
+      if (!currentUser) {
+        showMessage("Sign in before adding companies.", true);
+        return;
+      }
+
+      const payload = {
+        name: document.querySelector("#companyNameInput").value.trim(),
+        priority: document.querySelector("#companyPriorityInput").value || null,
+        website: document.querySelector("#companyWebsiteInput").value.trim() || null,
+        careers_url: document.querySelector("#companyCareersInput").value.trim() || null,
+        notes: document.querySelector("#companyNotesInput").value.trim() || null
+      };
+
+      const { error } = await client.from("companies").insert(payload);
+      if (error) {
+        showMessage(error.message, true);
+        return;
+      }
+
+      els.companyForm.reset();
+      els.companyDialog.close();
+      await loadCompanies();
+    }
+
     els.signInButton.addEventListener("click", signIn);
     els.signOutButton.addEventListener("click", signOut);
     els.passwordInput.addEventListener("keydown", (event) => {
@@ -942,12 +1237,21 @@
       }
     });
     els.refreshButton.addEventListener("click", loadJobs);
+    els.refreshCompaniesButton.addEventListener("click", loadCompanies);
     els.searchInput.addEventListener("input", renderJobsTable);
     els.statusFilter.addEventListener("change", renderJobsTable);
     els.sortSelect.addEventListener("change", loadJobs);
+    els.companySearchInput.addEventListener("input", renderCompaniesTable);
+    els.companyPriorityFilter.addEventListener("change", renderCompaniesTable);
+    els.companySortSelect.addEventListener("change", renderCompaniesTable);
+    els.jobsTabButton.addEventListener("click", () => setActiveView("jobs"));
+    els.companiesTabButton.addEventListener("click", () => setActiveView("companies"));
     els.addJobButton.addEventListener("click", () => els.jobDialog.showModal());
+    els.addCompanyButton.addEventListener("click", () => els.companyDialog.showModal());
     els.cancelAddButton.addEventListener("click", () => els.jobDialog.close());
+    els.cancelCompanyButton.addEventListener("click", () => els.companyDialog.close());
     els.jobForm.addEventListener("submit", addJob);
+    els.companyForm.addEventListener("submit", addCompany);
     els.jobsGrid.addEventListener("click", (event) => {
       const button = event.target.closest("button[data-toggle]");
       if (!button) return;

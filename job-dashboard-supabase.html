@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Supabase Job Tracker</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --ink: #17211b;
+      --muted: #607064;
+      --line: #d9e2dc;
+      --paper: #f7f4ec;
+      --card: #fffdf7;
+      --accent: #1f6f50;
+      --accent-2: #d97a35;
+      --danger: #a53838;
+      --shadow: 0 18px 50px rgba(30, 43, 35, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(217, 122, 53, 0.16), transparent 32rem),
+        radial-gradient(circle at 85% 5%, rgba(31, 111, 80, 0.16), transparent 28rem),
+        linear-gradient(135deg, #f8f0df 0%, #edf4ee 100%);
+      min-height: 100vh;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 56px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2.2rem, 6vw, 5.2rem);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .panel {
+      background: rgba(255, 253, 247, 0.86);
+      border: 1px solid rgba(217, 226, 220, 0.9);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .config {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto auto;
+      gap: 12px;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .session {
+      display: flex;
+      align-items: center;
+      color: var(--muted);
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 0.92rem;
+      padding: 0 4px;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr 190px 150px auto;
+      gap: 12px;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      font: inherit;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fffefa;
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      padding: 12px 13px;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(31, 111, 80, 0.12);
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      cursor: pointer;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-weight: 700;
+      padding: 12px 18px;
+      transition: transform 0.16s ease, opacity 0.16s ease;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button.secondary {
+      background: #e9eee9;
+      color: var(--ink);
+    }
+
+    button.warning {
+      background: var(--accent-2);
+    }
+
+    button.danger {
+      background: var(--danger);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+      transform: none;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat {
+      padding: 18px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .job {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      padding: 20px;
+    }
+
+    .job h2 {
+      margin: 0;
+      font-size: 1.45rem;
+      letter-spacing: -0.03em;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+      color: var(--muted);
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 0.9rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      padding: 5px 10px;
+    }
+
+    .reason {
+      margin: 0;
+      color: #35463b;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: stretch;
+      min-width: 170px;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 0.92rem;
+    }
+
+    a {
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .empty,
+    .message {
+      padding: 24px;
+      color: var(--muted);
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    dialog {
+      border: 0;
+      border-radius: 24px;
+      width: min(720px, calc(100% - 30px));
+      padding: 0;
+      background: var(--card);
+      color: var(--ink);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.25);
+    }
+
+    dialog::backdrop {
+      background: rgba(23, 33, 27, 0.42);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal {
+      padding: 22px;
+    }
+
+    .modal h2 {
+      margin: 0 0 16px;
+      font-size: 2rem;
+      letter-spacing: -0.05em;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-grid .wide {
+      grid-column: 1 / -1;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .config,
+      .toolbar,
+      .job {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .actions {
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div>
+        <h1>Job tracker</h1>
+        <p class="subtitle">
+          Fresh Supabase-backed pipeline for discovered jobs, shortlisted roles, tailored resumes, and final application status.
+          This dashboard does not read the old CSV.
+        </p>
+      </div>
+      <button id="addJobButton">Add job</button>
+    </section>
+
+    <section class="config panel">
+      <input id="emailInput" type="email" placeholder="Email">
+      <input id="passwordInput" type="password" placeholder="Password">
+      <button id="signInButton">Sign in</button>
+      <button id="signOutButton" class="secondary" hidden>Sign out</button>
+      <div id="sessionLabel" class="session">Not signed in</div>
+    </section>
+
+    <section class="toolbar panel">
+      <input id="searchInput" type="search" placeholder="Search company, role, location, notes">
+      <select id="statusFilter">
+        <option value="">All statuses</option>
+        <option value="new">New</option>
+        <option value="shortlisted">Shortlisted</option>
+        <option value="tailoring">Tailoring</option>
+        <option value="tailored">Tailored</option>
+        <option value="applied">Applied</option>
+        <option value="rejected">Rejected</option>
+        <option value="skipped">Skipped</option>
+        <option value="closed">Closed</option>
+      </select>
+      <select id="sortSelect">
+        <option value="created_at.desc">Newest</option>
+        <option value="fit_score.desc">Best fit</option>
+        <option value="company.asc">Company</option>
+      </select>
+      <button id="refreshButton" class="secondary">Refresh</button>
+    </section>
+
+    <section class="stats">
+      <div class="stat panel"><strong id="statTotal">0</strong><span>Total</span></div>
+      <div class="stat panel"><strong id="statNew">0</strong><span>New</span></div>
+      <div class="stat panel"><strong id="statShortlisted">0</strong><span>Shortlisted</span></div>
+      <div class="stat panel"><strong id="statTailored">0</strong><span>Tailored</span></div>
+      <div class="stat panel"><strong id="statApplied">0</strong><span>Applied</span></div>
+    </section>
+
+    <section id="message" class="message panel" hidden></section>
+    <section id="jobsGrid" class="grid"></section>
+  </main>
+
+  <dialog id="jobDialog">
+    <form id="jobForm" class="modal" method="dialog">
+      <h2>Add job</h2>
+      <div class="form-grid">
+        <input id="companyInput" name="company" placeholder="Company" required>
+        <input id="roleInput" name="role" placeholder="Role" required>
+        <input id="urlInput" name="url" class="wide" type="url" placeholder="Job URL" required>
+        <input id="locationInput" name="location" placeholder="Location">
+        <input id="fitInput" name="fit_score" type="number" min="0" max="100" placeholder="Fit score">
+        <textarea id="reasonInput" name="reason" class="wide" placeholder="Why this role fits"></textarea>
+        <textarea id="notesInput" name="notes" class="wide" placeholder="Notes"></textarea>
+        <textarea id="descriptionInput" name="job_description" class="wide" placeholder="Job description"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button id="cancelAddButton" type="button" class="secondary">Cancel</button>
+        <button type="submit">Save job</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const SUPABASE_URL = "https://rztpwtpqmjkqnbojbujj.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6dHB3dHBxbWprcW5ib2pidWpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2NzQ0NDMsImV4cCI6MjA5MzI1MDQ0M30.svMEjBf9gg-vZSLzG8Uf42pd9gcPG1DqRnWgw_lYcUA";
+
+    const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let currentUser = null;
+    let jobs = [];
+
+    const els = {
+      emailInput: document.querySelector("#emailInput"),
+      passwordInput: document.querySelector("#passwordInput"),
+      signInButton: document.querySelector("#signInButton"),
+      signOutButton: document.querySelector("#signOutButton"),
+      sessionLabel: document.querySelector("#sessionLabel"),
+      addJobButton: document.querySelector("#addJobButton"),
+      refreshButton: document.querySelector("#refreshButton"),
+      searchInput: document.querySelector("#searchInput"),
+      statusFilter: document.querySelector("#statusFilter"),
+      sortSelect: document.querySelector("#sortSelect"),
+      jobsGrid: document.querySelector("#jobsGrid"),
+      message: document.querySelector("#message"),
+      jobDialog: document.querySelector("#jobDialog"),
+      jobForm: document.querySelector("#jobForm"),
+      cancelAddButton: document.querySelector("#cancelAddButton"),
+      statTotal: document.querySelector("#statTotal"),
+      statNew: document.querySelector("#statNew"),
+      statShortlisted: document.querySelector("#statShortlisted"),
+      statTailored: document.querySelector("#statTailored"),
+      statApplied: document.querySelector("#statApplied")
+    };
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function showMessage(text, isError = false) {
+      els.message.hidden = false;
+      els.message.textContent = text;
+      els.message.style.color = isError ? "var(--danger)" : "var(--muted)";
+    }
+
+    function clearMessage() {
+      els.message.hidden = true;
+      els.message.textContent = "";
+    }
+
+    async function refreshSession() {
+      const { data } = await client.auth.getUser();
+      currentUser = data.user || null;
+      els.sessionLabel.textContent = currentUser ? `Signed in as ${currentUser.email}` : "Not signed in";
+      els.signInButton.hidden = Boolean(currentUser);
+      els.signOutButton.hidden = !currentUser;
+      els.emailInput.hidden = Boolean(currentUser);
+      els.passwordInput.hidden = Boolean(currentUser);
+      els.addJobButton.disabled = !currentUser;
+      els.refreshButton.disabled = !currentUser;
+      if (currentUser) {
+        await loadJobs();
+      } else {
+        jobs = [];
+        renderJobs();
+        showMessage("Sign in to view and update your jobs.");
+      }
+    }
+
+    async function signIn() {
+      clearMessage();
+      const email = els.emailInput.value.trim();
+      const password = els.passwordInput.value;
+      if (!email || !password) {
+        showMessage("Enter email and password.", true);
+        return;
+      }
+
+      const { error } = await client.auth.signInWithPassword({ email, password });
+      if (error) {
+        showMessage(error.message, true);
+        return;
+      }
+
+      els.passwordInput.value = "";
+      await refreshSession();
+    }
+
+    async function signOut() {
+      await client.auth.signOut();
+      await refreshSession();
+    }
+
+    function sortOptions() {
+      const [column, direction] = els.sortSelect.value.split(".");
+      return { column, ascending: direction === "asc" };
+    }
+
+    async function loadJobs() {
+      if (!currentUser) {
+        renderJobs([]);
+        showMessage("Sign in to view and update your jobs.");
+        return;
+      }
+
+      clearMessage();
+      const { column, ascending } = sortOptions();
+      const { data, error } = await client
+        .from("jobs")
+        .select("*")
+        .order(column, { ascending, nullsFirst: false });
+
+      if (error) {
+        renderJobs([]);
+        showMessage(error.message, true);
+        return;
+      }
+
+      jobs = data || [];
+      renderJobs(jobs);
+    }
+
+    function filteredJobs() {
+      const term = els.searchInput.value.trim().toLowerCase();
+      const status = els.statusFilter.value;
+      return jobs.filter((job) => {
+        const statusOk = !status || job.status === status;
+        const haystack = [
+          job.company,
+          job.role,
+          job.location,
+          job.reason,
+          job.notes,
+          job.base_resume,
+          job.draft_resume_path
+        ].join(" ").toLowerCase();
+        return statusOk && (!term || haystack.includes(term));
+      });
+    }
+
+    function renderStats(sourceJobs) {
+      els.statTotal.textContent = sourceJobs.length;
+      els.statNew.textContent = sourceJobs.filter((job) => job.status === "new").length;
+      els.statShortlisted.textContent = sourceJobs.filter((job) => job.status === "shortlisted").length;
+      els.statTailored.textContent = sourceJobs.filter((job) => job.status === "tailored").length;
+      els.statApplied.textContent = sourceJobs.filter((job) => job.status === "applied").length;
+    }
+
+    function renderJobs() {
+      const visibleJobs = filteredJobs();
+      renderStats(jobs);
+
+      if (!visibleJobs.length) {
+        els.jobsGrid.innerHTML = `<div class="empty panel">No jobs match this view.</div>`;
+        return;
+      }
+
+      els.jobsGrid.innerHTML = visibleJobs.map((job) => {
+        const fit = job.fit_score == null ? "No score" : `${job.fit_score}% fit`;
+        const location = job.location || "Location not set";
+        const created = job.created_at ? new Date(job.created_at).toLocaleDateString() : "No date";
+        const resumeLink = job.draft_resume_path
+          ? `<a href="${escapeHtml(job.draft_resume_path)}" target="_blank" rel="noreferrer">Open draft</a>`
+          : "";
+        const pdfLink = job.pdf_path
+          ? `<a href="${escapeHtml(job.pdf_path)}" target="_blank" rel="noreferrer">Open PDF</a>`
+          : "";
+
+        return `
+          <article class="job panel">
+            <div>
+              <h2>${escapeHtml(job.company)} · ${escapeHtml(job.role)}</h2>
+              <div class="meta">
+                <span class="pill">${escapeHtml(job.status)}</span>
+                <span class="pill">${escapeHtml(fit)}</span>
+                <span class="pill">${escapeHtml(location)}</span>
+                <span class="pill">Added ${escapeHtml(created)}</span>
+              </div>
+              <p class="reason">${escapeHtml(job.reason || job.notes || "No notes yet.")}</p>
+              <div class="links">
+                <a href="${escapeHtml(job.url)}" target="_blank" rel="noreferrer">Open job</a>
+                ${resumeLink}
+                ${pdfLink}
+              </div>
+            </div>
+            <div class="actions">
+              ${statusButton(job, "shortlisted", "Shortlist")}
+              ${statusButton(job, "tailoring", "Tailoring")}
+              ${statusButton(job, "tailored", "Tailored")}
+              ${statusButton(job, "applied", "Applied", "warning")}
+              ${statusButton(job, "rejected", "Rejected", "danger")}
+              ${statusButton(job, "skipped", "Skip", "secondary")}
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function statusButton(job, nextStatus, label, kind = "secondary") {
+      const disabled = job.status === nextStatus ? "disabled" : "";
+      return `<button class="${kind}" data-id="${job.id}" data-status="${nextStatus}" ${disabled}>${label}</button>`;
+    }
+
+    async function updateStatus(id, status) {
+      const patch = { status };
+      if (status === "applied") {
+        patch.applied_at = new Date().toISOString();
+      }
+
+      const { error } = await client
+        .from("jobs")
+        .update(patch)
+        .eq("id", id);
+
+      if (error) {
+        showMessage(error.message, true);
+        return;
+      }
+
+      jobs = jobs.map((job) => job.id === id ? { ...job, ...patch } : job);
+      renderJobs();
+    }
+
+    async function addJob(event) {
+      event.preventDefault();
+      if (!currentUser) {
+        showMessage("Sign in before adding jobs.", true);
+        return;
+      }
+
+      const fitValue = document.querySelector("#fitInput").value;
+      const payload = {
+        company: document.querySelector("#companyInput").value.trim(),
+        role: document.querySelector("#roleInput").value.trim(),
+        url: document.querySelector("#urlInput").value.trim(),
+        location: document.querySelector("#locationInput").value.trim() || null,
+        fit_score: fitValue ? Number(fitValue) : null,
+        reason: document.querySelector("#reasonInput").value.trim() || null,
+        notes: document.querySelector("#notesInput").value.trim() || null,
+        job_description: document.querySelector("#descriptionInput").value.trim() || null,
+        source: "dashboard"
+      };
+
+      const { error } = await client.from("jobs").insert(payload);
+      if (error) {
+        showMessage(error.message, true);
+        return;
+      }
+
+      els.jobForm.reset();
+      els.jobDialog.close();
+      await loadJobs();
+    }
+
+    els.signInButton.addEventListener("click", signIn);
+    els.signOutButton.addEventListener("click", signOut);
+    els.passwordInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        signIn();
+      }
+    });
+    els.refreshButton.addEventListener("click", loadJobs);
+    els.searchInput.addEventListener("input", renderJobs);
+    els.statusFilter.addEventListener("change", renderJobs);
+    els.sortSelect.addEventListener("change", loadJobs);
+    els.addJobButton.addEventListener("click", () => els.jobDialog.showModal());
+    els.cancelAddButton.addEventListener("click", () => els.jobDialog.close());
+    els.jobForm.addEventListener("submit", addJob);
+    els.jobsGrid.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-id][data-status]");
+      if (!button || !currentUser) return;
+      updateStatus(button.dataset.id, button.dataset.status);
+    });
+
+    client.auth.onAuthStateChange(() => {
+      refreshSession();
+    });
+    refreshSession();
+  </script>
+</body>
+</html>

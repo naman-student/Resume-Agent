@@ -626,16 +626,16 @@
     };
     const STATUS_TRANSITIONS = {
       new: ["shortlisted", "skipped", "closed"],
-      shortlisted: ["tailoring", "tailored", "applied", "skipped"],
-      tailoring: ["tailored", "shortlisted", "skipped"],
-      tailored: ["applied", "shortlisted", "skipped"],
-      applied: ["interviewing", "rejected", "withdrawn", "closed"],
-      interviewing: ["offer", "rejected", "withdrawn", "closed"],
-      offer: ["closed", "withdrawn"],
-      rejected: ["applied", "closed"],
+      shortlisted: ["tailoring", "tailored", "applied", "new", "skipped"],
+      tailoring: ["tailored", "shortlisted", "new", "skipped"],
+      tailored: ["applied", "tailoring", "shortlisted", "skipped"],
+      applied: ["interviewing", "rejected", "withdrawn", "tailored", "shortlisted", "closed"],
+      interviewing: ["offer", "applied", "rejected", "withdrawn", "closed"],
+      offer: ["interviewing", "applied", "withdrawn", "closed"],
+      rejected: ["applied", "interviewing", "closed"],
       skipped: ["new", "shortlisted", "closed"],
-      withdrawn: ["applied", "closed"],
-      closed: ["new"]
+      withdrawn: ["applied", "interviewing", "closed"],
+      closed: ["applied", "interviewing", "offer", "rejected", "new"]
     };
 
     const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

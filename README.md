@@ -21,6 +21,7 @@ Job description
 Resume Project/
   README.md
   RESUME_AGENT_GUIDE.md
+  RESEARCH_AGENT_GUIDE.md
   index.html
   job-dashboard-supabase.html
 
@@ -57,6 +58,8 @@ Resume Project/
 ## Tailor A Resume
 
 Agents should follow `RESUME_AGENT_GUIDE.md`.
+
+Research agents that search for new roles should follow `RESEARCH_AGENT_GUIDE.md` and write only to Supabase `researched_jobs`.
 
 Manual copy example:
 

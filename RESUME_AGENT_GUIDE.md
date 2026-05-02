@@ -2,6 +2,8 @@
 
 This document defines how an AI agent should operate when tailoring resumes in this repository. Read this first at the start of any resume session.
 
+For agents that search for new jobs, use `RESEARCH_AGENT_GUIDE.md` instead. Research agents should write to `public.researched_jobs`; tailoring agents should work from `public.jobs`.
+
 ---
 
 ## Repository Structure

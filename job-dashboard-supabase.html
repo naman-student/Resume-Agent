@@ -34,9 +34,9 @@
     }
 
     main {
-      width: min(1180px, calc(100% - 32px));
+      width: min(1520px, calc(100% - 28px));
       margin: 0 auto;
-      padding: 34px 0 56px;
+      padding: 22px 0 46px;
     }
 
     .hero {
@@ -44,13 +44,13 @@
       gap: 18px;
       grid-template-columns: 1fr auto;
       align-items: end;
-      margin-bottom: 24px;
+      margin-bottom: 14px;
     }
 
     h1 {
       margin: 0 0 8px;
-      font-size: clamp(2.2rem, 6vw, 5.2rem);
-      line-height: 0.9;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 0.95;
       letter-spacing: -0.06em;
     }
 
@@ -59,14 +59,14 @@
       max-width: 760px;
       color: var(--muted);
       font-family: ui-sans-serif, system-ui, sans-serif;
-      font-size: 1rem;
-      line-height: 1.6;
+      font-size: 0.94rem;
+      line-height: 1.45;
     }
 
     .panel {
       background: rgba(255, 253, 247, 0.86);
       border: 1px solid rgba(217, 226, 220, 0.9);
-      border-radius: 26px;
+      border-radius: 20px;
       box-shadow: var(--shadow);
       backdrop-filter: blur(16px);
     }
@@ -75,8 +75,8 @@
       display: grid;
       grid-template-columns: 1fr 1fr auto auto;
       gap: 12px;
-      padding: 16px;
-      margin-bottom: 18px;
+      padding: 12px;
+      margin-bottom: 12px;
     }
 
     .session {
@@ -92,8 +92,8 @@
       display: grid;
       grid-template-columns: 1fr 190px 150px auto;
       gap: 12px;
-      padding: 16px;
-      margin-bottom: 18px;
+      padding: 12px;
+      margin-bottom: 12px;
     }
 
     input,
@@ -112,7 +112,7 @@
       background: #fffefa;
       color: var(--ink);
       font-family: ui-sans-serif, system-ui, sans-serif;
-      padding: 12px 13px;
+      padding: 10px 12px;
       outline: none;
     }
 
@@ -136,7 +136,7 @@
       cursor: pointer;
       font-family: ui-sans-serif, system-ui, sans-serif;
       font-weight: 700;
-      padding: 12px 18px;
+      padding: 10px 15px;
       transition: transform 0.16s ease, opacity 0.16s ease;
       white-space: nowrap;
     }
@@ -167,17 +167,17 @@
     .stats {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-      margin-bottom: 18px;
+      gap: 10px;
+      margin-bottom: 12px;
     }
 
     .stat {
-      padding: 18px;
+      padding: 13px 15px;
     }
 
     .stat strong {
       display: block;
-      font-size: 2rem;
+      font-size: 1.55rem;
       line-height: 1;
     }
 
@@ -189,56 +189,142 @@
       letter-spacing: 0.08em;
     }
 
-    .grid {
-      display: grid;
-      gap: 14px;
+    .table-wrap {
+      overflow: auto;
+      max-height: calc(100vh - 308px);
+      border-radius: 20px;
     }
 
-    .job {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 18px;
-      padding: 20px;
-    }
-
-    .job h2 {
-      margin: 0;
-      font-size: 1.45rem;
-      letter-spacing: -0.03em;
-    }
-
-    .meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 10px 0;
-      color: var(--muted);
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
       font-family: ui-sans-serif, system-ui, sans-serif;
       font-size: 0.9rem;
     }
 
-    .pill {
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: rgba(247, 244, 236, 0.96);
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      padding: 10px 11px;
+      text-align: left;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    tbody td {
+      border-bottom: 1px solid rgba(217, 226, 220, 0.72);
+      padding: 9px 11px;
+      vertical-align: top;
+    }
+
+    tbody tr:hover td {
+      background: rgba(255, 255, 255, 0.48);
+    }
+
+    .company {
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .role {
+      min-width: 260px;
+      max-width: 360px;
+      font-weight: 700;
+    }
+
+    .subtle {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 3px;
+    }
+
+    .location {
+      max-width: 220px;
+      color: #35463b;
+    }
+
+    .notes-cell {
+      max-width: 360px;
+      color: #35463b;
+    }
+
+    .truncate {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+
+    .badge {
       display: inline-flex;
       align-items: center;
-      border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.72);
-      padding: 5px 10px;
+      background: #e9eee9;
+      color: var(--ink);
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 5px 9px;
+      text-transform: capitalize;
+      white-space: nowrap;
     }
 
-    .reason {
-      margin: 0;
-      color: #35463b;
-      font-family: ui-sans-serif, system-ui, sans-serif;
-      line-height: 1.5;
-    }
+    .badge.new { background: #e7f1ff; color: #24547d; }
+    .badge.shortlisted { background: #fff1cf; color: #765411; }
+    .badge.tailoring,
+    .badge.tailored { background: #e7f6ee; color: #1f6f50; }
+    .badge.applied { background: #efe8ff; color: #593b89; }
+    .badge.interviewing { background: #daf7ff; color: #196070; }
+    .badge.offer { background: #ddf7de; color: #1e6b2b; }
+    .badge.rejected,
+    .badge.closed,
+    .badge.withdrawn { background: #f8e2df; color: #8a302b; }
+    .badge.skipped { background: #ececec; color: #555; }
 
-    .actions {
+    .row-actions {
       display: flex;
-      flex-direction: column;
-      gap: 8px;
-      align-items: stretch;
-      min-width: 170px;
+      gap: 6px;
+      align-items: center;
+      min-width: 190px;
+    }
+
+    .row-actions select {
+      min-width: 132px;
+      padding: 7px 9px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+    }
+
+    .row-actions button,
+    .compact-link {
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+    }
+
+    .compact-link {
+      display: inline-flex;
+      background: #e9eee9;
+      color: var(--ink);
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .fit {
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .date {
+      color: var(--muted);
+      white-space: nowrap;
     }
 
     .links {
@@ -262,11 +348,37 @@
 
     .empty,
     .message {
-      padding: 24px;
+      padding: 18px;
       color: var(--muted);
       font-family: ui-sans-serif, system-ui, sans-serif;
       line-height: 1.6;
       text-align: center;
+    }
+
+    .drawer {
+      display: none;
+      margin-top: 12px;
+      padding: 14px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.5;
+    }
+
+    .drawer[open] {
+      display: block;
+    }
+
+    .drawer-grid {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 8px 14px;
+      font-size: 0.9rem;
+    }
+
+    .drawer-grid strong {
+      color: var(--muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
     }
 
     dialog {
@@ -315,7 +427,7 @@
       .hero,
       .config,
       .toolbar,
-      .job {
+      .table-wrap {
         grid-template-columns: 1fr;
       }
 
@@ -323,8 +435,12 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .actions {
-        min-width: 0;
+      .table-wrap {
+        max-height: none;
+      }
+
+      table {
+        min-width: 980px;
       }
     }
   </style>
@@ -359,12 +475,16 @@
         <option value="tailoring">Tailoring</option>
         <option value="tailored">Tailored</option>
         <option value="applied">Applied</option>
+        <option value="interviewing">Interviewing</option>
+        <option value="offer">Offer</option>
         <option value="rejected">Rejected</option>
         <option value="skipped">Skipped</option>
+        <option value="withdrawn">Withdrawn</option>
         <option value="closed">Closed</option>
       </select>
       <select id="sortSelect">
-        <option value="created_at.desc">Newest</option>
+        <option value="applied_at.desc">Recently active</option>
+        <option value="created_at.desc">Newest added</option>
         <option value="fit_score.desc">Best fit</option>
         <option value="company.asc">Company</option>
       </select>
@@ -373,14 +493,14 @@
 
     <section class="stats">
       <div class="stat panel"><strong id="statTotal">0</strong><span>Total</span></div>
-      <div class="stat panel"><strong id="statNew">0</strong><span>New</span></div>
-      <div class="stat panel"><strong id="statShortlisted">0</strong><span>Shortlisted</span></div>
-      <div class="stat panel"><strong id="statTailored">0</strong><span>Tailored</span></div>
-      <div class="stat panel"><strong id="statApplied">0</strong><span>Applied</span></div>
+      <div class="stat panel"><strong id="statNew">0</strong><span>To Review</span></div>
+      <div class="stat panel"><strong id="statShortlisted">0</strong><span>To Tailor</span></div>
+      <div class="stat panel"><strong id="statTailored">0</strong><span>Ready</span></div>
+      <div class="stat panel"><strong id="statApplied">0</strong><span>Active Apps</span></div>
     </section>
 
     <section id="message" class="message panel" hidden></section>
-    <section id="jobsGrid" class="grid"></section>
+    <section id="jobsGrid" class="table-wrap panel"></section>
   </main>
 
   <dialog id="jobDialog">
@@ -406,6 +526,32 @@
   <script>
     const SUPABASE_URL = "https://rztpwtpqmjkqnbojbujj.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6dHB3dHBxbWprcW5ib2pidWpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2NzQ0NDMsImV4cCI6MjA5MzI1MDQ0M30.svMEjBf9gg-vZSLzG8Uf42pd9gcPG1DqRnWgw_lYcUA";
+    const STATUS_LABELS = {
+      new: "New",
+      shortlisted: "Shortlisted",
+      tailoring: "Tailoring",
+      tailored: "Tailored",
+      applied: "Applied",
+      interviewing: "Interviewing",
+      offer: "Offer",
+      rejected: "Rejected",
+      skipped: "Skipped",
+      withdrawn: "Withdrawn",
+      closed: "Closed"
+    };
+    const STATUS_TRANSITIONS = {
+      new: ["shortlisted", "skipped", "closed"],
+      shortlisted: ["tailoring", "tailored", "applied", "skipped"],
+      tailoring: ["tailored", "shortlisted", "skipped"],
+      tailored: ["applied", "shortlisted", "skipped"],
+      applied: ["interviewing", "rejected", "withdrawn", "closed"],
+      interviewing: ["offer", "rejected", "withdrawn", "closed"],
+      offer: ["closed", "withdrawn"],
+      rejected: ["applied", "closed"],
+      skipped: ["new", "shortlisted", "closed"],
+      withdrawn: ["applied", "closed"],
+      closed: ["new"]
+    };
 
     const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let currentUser = null;
@@ -468,7 +614,7 @@
         await loadJobs();
       } else {
         jobs = [];
-        renderJobs();
+        renderJobsTable();
         showMessage("Sign in to view and update your jobs.");
       }
     }
@@ -504,7 +650,7 @@
 
     async function loadJobs() {
       if (!currentUser) {
-        renderJobs([]);
+        renderJobsTable();
         showMessage("Sign in to view and update your jobs.");
         return;
       }
@@ -514,16 +660,17 @@
       const { data, error } = await client
         .from("jobs")
         .select("*")
-        .order(column, { ascending, nullsFirst: false });
+        .order(column, { ascending, nullsFirst: false })
+        .order("created_at", { ascending: false });
 
       if (error) {
-        renderJobs([]);
+        renderJobsTable();
         showMessage(error.message, true);
         return;
       }
 
       jobs = data || [];
-      renderJobs(jobs);
+      renderJobsTable();
     }
 
     function filteredJobs() {
@@ -537,6 +684,7 @@
           job.location,
           job.reason,
           job.notes,
+          job.source,
           job.base_resume,
           job.draft_resume_path
         ].join(" ").toLowerCase();
@@ -547,9 +695,61 @@
     function renderStats(sourceJobs) {
       els.statTotal.textContent = sourceJobs.length;
       els.statNew.textContent = sourceJobs.filter((job) => job.status === "new").length;
-      els.statShortlisted.textContent = sourceJobs.filter((job) => job.status === "shortlisted").length;
+      els.statShortlisted.textContent = sourceJobs.filter((job) => ["shortlisted", "tailoring"].includes(job.status)).length;
       els.statTailored.textContent = sourceJobs.filter((job) => job.status === "tailored").length;
-      els.statApplied.textContent = sourceJobs.filter((job) => job.status === "applied").length;
+      els.statApplied.textContent = sourceJobs.filter((job) => ["applied", "interviewing", "offer"].includes(job.status)).length;
+    }
+
+    function formatDate(value) {
+      if (!value) return "";
+      return new Date(value).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    }
+
+    function statusBadge(status) {
+      return `<span class="badge ${escapeHtml(status)}">${escapeHtml(STATUS_LABELS[status] || status)}</span>`;
+    }
+
+    function actionSelect(job) {
+      const transitions = STATUS_TRANSITIONS[job.status] || [];
+      if (!transitions.length) {
+        return `<span class="subtle">No next action</span>`;
+      }
+
+      const options = transitions
+        .map((status) => `<option value="${escapeHtml(status)}">${escapeHtml(STATUS_LABELS[status] || status)}</option>`)
+        .join("");
+
+      return `
+        <select data-id="${escapeHtml(job.id)}" aria-label="Next status for ${escapeHtml(job.company)} ${escapeHtml(job.role)}">
+          <option value="">Next status</option>
+          ${options}
+        </select>
+      `;
+    }
+
+    function detailDrawer(job) {
+      const applied = job.applied_at ? new Date(job.applied_at).toLocaleString() : "Not applied";
+      const created = job.created_at ? new Date(job.created_at).toLocaleString() : "Unknown";
+      const updated = job.updated_at ? new Date(job.updated_at).toLocaleString() : "Unknown";
+      const details = [
+        ["Reason", job.reason || "None"],
+        ["Notes", job.notes || "None"],
+        ["Base resume", job.base_resume || "None"],
+        ["Draft", job.draft_resume_path || "None"],
+        ["PDF", job.pdf_path || "None"],
+        ["Source", job.source || "None"],
+        ["Applied", applied],
+        ["Created", created],
+        ["Updated", updated]
+      ];
+
+      return `
+        <div id="drawer-${escapeHtml(job.id)}" class="drawer panel">
+          <div class="drawer-grid">
+            ${details.map(([label, value]) => `<strong>${escapeHtml(label)}</strong><span>${escapeHtml(value)}</span>`).join("")}
+          </div>
+        </div>
+      `;
     }
 
     function renderJobs() {
@@ -607,6 +807,82 @@
       return `<button class="${kind}" data-id="${job.id}" data-status="${nextStatus}" ${disabled}>${label}</button>`;
     }
 
+    function renderJobsTable() {
+      const visibleJobs = filteredJobs();
+      renderStats(jobs);
+
+      if (!visibleJobs.length) {
+        els.jobsGrid.innerHTML = `<div class="empty panel">No jobs match this view.</div>`;
+        return;
+      }
+
+      const rows = visibleJobs.map((job) => {
+        const fit = job.fit_score == null ? "No score" : `${job.fit_score}% fit`;
+        const primaryDate = job.applied_at || job.updated_at || job.created_at;
+        const primaryDateLabel = job.applied_at ? "Applied" : "Updated";
+        const notePreview = job.reason || job.notes || "No notes yet.";
+        const resumeLink = job.draft_resume_path
+          ? `<a class="compact-link" href="${escapeHtml(job.draft_resume_path)}" target="_blank" rel="noreferrer">Draft</a>`
+          : "";
+        const pdfLink = job.pdf_path
+          ? `<a class="compact-link" href="${escapeHtml(job.pdf_path)}" target="_blank" rel="noreferrer">PDF</a>`
+          : "";
+
+        return `
+          <tr>
+            <td class="company">${escapeHtml(job.company)}</td>
+            <td class="role">
+              ${escapeHtml(job.role)}
+              <div class="subtle">${escapeHtml(job.source || "manual")}</div>
+            </td>
+            <td>${statusBadge(job.status)}</td>
+            <td class="fit">${escapeHtml(fit)}</td>
+            <td class="location truncate">${escapeHtml(job.location || "Location not set")}</td>
+            <td class="date">
+              ${escapeHtml(formatDate(primaryDate))}
+              <div class="subtle">${escapeHtml(primaryDateLabel)}</div>
+            </td>
+            <td class="notes-cell">
+              <div class="truncate">${escapeHtml(notePreview)}</div>
+            </td>
+            <td>
+              <div class="row-actions">
+                <a class="compact-link" href="${escapeHtml(job.url)}" target="_blank" rel="noreferrer">Job</a>
+                ${resumeLink}
+                ${pdfLink}
+                <button class="secondary compact-link" data-toggle="${escapeHtml(job.id)}" type="button">Details</button>
+              </div>
+              ${detailDrawer(job)}
+            </td>
+            <td>
+              <div class="row-actions">
+                ${actionSelect(job)}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      els.jobsGrid.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Fit</th>
+              <th>Location</th>
+              <th>Date</th>
+              <th>Insight</th>
+              <th>Links</th>
+              <th>Next</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
     async function updateStatus(id, status) {
       const patch = { status };
       if (status === "applied") {
@@ -624,7 +900,7 @@
       }
 
       jobs = jobs.map((job) => job.id === id ? { ...job, ...patch } : job);
-      renderJobs();
+      renderJobsTable();
     }
 
     async function addJob(event) {
@@ -666,16 +942,23 @@
       }
     });
     els.refreshButton.addEventListener("click", loadJobs);
-    els.searchInput.addEventListener("input", renderJobs);
-    els.statusFilter.addEventListener("change", renderJobs);
+    els.searchInput.addEventListener("input", renderJobsTable);
+    els.statusFilter.addEventListener("change", renderJobsTable);
     els.sortSelect.addEventListener("change", loadJobs);
     els.addJobButton.addEventListener("click", () => els.jobDialog.showModal());
     els.cancelAddButton.addEventListener("click", () => els.jobDialog.close());
     els.jobForm.addEventListener("submit", addJob);
     els.jobsGrid.addEventListener("click", (event) => {
-      const button = event.target.closest("button[data-id][data-status]");
-      if (!button || !currentUser) return;
-      updateStatus(button.dataset.id, button.dataset.status);
+      const button = event.target.closest("button[data-toggle]");
+      if (!button) return;
+      const drawer = document.querySelector(`#drawer-${CSS.escape(button.dataset.toggle)}`);
+      if (!drawer) return;
+      drawer.toggleAttribute("open");
+    });
+    els.jobsGrid.addEventListener("change", (event) => {
+      const select = event.target.closest("select[data-id]");
+      if (!select || !currentUser || !select.value) return;
+      updateStatus(select.dataset.id, select.value);
     });
 
     client.auth.onAuthStateChange(() => {

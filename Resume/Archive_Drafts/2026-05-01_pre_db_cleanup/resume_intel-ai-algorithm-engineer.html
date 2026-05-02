@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naman Yeshwanth Kumar - Resume</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Times New Roman", serif; background: #f5f5f5; padding: 15px; line-height: 1.1; font-size: 11pt; }
+        .resume-container { max-width: 8.5in; width: 100%; margin: 0 auto; background: white; padding: 0.3in 0.5in; box-shadow: 0 0 10px rgba(0,0,0,0.1); min-height: 11in; }
+        .header { text-align: center; border-bottom: 1pt solid white; padding-bottom: 4pt; margin-bottom: 20pt; margin-top: 8pt; }
+        .header h1 { font-size: 17pt; font-weight: bold; margin-bottom: 3pt; line-height: 17pt; letter-spacing: 0.5pt; }
+        .header .contact-info { font-size: 9pt; line-height: 9pt; }
+        .header .contact-info a { color: #0563C1; text-decoration: none; }
+        .header .contact-info .separator { color: black; margin: 0 4px; }
+        .section { margin-bottom: 14pt; }
+        .section-title { font-size: 9pt; font-weight: bold; text-transform: uppercase; border-bottom: 1.5pt solid black; padding-bottom: 0pt; margin-bottom: 4pt; line-height: 9pt; }
+        .entry { margin-bottom: 7pt; }
+        .entry:last-child { margin-bottom: 0pt; }
+        .entry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1pt; line-height: 9pt; }
+        .entry-title { font-size: 9pt; font-weight: bold; flex: 1; }
+        .entry-date { font-size: 9pt; font-weight: bold; text-align: right; }
+        .entry-subtitle { font-size: 9pt; font-weight: normal; margin-bottom: 2pt; display: flex; justify-content: space-between; align-items: flex-start; line-height: 9pt; }
+        .entry-location { font-size: 9pt; font-weight: bold; text-align: right; }
+        .bullet-list { margin-bottom: 0pt; }
+        .bullet-item { font-size: 9pt; line-height: 10pt; margin-left: 0.35in; text-indent: -10pt; padding-left: 10.0pt; margin-bottom: 2pt; }
+        .bullet-item:before { content: "● "; font-family: "Times New Roman", serif; font-size: 8pt; margin-right: 3pt; vertical-align: middle; position: relative; left: -10.4pt; }
+        .skills-section { font-size: 9pt; line-height: 9pt; }
+        .skills-section p { margin-bottom: 3pt; }
+        .summary-text { font-size: 9pt; line-height: 10pt; }
+        @media print {
+            @page { size: A4; margin: 0; }
+            body { background: white !important; padding: 0 !important; margin: 0 !important; font-size: 11pt !important; line-height: 1.0 !important; -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
+            * { box-sizing: border-box !important; }
+            .resume-container { box-shadow: none !important; margin: 0 !important; padding: 0.3in 0.5in !important; max-width: 8.5in !important; width: 100% !important; min-height: auto !important; }
+            .header { margin-top: 8pt !important; margin-bottom: 20pt !important; }
+            .header h1 { font-size: 17pt !important; letter-spacing: 0.5pt !important; }
+            .header .contact-info { font-size: 9pt !important; line-height: 9pt !important; }
+            .section { page-break-inside: avoid; margin-bottom: 14pt !important; }
+            .section-title { font-size: 9pt !important; border-bottom: 1.5pt solid black !important; padding-bottom: 0pt !important; margin-bottom: 4pt !important; }
+            .entry { page-break-inside: avoid; margin-bottom: 7pt !important; }
+            .entry-title, .entry-date, .entry-subtitle, .entry-location { font-size: 9pt !important; line-height: 9pt !important; }
+            .entry-header { margin-bottom: 1pt !important; }
+            .entry-subtitle { margin-bottom: 2pt !important; }
+            .bullet-item { font-size: 9pt !important; line-height: 10pt !important; margin-left: 0.35in !important; text-indent: -10pt !important; padding-left: 10.0pt !important; margin-bottom: 2pt !important; }
+            .bullet-item:before { content: "● " !important; font-family: "Times New Roman", serif !important; font-size: 8pt !important; margin-right: 3pt !important; position: relative !important; left: -10.4pt !important; }
+            .skills-section p { font-size: 9pt !important; line-height: 9pt !important; margin-bottom: 3pt !important; }
+            .summary-text { font-size: 9pt !important; line-height: 10pt !important; }
+        }
+    </style>
+</head>
+<body>
+<div class="resume-container">
+
+    <!-- Header -->
+    <div class="header">
+        <h1>NAMAN YESHWANTH KUMAR</h1>
+        <div class="contact-info">
+            <a href="https://linkedin.com/in/namany">linkedin.com/in/namany</a>
+            <span class="separator">|</span>
+            <a href="https://github.com/naman-ranka">github.com/naman-ranka</a>
+            <span class="separator">|</span>
+            <a href="mailto:nyeshwan@asu.edu">nyeshwan@asu.edu</a>
+            <span class="separator">|</span>
+            (623) 249-1265
+        </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="section">
+        <div class="section-title">SUMMARY</div>
+        <div class="summary-text">MS Computer Engineering (ASU, GPA 3.81, May 2026) specializing in AI algorithm development and hardware/software integration. Designed a <strong>GNN ASIC accelerator architecture</strong> (ASAP7 7nm), implemented CUDA GPU kernels in C++ for MLP training, and contributed a real-time LiDAR sensor data pipeline to <strong>Intel&rsquo;s official open-source reference architecture</strong> (PR #655 merged upstream). Also shipped Trezzit, a production AI SaaS (<strong>600+ users</strong>) with a multi-provider ML inference pipeline improving accuracy from <strong>60% &rarr; 95%</strong>.</div>
+    </div>
+
+    <!-- Technical Skills -->
+    <div class="section">
+        <div class="section-title">TECHNICAL SKILLS</div>
+        <div class="skills-section">
+            <p><strong>ML / Algorithms:</strong> PyTorch | TensorFlow | OpenCV | CUDA (GPU Kernels, C++) | Python | C++ | GNN | LangGraph | RAG Pipelines | Multi-model Orchestration</p>
+            <p><strong>Data Engineering:</strong> Feature Engineering | MQTT | Kafka | PostgreSQL | Redis | Celery | Grafana | Real-time Data Pipelines</p>
+            <p><strong>AI Infra &amp; MLOps:</strong> Docker | GitHub Actions CI/CD | FastAPI | Django REST Framework | AWS | DigitalOcean | Linux | MCP Server</p>
+        </div>
+    </div>
+
+    <!-- Project Experience -->
+    <div class="section">
+        <div class="section-title">PROJECT EXPERIENCE</div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Intel Automated Self-Checkout &mdash; Open Source Contribution</div>
+                <div class="entry-date">Jan &ndash; Feb 2025</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Contributed a real-time sensor data pipeline to <strong>Intel&rsquo;s official self-checkout reference architecture</strong> &mdash; configurable ingestion layer (MQTT, Kafka, HTTP) processing LiDAR point cloud and weight sensor streams for computer vision-based object detection; built Grafana observability dashboard for live signal monitoring; <strong>PR #655 merged upstream</strong> after Intel engineering review.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">GCN ASIC Accelerator &mdash; GNN Architecture Design &amp; Hardware Implementation</div>
+                <div class="entry-date">Spring 2025</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Designed and implemented a Graph Convolutional Network (GNN) accelerator from algorithm to silicon: 11-module SystemVerilog architecture with 8 parallel MACs for 96-element dot products and a 12-state FSM for sparse edge aggregation, implementing the core GCN inference algorithm in hardware; completed full RTL-to-GDSII flow on ASAP7 7nm (Synopsys DC synthesis, Cadence Innovus APR, Voltus power analysis).</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">CUDA MLP &mdash; GPU Kernel Implementation for Neural Network Training</div>
+                <div class="entry-date">Fall 2024</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Implemented 6 CUDA kernels in C++ (linear forward/backward, ReLU forward/backward) for MLP training on MNIST &mdash; compiled via nvcc to shared libraries, bound to Python via ctypes FFI, with manual cudaMalloc/cudaMemcpy buffer management; optimized memory access patterns for GPU throughput.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Trezzit &mdash; Production AI SaaS Platform (app.trezzit.com)</div>
+                <div class="entry-date">Feb 2025 &ndash; Present</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Solo-built and shipped Trezzit (app.trezzit.com), a production AI SaaS serving <strong>600+ users</strong> &mdash; Django 5.1, FastAPI, PostgreSQL, Redis, Celery; GitHub Actions CI/CD with <strong>995+ automated tests</strong>; deployed on DigitalOcean VPS + AWS Lightsail staging.</div>
+                <div class="bullet-item">Built a multi-stage ML inference pipeline (Gemini, OpenAI, Claude, Grok) for AI receipt parsing, improving accuracy from <strong>~60% &rarr; 95%+</strong> &mdash; semantic output validation with automatic fallback to higher-capability model on failure; production monitoring tracks per-provider LLM cost and latency.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">SiliconCrew &mdash; Autonomous LLM Agent for Hardware Design Automation</div>
+                <div class="entry-date">Nov 2025 &ndash; Present</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Built SiliconCrew, an autonomous LangGraph agent (21 tools) that applies LLMs to automate the hardware design flow &mdash; RTL generation, simulation, synthesis to GDSII via OpenROAD; self-corrects on test failure by reading VCD waveforms and patching RTL autonomously; achieved <strong>37/92 on CVDP</strong> and <strong>5/5 on ASU Spec2Tapeout</strong> with zero human intervention.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Work Experience -->
+    <div class="section">
+        <div class="section-title">WORK EXPERIENCE</div>
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Software Developer</div>
+                <div class="entry-date">Oct 2022 &ndash; Apr 2024</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>NCR GOLD</div>
+                <div class="entry-location">Bengaluru, India</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Engineered a production Django platform (PostgreSQL + Celery + Nginx on DigitalOcean) processing <strong>18,000+ orders over 3 years</strong>; built 3 role-based portals (admin, artisan, customer) with multi-method auth &mdash; automated PDF invoice generation and WhatsApp Business API delivery on every state transition, eliminating <strong>~20 min</strong> of manual relay per order.</div>
+                <div class="bullet-item">Reverse-engineered third-party Jwelly ERP (<strong>zero public API</strong>) through direct SQL schema analysis; built bidirectional bridge model syncing production weights and ERP status in real time; engineered inbound WhatsApp state-machine chatbot (JSON state per user, admin + customer flows) &mdash; full accountability loop across all three portals without disrupting legacy system.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Education -->
+    <div class="section">
+        <div class="section-title">EDUCATION</div>
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Master of Science &mdash; Computer Engineering (GPA 3.81/4.0)</div>
+                <div class="entry-date">Expected May 2026</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>Arizona State University &mdash; Coursework: Artificial Intelligence &middot; GPU Architecture &amp; Programming &middot; Algorithm/Hardware Co-Design &middot; Perception in Robotics &middot; Foundations of Algorithms</div>
+                <div class="entry-location">Tempe, AZ</div>
+            </div>
+        </div>
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Bachelor of Engineering &mdash; Electrical and Electronics</div>
+                <div class="entry-date">August 2022</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>BMS College of Engineering</div>
+                <div class="entry-location">Bengaluru, India</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Awards -->
+    <div class="section">
+        <div class="section-title">AWARDS &amp; HONORS</div>
+        <div class="bullet-list">
+            <div class="bullet-item">Won <strong>&lsquo;Best Use of AI&rsquo;</strong> at Strategy X DevHacks&rsquo;25 (ASU) &mdash; built AdaptED AI, a Gemini-powered platform that generates personalized flashcards, quizzes, and learning paths from uploaded documents in a 24-hour hackathon.</div>
+            <div class="bullet-item">Secured <strong>2nd place at Hack SoDA 2024</strong> (Amazon-sponsored, 24-hour) &mdash; built PassGen, a secure offline Chrome Extension for unique password generation.</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

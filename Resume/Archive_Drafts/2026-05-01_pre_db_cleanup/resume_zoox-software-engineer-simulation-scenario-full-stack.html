@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naman Yeshwanth Kumar - Resume</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Times New Roman", serif; background: #f5f5f5; padding: 15px; line-height: 1.1; font-size: 11pt; }
+        .resume-container { max-width: 8.5in; width: 100%; margin: 0 auto; background: white; padding: 0.38in 0.46in; box-shadow: 0 0 10px rgba(0,0,0,0.1); min-height: 11in; }
+        .header { text-align: center; padding-bottom: 2pt; margin-bottom: 12pt; margin-top: 4pt; }
+        .header h1 { font-size: 17pt; font-weight: bold; margin-bottom: 2pt; line-height: 17pt; letter-spacing: 0.5pt; }
+        .header .contact-info { font-size: 9pt; line-height: 9pt; }
+        .header .contact-info a { color: #0563C1; text-decoration: none; }
+        .header .contact-info .separator { color: black; margin: 0 4px; }
+        .section { margin-bottom: 11pt; }
+        h2.section-title { font-size: 9pt; font-weight: bold; text-transform: uppercase; border-bottom: 1.5pt solid black; padding-bottom: 0pt; margin-bottom: 3pt; line-height: 9pt; }
+        .entry { margin-bottom: 5pt; }
+        .entry:last-child { margin-bottom: 0pt; }
+        .entry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1pt; line-height: 9pt; }
+        .entry-title { font-size: 9pt; font-weight: bold; flex: 1; }
+        .entry-date { font-size: 9pt; font-weight: bold; text-align: right; }
+        .entry-subtitle { font-size: 9pt; font-weight: normal; margin-bottom: 1pt; display: flex; justify-content: space-between; align-items: flex-start; line-height: 9pt; }
+        .entry-location { font-size: 9pt; font-weight: bold; text-align: right; }
+        .bullet-list { margin-bottom: 0pt; }
+        .bullet-item { font-size: 9pt; line-height: 10pt; margin-left: 0.12in; text-indent: -8pt; padding-left: 8pt; margin-bottom: 1pt; }
+        .bullet-item:before { content: "● "; font-family: "Times New Roman", serif; font-size: 8pt; margin-right: 2pt; vertical-align: middle; position: relative; left: -8pt; }
+        .skills-section { font-size: 9pt; line-height: 9pt; }
+        .skills-section p { margin-bottom: 2pt; }
+        .summary-text { font-size: 9pt; line-height: 10.5pt; }
+        @media print {
+            @page { size: A4; margin: 0; }
+            body { background: white !important; padding: 0 !important; margin: 0 !important; font-size: 11pt !important; line-height: 1.0 !important; -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
+            * { box-sizing: border-box !important; }
+            .resume-container { box-shadow: none !important; margin: 0 !important; padding: 0.38in 0.46in !important; max-width: 8.5in !important; width: 100% !important; min-height: auto !important; }
+            .header { margin-top: 4pt !important; margin-bottom: 12pt !important; }
+            .header h1 { font-size: 17pt !important; letter-spacing: 0.5pt !important; }
+            .header .contact-info { font-size: 9pt !important; line-height: 9pt !important; }
+            .section { page-break-inside: avoid; margin-bottom: 11pt !important; }
+            h2.section-title { font-size: 9pt !important; border-bottom: 1.5pt solid black !important; padding-bottom: 0pt !important; margin-bottom: 3pt !important; }
+            .entry { page-break-inside: avoid; margin-bottom: 5pt !important; }
+            .entry-title, .entry-date, .entry-subtitle, .entry-location { font-size: 9pt !important; line-height: 9pt !important; }
+            .entry-header { margin-bottom: 1pt !important; }
+            .entry-subtitle { margin-bottom: 1pt !important; }
+            .bullet-item { font-size: 9pt !important; line-height: 10pt !important; margin-left: 0.12in !important; text-indent: -8pt !important; padding-left: 8pt !important; margin-bottom: 1pt !important; }
+            .bullet-item:before { content: "● " !important; font-family: "Times New Roman", serif !important; font-size: 8pt !important; margin-right: 2pt !important; position: relative !important; left: -8pt !important; }
+            .skills-section p { font-size: 9pt !important; line-height: 9pt !important; margin-bottom: 2pt !important; }
+            .summary-text { font-size: 9pt !important; line-height: 10.5pt !important; }
+        }
+    </style>
+</head>
+<body>
+<div class="resume-container">
+
+    <!-- Header -->
+    <div class="header">
+        <h1>NAMAN YESHWANTH KUMAR</h1>
+        <div class="contact-info">
+            <a href="https://linkedin.com/in/namany">linkedin.com/in/namany</a>
+            <span class="separator">|</span>
+            <a href="https://github.com/naman-ranka">github.com/naman-ranka</a>
+            <span class="separator">|</span>
+            <a href="mailto:nyeshwan@asu.edu">nyeshwan@asu.edu</a>
+            <span class="separator">|</span>
+            (623) 249-1265
+        </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="section">
+        <h2 class="section-title">SUMMARY</h2>
+        <div class="summary-text">MS Computer Engineering (ASU, GPA 3.81, May 2026) with hands-on autonomous systems and full-stack tooling experience. Implemented the self-driving pipeline in C++ across Waymo Open Dataset and CARLA &mdash; perception, fusion, localization, planning, and control &mdash; and built production web applications and internal tooling with React, TypeScript, FastAPI, and Django, including systems used by <strong>600+ users</strong>.</div>
+    </div>
+
+    <!-- Technical Skills -->
+    <div class="section">
+        <h2 class="section-title">TECHNICAL SKILLS</h2>
+        <div class="skills-section">
+            <p><strong>Simulation / Autonomous Systems:</strong> C++ | Python | CARLA Simulator | Waymo Open Dataset | Robotics | Autonomous Vehicles | Perception | Sensor Fusion | Localization | Planning | Control</p>
+            <p><strong>Frontend / Web Tools:</strong> React | TypeScript | Single-Page Applications | Web APIs | UI Tooling | Browser-Based Inspection Tools</p>
+            <p><strong>Backend / Services:</strong> FastAPI | Django REST Framework | PostgreSQL | Redis | Docker | GitHub Actions CI/CD | Scalable Web Back-End Services</p>
+            <p><strong>3D / Vision / Systems:</strong> OpenCV | PCL | Eigen | LiDAR Point Cloud Processing | Bird's-Eye View Projection | EKF | ICP | CMake | Real-Time Systems</p>
+        </div>
+    </div>
+
+    <!-- Education -->
+    <div class="section">
+        <h2 class="section-title">EDUCATION</h2>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Master of Science &mdash; Computer Engineering (GPA 3.81/4.0)</div>
+                <div class="entry-date">Expected May 2026</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>Arizona State University</div>
+                <div class="entry-location">Tempe, AZ</div>
+            </div>
+            <div class="skills-section" style="margin-top:2pt;"><p>Coursework: Perception in Robotics &middot; Reinforcement Learning in Robotics &middot; Advanced Computer Architecture &middot; Algorithm/Hardware Co-Design &middot; Foundations of Algorithms</p></div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Bachelor of Engineering &mdash; Electrical and Electronics</div>
+                <div class="entry-date">August 2022</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>BMS College of Engineering</div>
+                <div class="entry-location">Bengaluru, India</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Project Experience -->
+    <div class="section">
+        <h2 class="section-title">PROJECT EXPERIENCE</h2>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Self-Driving Car Engineering Pipeline &mdash; C++, Waymo Open Dataset, CARLA Simulator</div>
+                <div class="entry-date">Feb 2023</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item"><strong>Perception:</strong> Detected vehicles in 3D LiDAR point clouds via bird's-eye view projection using YOLOv4 (Darknet) and FPN ResNet18 on the Waymo Open Dataset; built a preprocessing pipeline converting raw scans to structured BEV feature maps for model inference.</div>
+                <div class="bullet-item"><strong>Sensor Fusion:</strong> Implemented an Extended Kalman Filter from scratch for fusing LiDAR and camera measurements &mdash; full predict/update cycle, Mahalanobis distance data association, and track lifecycle management (initialization, confirmation, deletion); validated via RMSE-based evaluation across multi-frame sequences.</div>
+                <div class="bullet-item"><strong>Localization:</strong> Implemented ICP from scratch using SVD decomposition (KdTree nearest-neighbor association, centroid alignment, iterative convergence) and benchmarked against NDT and PCL-based ICP; achieved <strong>0.299m pose error over 172m traveled</strong> (requirement: &lt;1.2m) &mdash; <strong>4&times; better than baseline</strong>, earning &ldquo;outstanding&rdquo; reviewer feedback.</div>
+                <div class="bullet-item"><strong>Planning &amp; Control:</strong> Built an FSM behavior planner (lane follow, nudge, lane change, intersection stop) with a motion planner generating cubic spiral trajectories evaluated by collision and lane-deviation cost functions; implemented PID controllers from scratch for steering (cross-track error) and throttle in CARLA.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Trezzit &mdash; Production Full-Stack Web Application (trezzit.com)</div>
+                <div class="entry-date">Feb 2025 &ndash; Present</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Sole-built and shipped a production web application serving <strong>600+ users</strong> with React PWA frontend, Django/FastAPI back end, PostgreSQL, Redis, and GitHub Actions CI; built interactive user workflows, browser-based state inspection, and 60+ REST endpoints.</div>
+                <div class="bullet-item">Implemented AI-assisted receipt understanding and structured data workflows, plus operational tooling for auth, notifications, monitoring, and continuous deployment.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">SiliconCrew &mdash; Web-Based Inspection Tools for AI Workflow Outputs</div>
+                <div class="entry-date">Nov 2025 &ndash; Present</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Built browser-based tooling for inspecting AI workflow outputs, execution traces, and generated artifacts through a FastAPI + WebSocket backend and React/Next.js frontend.</div>
+                <div class="bullet-item">Implemented real-time views for debugging and evaluating multi-step automation runs, improving visibility into system behavior without rerunning jobs.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Autonomous Car &mdash; Physical Hardware Capstone (Raspberry Pi + Arduino)</div>
+                <div class="entry-date">Jan &ndash; Jun 2022</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Built a full physical autonomous car as bachelor's capstone &mdash; OpenCV lane detection driving a PID steering controller, cascade classifiers for real-time traffic sign and obstacle detection, and Arduino motor control via I2C from Raspberry Pi.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Diffusion Policy &mdash; Visuomotor Robot Policy Learning</div>
+                <div class="entry-date">Apr 2025</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Adapted the Columbia Diffusion Policy architecture for learning robot control policies from demonstrations using diffusion models; configured MuJoCo simulation environments and ran end-to-end policy training and rollout evaluation in PyTorch.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Work Experience -->
+    <div class="section">
+        <h2 class="section-title">WORK EXPERIENCE</h2>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Systems Engineer</div>
+                <div class="entry-date">Oct 2022 &ndash; Apr 2024</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>NCR GOLD</div>
+                <div class="entry-location">Bengaluru, India</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Automated the entire order lifecycle for a wholesale business &mdash; production Django platform (PostgreSQL + Celery + Nginx) processing <strong>18,000+ orders over 3 years</strong>; reverse-engineered third-party ERP (zero public API) via SQL schema analysis for bidirectional sync, eliminating ~20 min of manual relay per order.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Awards -->
+    <div class="section">
+        <h2 class="section-title">AWARDS &amp; HONORS</h2>
+        <div class="bullet-list">
+            <div class="bullet-item">Won <strong>&lsquo;Best Use of AI&rsquo;</strong> at Strategy X DevHacks&rsquo;25 (ASU) &mdash; built AdaptED AI, a Gemini-powered platform generating personalized flashcards, quizzes, and learning paths from uploaded documents in a 24-hour hackathon.</div>
+            <div class="bullet-item">Won <strong>1st place at Devlabs Hackathon</strong> &mdash; HEAL.AI, a healthcare AI assistant with a custom RAG pipeline (768-dim embeddings, cosine similarity retrieval) for insurance Q&amp;A and medical bill error detection.</div>
+            <div class="bullet-item">Secured <strong>2nd place at Hack SoDA 2024</strong> (Amazon-sponsored, 24-hour) &mdash; built PassGen, a secure offline Chrome Extension for password generation.</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

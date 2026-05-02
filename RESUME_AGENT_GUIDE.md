@@ -14,14 +14,16 @@ Resume Project/
 │   ├── resume_ai_eda.html
 │   └── resume_autonomous.html
 ├── Resume/Drafts/                  ← Working directory — place tailored HTMLs here
-├── Resume/To_Apply/                ← CI auto-generates PDFs here from Drafts
-├── Resume/Archive/                 ← CI moves HTMLs here after PDF generation
+├── Resume/To_Apply/                ← PDFs generated from Drafts for application
+├── Resume/Applied/                 ← PDFs actually used for applications
+├── Resume/Archive/                 ← Optional completed HTML archive
 ├── resume_strategy/                ← MD files with raw content for fullstack_ai track
 ├── resume_strategy_ai_eng/         ← MD files with raw content for ai_engineer track
 ├── resume_strategy_eda/            ← MD files with raw content for ai_eda track
 ├── resume_strategy_av/             ← MD files with raw content for autonomous track
-├── job_applications.csv            ← Application tracker (updated by CI)
-└── .github/workflows/generate_pdfs.yml  ← CI pipeline definition
+├── Scripts/html_to_pdf.py          ← Convert tailored HTML drafts to PDFs
+├── job-dashboard-supabase.html     ← Supabase-backed job/application dashboard
+└── Legacy/                         ← Old CSV dashboard and single-master scripts
 ```
 
 ---
@@ -190,25 +192,23 @@ Transplanting process: copy the relevant entry HTML from the source base, paste 
 
 ---
 
-## CI/CD Workflow
+## PDF and Dashboard Workflow
 
-Pushing an HTML file to `Resume/Drafts/` triggers the GitHub Actions pipeline automatically:
+PDF generation is manual and side-effect free:
 
 ```
-Push HTML to Resume/Drafts/
-        ↓
-GitHub Actions (.github/workflows/generate_pdfs.yml)
-        ↓
-weasyprint converts HTML → PDF
-        ↓
-PDF saved to Resume/To_Apply/
-HTML moved to Resume/Archive/
-job_applications.csv updated
-        ↓
-CI bot commits and pushes changes back
+Resume/Drafts/resume_<company-role>.html
+        |
+        v
+python Scripts/html_to_pdf.py <company-role>
+        |
+        v
+Resume/To_Apply/resume_<company-role>.pdf
 ```
 
-**Important**: after CI runs, always `git pull --rebase` before pushing new changes, or the push will be rejected because the CI bot committed first.
+The converter does not update CSV files, move HTML files, or change dashboard status. Application tracking lives in Supabase and is managed through `job-dashboard-supabase.html`.
+
+After applying, the final PDF should be moved to `Resume/Applied/` and the corresponding Supabase job row should be marked `applied`.
 
 ---
 

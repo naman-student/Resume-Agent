@@ -104,21 +104,47 @@ header margin-bottom: 17pt → 12pt
 
 ### Step 5 - Supabase Dashboard Handoff
 
-After creating or updating a draft, keep the dashboard in sync if Supabase MCP tools are available.
+Supabase uses a two-table funnel:
+
+| Table | Purpose |
+|---|---|
+| `researched_jobs` | Broad research inbox for jobs found by agents or manually reviewed later |
+| `jobs` | Committed application pipeline: shortlisted, tailoring, tailored, applied, interviewing, etc. |
+
+Research agents should write to `public.researched_jobs`, not directly to `public.jobs`, unless the user explicitly says to add the job to the pipeline.
+
+Tailoring agents should work from `public.jobs`. If the role only exists in `researched_jobs`, ask the user before promoting it into `jobs`.
+
+After creating or updating a draft, keep the pipeline dashboard in sync if Supabase MCP tools are available.
 
 Do not silently mutate application tracking. Ask the user for confirmation before creating or updating a Supabase row.
 
 Recommended flow:
 
 1. Search `public.jobs` by job URL first, then by company + role.
-2. If a matching row exists, ask whether to update it with the draft information.
-3. If no matching row exists, ask whether to create a new job row.
-4. For a completed draft, use `status = 'tailored'`.
-5. For an in-progress draft, use `status = 'tailoring'`.
-6. Set `draft_resume_path = 'Resume/Drafts/resume_<company-role>.html'`.
-7. Set `base_resume` to the base file used, for example `resume_ai_engineer.html`.
-8. Include job URL, company, role, location, notes, and fit score if known.
-9. Never mark a job `applied` unless the user explicitly confirms they submitted the application.
+2. If no pipeline row exists, search `public.researched_jobs` by URL first, then company + role.
+3. If a researched row exists, ask whether to promote it into `public.jobs`.
+4. If no row exists anywhere, ask whether to create a new `public.jobs` row.
+5. If a matching pipeline row exists, ask whether to update it with the draft information.
+6. Preserve `researched_job_id` when promoting from `researched_jobs`.
+7. Mark the researched row `decision = 'promoted'` after promotion.
+8. For a completed draft, use `status = 'tailored'`.
+9. For an in-progress draft, use `status = 'tailoring'`.
+10. Set `draft_resume_path = 'Resume/Drafts/resume_<company-role>.html'`.
+11. Set `base_resume` to the base file used, for example `resume_ai_engineer.html`.
+12. Include job URL, company, role, location, notes, and fit score if known.
+13. Never mark a job `applied` unless the user explicitly confirms they submitted the application.
+
+Research inbox decisions:
+
+| Decision | Meaning |
+|---|---|
+| `new` | Found and waiting for review |
+| `interesting` | Worth considering, but not yet in the pipeline |
+| `promoted` | Converted into a `jobs` pipeline row |
+| `skipped` | User does not want to pursue |
+| `closed` | Posting appears closed |
+| `duplicate` | Duplicate of another researched/pipeline job |
 
 Status semantics:
 
@@ -137,16 +163,19 @@ Research agent integration:
 Research agent finds job
         |
         v
-Supabase row: status = new
+researched_jobs row: decision = new
         |
         v
-User shortlists
+User promotes/shortlists
+        |
+        v
+jobs row: status = shortlisted, researched_job_id set
         |
         v
 Tailoring agent creates draft
         |
         v
-Supabase row: status = tailored, draft_resume_path set
+jobs row: status = tailored, draft_resume_path set
         |
         v
 User applies

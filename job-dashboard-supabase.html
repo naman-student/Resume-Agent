@@ -298,6 +298,9 @@
     }
 
     .badge.new { background: #e7f1ff; color: #24547d; }
+    .badge.interesting { background: #fff1cf; color: #765411; }
+    .badge.promoted { background: #e7f6ee; color: #1f6f50; }
+    .badge.duplicate { background: #ececec; color: #555; }
     .badge.shortlisted { background: #fff1cf; color: #765411; }
     .badge.tailoring,
     .badge.tailored { background: #e7f6ee; color: #1f6f50; }
@@ -488,8 +491,8 @@
         </p>
       </div>
       <div>
-        <button id="addJobButton">Add job</button>
-        <button id="addCompanyButton" class="secondary">Add company</button>
+      <button id="addJobButton">Add pipeline job</button>
+      <button id="addCompanyButton" class="secondary">Add company</button>
       </div>
     </section>
 
@@ -502,8 +505,30 @@
     </section>
 
     <section class="tabs">
-      <button id="jobsTabButton" class="tab active" type="button">Jobs</button>
+      <button id="researchTabButton" class="tab" type="button">Research Inbox</button>
+      <button id="jobsTabButton" class="tab active" type="button">Pipeline</button>
       <button id="companiesTabButton" class="tab" type="button">Companies</button>
+    </section>
+
+    <section id="researchView" class="view" hidden>
+      <section class="toolbar panel">
+        <input id="researchSearchInput" type="search" placeholder="Search researched jobs, company, role, reasoning">
+        <select id="researchDecisionFilter">
+          <option value="">All decisions</option>
+          <option value="new">New</option>
+          <option value="interesting">Interesting</option>
+          <option value="promoted">Promoted</option>
+          <option value="skipped">Skipped</option>
+          <option value="closed">Closed</option>
+          <option value="duplicate">Duplicate</option>
+        </select>
+        <select id="researchSortSelect">
+          <option value="fit_score.desc">Best fit</option>
+          <option value="discovered_at.desc">Newest</option>
+          <option value="company.asc">Company</option>
+        </select>
+        <button id="refreshResearchButton" class="secondary">Refresh</button>
+      </section>
     </section>
 
     <section id="jobsView" class="view">
@@ -613,6 +638,9 @@
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6dHB3dHBxbWprcW5ib2pidWpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2NzQ0NDMsImV4cCI6MjA5MzI1MDQ0M30.svMEjBf9gg-vZSLzG8Uf42pd9gcPG1DqRnWgw_lYcUA";
     const STATUS_LABELS = {
       new: "New",
+      interesting: "Interesting",
+      promoted: "Promoted",
+      duplicate: "Duplicate",
       shortlisted: "Shortlisted",
       tailoring: "Tailoring",
       tailored: "Tailored",
@@ -641,6 +669,7 @@
     const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let currentUser = null;
     let jobs = [];
+    let researchedJobs = [];
     let companies = [];
     let activeView = "jobs";
 
@@ -652,12 +681,18 @@
       sessionLabel: document.querySelector("#sessionLabel"),
       addJobButton: document.querySelector("#addJobButton"),
       addCompanyButton: document.querySelector("#addCompanyButton"),
+      researchTabButton: document.querySelector("#researchTabButton"),
       jobsTabButton: document.querySelector("#jobsTabButton"),
       companiesTabButton: document.querySelector("#companiesTabButton"),
+      researchView: document.querySelector("#researchView"),
       jobsView: document.querySelector("#jobsView"),
       companiesView: document.querySelector("#companiesView"),
+      refreshResearchButton: document.querySelector("#refreshResearchButton"),
       refreshButton: document.querySelector("#refreshButton"),
       refreshCompaniesButton: document.querySelector("#refreshCompaniesButton"),
+      researchSearchInput: document.querySelector("#researchSearchInput"),
+      researchDecisionFilter: document.querySelector("#researchDecisionFilter"),
+      researchSortSelect: document.querySelector("#researchSortSelect"),
       searchInput: document.querySelector("#searchInput"),
       statusFilter: document.querySelector("#statusFilter"),
       sortSelect: document.querySelector("#sortSelect"),
@@ -709,12 +744,14 @@
       els.passwordInput.hidden = Boolean(currentUser);
       els.addJobButton.disabled = !currentUser;
       els.addCompanyButton.disabled = !currentUser;
+      els.refreshResearchButton.disabled = !currentUser;
       els.refreshButton.disabled = !currentUser;
       els.refreshCompaniesButton.disabled = !currentUser;
       if (currentUser) {
         await loadAllData();
       } else {
         jobs = [];
+        researchedJobs = [];
         companies = [];
         renderActiveView();
         showMessage("Sign in to view and update your jobs.");
@@ -747,15 +784,19 @@
 
     function setActiveView(view) {
       activeView = view;
+      els.researchView.hidden = view !== "research";
       els.jobsView.hidden = view !== "jobs";
       els.companiesView.hidden = view !== "companies";
+      els.researchTabButton.classList.toggle("active", view === "research");
       els.jobsTabButton.classList.toggle("active", view === "jobs");
       els.companiesTabButton.classList.toggle("active", view === "companies");
       renderActiveView();
     }
 
     function renderActiveView() {
-      if (activeView === "companies") {
+      if (activeView === "research") {
+        renderResearchTable();
+      } else if (activeView === "companies") {
         renderCompaniesTable();
       } else {
         renderJobsTable();
@@ -763,9 +804,40 @@
     }
 
     async function loadAllData() {
+      await loadResearchedJobs(false);
       await loadJobs(false);
       await loadCompanies(false);
       renderActiveView();
+    }
+
+    function researchSortOptions() {
+      const [column, direction] = els.researchSortSelect.value.split(".");
+      return { column, ascending: direction === "asc" };
+    }
+
+    async function loadResearchedJobs(render = true) {
+      if (!currentUser) {
+        renderActiveView();
+        showMessage("Sign in to view researched jobs.");
+        return;
+      }
+
+      clearMessage();
+      const { column, ascending } = researchSortOptions();
+      const { data, error } = await client
+        .from("researched_jobs")
+        .select("*")
+        .order(column, { ascending, nullsFirst: false })
+        .order("discovered_at", { ascending: false });
+
+      if (error) {
+        renderActiveView();
+        showMessage(error.message, true);
+        return;
+      }
+
+      researchedJobs = data || [];
+      if (render) renderActiveView();
     }
 
     function sortOptions() {
@@ -837,6 +909,24 @@
           job.draft_resume_path
         ].join(" ").toLowerCase();
         return statusOk && (!term || haystack.includes(term));
+      });
+    }
+
+    function filteredResearchedJobs() {
+      const term = els.researchSearchInput.value.trim().toLowerCase();
+      const decision = els.researchDecisionFilter.value;
+      return researchedJobs.filter((job) => {
+        const decisionOk = !decision || job.decision === decision;
+        const haystack = [
+          job.company,
+          job.role,
+          job.location,
+          job.source,
+          job.fit_reason,
+          job.research_notes,
+          job.job_description
+        ].join(" ").toLowerCase();
+        return decisionOk && (!term || haystack.includes(term));
       });
     }
 
@@ -961,6 +1051,106 @@
             ${details.map(([label, value]) => `<strong>${escapeHtml(label)}</strong><span>${escapeHtml(value)}</span>`).join("")}
           </div>
         </div>
+      `;
+    }
+
+    function researchDrawer(job) {
+      const details = [
+        ["Fit reason", job.fit_reason || "None"],
+        ["Research notes", job.research_notes || "None"],
+        ["Description", job.job_description || "None"],
+        ["Source", job.source || "None"],
+        ["Open", job.is_open ? "Yes" : "No"],
+        ["Discovered", job.discovered_at ? new Date(job.discovered_at).toLocaleString() : "Unknown"],
+        ["Last seen", job.last_seen_at ? new Date(job.last_seen_at).toLocaleString() : "Unknown"]
+      ];
+
+      return `
+        <div id="drawer-${escapeHtml(job.id)}" class="drawer panel">
+          <div class="drawer-grid">
+            ${details.map(([label, value]) => `<strong>${escapeHtml(label)}</strong><span>${escapeHtml(value)}</span>`).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function researchDecisionSelect(job) {
+      if (job.decision === "promoted") {
+        return `<span class="subtle">In pipeline</span>`;
+      }
+
+      const decisions = ["new", "interesting", "skipped", "closed", "duplicate"];
+      const options = decisions
+        .filter((decision) => decision !== job.decision)
+        .map((decision) => `<option value="${escapeHtml(decision)}">${escapeHtml(STATUS_LABELS[decision] || decision)}</option>`)
+        .join("");
+
+      return `
+        <select data-research-id="${escapeHtml(job.id)}" aria-label="Decision for ${escapeHtml(job.company)} ${escapeHtml(job.role)}">
+          <option value="">Set decision</option>
+          ${options}
+        </select>
+      `;
+    }
+
+    function renderResearchTable() {
+      const visibleJobs = filteredResearchedJobs();
+
+      if (!visibleJobs.length) {
+        els.jobsGrid.innerHTML = `<div class="empty panel">No researched jobs match this view.</div>`;
+        return;
+      }
+
+      const rows = visibleJobs.map((job) => {
+        const fit = job.fit_score == null ? "No score" : `${job.fit_score}%`;
+        const discovered = job.discovered_at || job.created_at;
+        const promoteButton = job.decision === "promoted"
+          ? `<span class="subtle">Promoted</span>`
+          : `<button class="compact-link" data-promote="${escapeHtml(job.id)}" type="button">Promote</button>`;
+
+        return `
+          <tr>
+            <td class="company">${escapeHtml(job.company)}</td>
+            <td class="role">${escapeHtml(job.role)}<div class="subtle">${escapeHtml(job.source || "research")}</div></td>
+            <td>${statusBadge(job.decision)}</td>
+            <td class="fit">${escapeHtml(fit)}</td>
+            <td class="location truncate">${escapeHtml(job.location || "Location not set")}</td>
+            <td class="date">${escapeHtml(formatDate(discovered))}<div class="subtle">Discovered</div></td>
+            <td class="notes-cell"><div class="truncate">${escapeHtml(job.fit_reason || job.research_notes || "No reasoning yet.")}</div></td>
+            <td>
+              <div class="row-actions">
+                <a class="compact-link" href="${escapeHtml(job.url)}" target="_blank" rel="noreferrer">Job</a>
+                <button class="secondary compact-link" data-toggle="${escapeHtml(job.id)}" type="button">Details</button>
+              </div>
+              ${researchDrawer(job)}
+            </td>
+            <td>
+              <div class="row-actions">
+                ${promoteButton}
+                ${researchDecisionSelect(job)}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      els.jobsGrid.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Role</th>
+              <th>Decision</th>
+              <th>Score</th>
+              <th>Location</th>
+              <th>Date</th>
+              <th>Reasoning</th>
+              <th>Links</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
       `;
     }
 
@@ -1229,6 +1419,88 @@
       await loadCompanies();
     }
 
+    async function updateResearchDecision(id, decision) {
+      const patch = {
+        decision,
+        is_open: !["closed", "duplicate"].includes(decision)
+      };
+
+      const { error } = await client
+        .from("researched_jobs")
+        .update(patch)
+        .eq("id", id);
+
+      if (error) {
+        showMessage(error.message, true);
+        return;
+      }
+
+      researchedJobs = researchedJobs.map((job) => job.id === id ? { ...job, ...patch } : job);
+      renderResearchTable();
+    }
+
+    async function promoteResearchJob(id) {
+      const researchJob = researchedJobs.find((job) => job.id === id);
+      if (!researchJob) return;
+
+      const existing = jobs.find((job) => (
+        job.url === researchJob.url ||
+        (
+          normalizeCompanyName(job.company) === normalizeCompanyName(researchJob.company) &&
+          job.role.trim().toLowerCase() === researchJob.role.trim().toLowerCase()
+        )
+      ));
+
+      if (existing) {
+        const { error } = await client
+          .from("jobs")
+          .update({ researched_job_id: researchJob.id, status: existing.status || "shortlisted" })
+          .eq("id", existing.id);
+
+        if (error) {
+          showMessage(error.message, true);
+          return;
+        }
+
+        await client
+          .from("researched_jobs")
+          .update({ decision: "promoted", promoted_job_id: existing.id })
+          .eq("id", researchJob.id);
+      } else {
+        const payload = {
+          researched_job_id: researchJob.id,
+          company: researchJob.company,
+          role: researchJob.role,
+          url: researchJob.url,
+          location: researchJob.location,
+          status: "shortlisted",
+          fit_score: researchJob.fit_score,
+          reason: researchJob.fit_reason,
+          job_description: researchJob.job_description,
+          source: researchJob.source || "research_inbox"
+        };
+
+        const { data, error } = await client
+          .from("jobs")
+          .insert(payload)
+          .select("id")
+          .single();
+
+        if (error) {
+          showMessage(error.message, true);
+          return;
+        }
+
+        await client
+          .from("researched_jobs")
+          .update({ decision: "promoted", promoted_job_id: data.id })
+          .eq("id", researchJob.id);
+      }
+
+      await loadAllData();
+      setActiveView("jobs");
+    }
+
     els.signInButton.addEventListener("click", signIn);
     els.signOutButton.addEventListener("click", signOut);
     els.passwordInput.addEventListener("keydown", (event) => {
@@ -1236,14 +1508,19 @@
         signIn();
       }
     });
+    els.refreshResearchButton.addEventListener("click", loadResearchedJobs);
     els.refreshButton.addEventListener("click", loadJobs);
     els.refreshCompaniesButton.addEventListener("click", loadCompanies);
+    els.researchSearchInput.addEventListener("input", renderResearchTable);
+    els.researchDecisionFilter.addEventListener("change", renderResearchTable);
+    els.researchSortSelect.addEventListener("change", loadResearchedJobs);
     els.searchInput.addEventListener("input", renderJobsTable);
     els.statusFilter.addEventListener("change", renderJobsTable);
     els.sortSelect.addEventListener("change", loadJobs);
     els.companySearchInput.addEventListener("input", renderCompaniesTable);
     els.companyPriorityFilter.addEventListener("change", renderCompaniesTable);
     els.companySortSelect.addEventListener("change", renderCompaniesTable);
+    els.researchTabButton.addEventListener("click", () => setActiveView("research"));
     els.jobsTabButton.addEventListener("click", () => setActiveView("jobs"));
     els.companiesTabButton.addEventListener("click", () => setActiveView("companies"));
     els.addJobButton.addEventListener("click", () => els.jobDialog.showModal());
@@ -1253,6 +1530,12 @@
     els.jobForm.addEventListener("submit", addJob);
     els.companyForm.addEventListener("submit", addCompany);
     els.jobsGrid.addEventListener("click", (event) => {
+      const promoteButton = event.target.closest("button[data-promote]");
+      if (promoteButton && currentUser) {
+        promoteResearchJob(promoteButton.dataset.promote);
+        return;
+      }
+
       const button = event.target.closest("button[data-toggle]");
       if (!button) return;
       const drawer = document.querySelector(`#drawer-${CSS.escape(button.dataset.toggle)}`);
@@ -1260,6 +1543,12 @@
       drawer.toggleAttribute("open");
     });
     els.jobsGrid.addEventListener("change", (event) => {
+      const researchSelect = event.target.closest("select[data-research-id]");
+      if (researchSelect && currentUser && researchSelect.value) {
+        updateResearchDecision(researchSelect.dataset.researchId, researchSelect.value);
+        return;
+      }
+
       const select = event.target.closest("select[data-id]");
       if (!select || !currentUser || !select.value) return;
       updateStatus(select.dataset.id, select.value);

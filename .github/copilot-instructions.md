@@ -20,8 +20,11 @@ The PDF is written to `Resume/To_Apply/`.
 
 If Supabase MCP/tools are available after creating or updating a draft:
 
+- Treat `researched_jobs` as the research inbox and `jobs` as the committed application pipeline.
 - Ask the user before creating or updating a dashboard row.
 - Search `public.jobs` by URL first, then company + role.
+- If no pipeline row exists, search `public.researched_jobs`.
+- Promote a researched row into `public.jobs` only after user confirmation.
 - If a row exists, update `draft_resume_path`, `base_resume`, and status only after confirmation.
 - If no row exists, create one only after confirmation.
 - Use `tailoring` for in-progress drafts and `tailored` for ready drafts.

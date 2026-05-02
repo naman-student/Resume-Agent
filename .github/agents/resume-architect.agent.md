@@ -12,6 +12,7 @@ prompts:
     3. Copy that base to `Resume/Drafts/resume_<company-role>.html`.
     4. Edit only the copied draft.
     5. If the user asks for a PDF, run `python Scripts/html_to_pdf.py <company-role>`.
+    6. If Supabase MCP is available, follow the "Supabase Dashboard Handoff" section in `RESUME_AGENT_GUIDE.md`: ask before creating/updating a job row, set `draft_resume_path` and `base_resume`, use `tailoring`/`tailored`, and never mark `applied` without explicit user confirmation.
 
     Do not use legacy CSV scripts. Do not edit `Master_Resume/current/` directly. Do not invent experience.
 

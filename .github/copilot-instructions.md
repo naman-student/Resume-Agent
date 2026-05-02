@@ -16,6 +16,17 @@ python Scripts/html_to_pdf.py <company-role>
 
 The PDF is written to `Resume/To_Apply/`.
 
+## Supabase Dashboard Handoff
+
+If Supabase MCP/tools are available after creating or updating a draft:
+
+- Ask the user before creating or updating a dashboard row.
+- Search `public.jobs` by URL first, then company + role.
+- If a row exists, update `draft_resume_path`, `base_resume`, and status only after confirmation.
+- If no row exists, create one only after confirmation.
+- Use `tailoring` for in-progress drafts and `tailored` for ready drafts.
+- Never mark a job `applied` unless the user confirms they actually applied.
+
 ## Important Rules
 
 - Do not edit `Master_Resume/current/` directly.

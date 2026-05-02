@@ -102,6 +102,61 @@ header margin-bottom: 17pt → 12pt
 
 ---
 
+### Step 5 - Supabase Dashboard Handoff
+
+After creating or updating a draft, keep the dashboard in sync if Supabase MCP tools are available.
+
+Do not silently mutate application tracking. Ask the user for confirmation before creating or updating a Supabase row.
+
+Recommended flow:
+
+1. Search `public.jobs` by job URL first, then by company + role.
+2. If a matching row exists, ask whether to update it with the draft information.
+3. If no matching row exists, ask whether to create a new job row.
+4. For a completed draft, use `status = 'tailored'`.
+5. For an in-progress draft, use `status = 'tailoring'`.
+6. Set `draft_resume_path = 'Resume/Drafts/resume_<company-role>.html'`.
+7. Set `base_resume` to the base file used, for example `resume_ai_engineer.html`.
+8. Include job URL, company, role, location, notes, and fit score if known.
+9. Never mark a job `applied` unless the user explicitly confirms they submitted the application.
+
+Status semantics:
+
+| Status | Meaning |
+|---|---|
+| `new` | Found or manually added, not yet reviewed |
+| `shortlisted` | User wants to pursue |
+| `tailoring` | Resume draft is being created |
+| `tailored` | Resume draft is ready |
+| `applied` | User actually submitted the application |
+| `interviewing` / `offer` / `rejected` / `withdrawn` / `closed` | Post-application lifecycle |
+
+Research agent integration:
+
+```text
+Research agent finds job
+        |
+        v
+Supabase row: status = new
+        |
+        v
+User shortlists
+        |
+        v
+Tailoring agent creates draft
+        |
+        v
+Supabase row: status = tailored, draft_resume_path set
+        |
+        v
+User applies
+        |
+        v
+Dashboard row: status = applied, pdf_path set
+```
+
+---
+
 ## Context Sources — Where to Get More Detail
 
 When a bullet needs more specificity or a claim seems thin, read the relevant MD files:

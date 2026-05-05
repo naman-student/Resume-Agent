@@ -7,15 +7,15 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: "Times New Roman", serif; background: #f5f5f5; padding: 15px; line-height: 1.1; font-size: 11pt; }
-        .resume-container { max-width: 8.5in; width: 100%; margin: 0 auto; background: white; padding: 0.46in 0.5in; box-shadow: 0 0 10px rgba(0,0,0,0.1); min-height: 11in; }
-        .header { text-align: center; padding-bottom: 2pt; margin-bottom: 17pt; margin-top: 8pt; }
+        .resume-container { max-width: 8.5in; width: 100%; margin: 0 auto; background: white; padding: 0.38in 0.45in; box-shadow: 0 0 10px rgba(0,0,0,0.1); min-height: 11in; }
+        .header { text-align: center; padding-bottom: 2pt; margin-bottom: 12pt; margin-top: 4pt; }
         .header h1 { font-size: 17pt; font-weight: bold; margin-bottom: 2pt; line-height: 17pt; letter-spacing: 0.5pt; }
         .header .contact-info { font-size: 9pt; line-height: 9pt; }
         .header .contact-info a { color: #0563C1; text-decoration: none; }
         .header .contact-info .separator { color: black; margin: 0 4px; }
-        .section { margin-bottom: 14pt; }
-        h2.section-title { font-size: 9pt; font-weight: bold; text-transform: uppercase; border-bottom: 1.5pt solid black; padding-bottom: 0pt; margin-bottom: 4pt; line-height: 9pt; }
-        .entry { margin-bottom: 7pt; }
+        .section { margin-bottom: 11pt; }
+        h2.section-title { font-size: 9pt; font-weight: bold; text-transform: uppercase; border-bottom: 1.5pt solid black; padding-bottom: 0pt; margin-bottom: 3pt; line-height: 9pt; }
+        .entry { margin-bottom: 4pt; }
         .entry:last-child { margin-bottom: 0pt; }
         .entry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1pt; line-height: 9pt; }
         .entry-title { font-size: 9pt; font-weight: bold; flex: 1; }
@@ -23,29 +23,29 @@
         .entry-subtitle { font-size: 9pt; font-weight: normal; margin-bottom: 1pt; display: flex; justify-content: space-between; align-items: flex-start; line-height: 9pt; }
         .entry-location { font-size: 9pt; font-weight: bold; text-align: right; }
         .bullet-list { margin-bottom: 0pt; }
-        .bullet-item { font-size: 9pt; line-height: 10.5pt; margin-left: 0.12in; text-indent: -8pt; padding-left: 8pt; margin-bottom: 2pt; }
+        .bullet-item { font-size: 9pt; line-height: 10pt; margin-left: 0.12in; text-indent: -8pt; padding-left: 8pt; margin-bottom: 1pt; }
         .bullet-item:before { content: "● "; font-family: "Times New Roman", serif; font-size: 8pt; margin-right: 2pt; vertical-align: middle; position: relative; left: -8pt; }
         .skills-section { font-size: 9pt; line-height: 9pt; }
-        .skills-section p { margin-bottom: 3pt; }
-        .summary-text { font-size: 9pt; line-height: 11pt; }
+        .skills-section p { margin-bottom: 2pt; }
+        .summary-text { font-size: 9pt; line-height: 10pt; }
         @media print {
             @page { size: A4; margin: 0; }
             body { background: white !important; padding: 0 !important; margin: 0 !important; font-size: 11pt !important; line-height: 1.0 !important; -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
             * { box-sizing: border-box !important; }
-            .resume-container { box-shadow: none !important; margin: 0 !important; padding: 0.46in 0.5in !important; max-width: 8.5in !important; width: 100% !important; min-height: auto !important; }
-            .header { margin-top: 8pt !important; margin-bottom: 17pt !important; }
+            .resume-container { box-shadow: none !important; margin: 0 !important; padding: 0.38in 0.45in !important; max-width: 8.5in !important; width: 100% !important; min-height: auto !important; }
+            .header { margin-top: 4pt !important; margin-bottom: 12pt !important; }
             .header h1 { font-size: 17pt !important; letter-spacing: 0.5pt !important; }
             .header .contact-info { font-size: 9pt !important; line-height: 9pt !important; }
-            .section { page-break-inside: avoid; margin-bottom: 14pt !important; }
-            h2.section-title { font-size: 9pt !important; border-bottom: 1.5pt solid black !important; padding-bottom: 0pt !important; margin-bottom: 4pt !important; }
-            .entry { page-break-inside: avoid; margin-bottom: 7pt !important; }
+            .section { page-break-inside: avoid; margin-bottom: 11pt !important; }
+            h2.section-title { font-size: 9pt !important; border-bottom: 1.5pt solid black !important; padding-bottom: 0pt !important; margin-bottom: 3pt !important; }
+            .entry { page-break-inside: avoid; margin-bottom: 4pt !important; }
             .entry-title, .entry-date, .entry-subtitle, .entry-location { font-size: 9pt !important; line-height: 9pt !important; }
             .entry-header { margin-bottom: 1pt !important; }
             .entry-subtitle { margin-bottom: 1pt !important; }
-            .bullet-item { font-size: 9pt !important; line-height: 10.5pt !important; margin-left: 0.12in !important; text-indent: -8pt !important; padding-left: 8pt !important; margin-bottom: 2pt !important; }
+            .bullet-item { font-size: 9pt !important; line-height: 10pt !important; margin-left: 0.12in !important; text-indent: -8pt !important; padding-left: 8pt !important; margin-bottom: 1pt !important; }
             .bullet-item:before { content: "● " !important; font-family: "Times New Roman", serif !important; font-size: 8pt !important; margin-right: 2pt !important; position: relative !important; left: -8pt !important; }
-            .skills-section p { font-size: 9pt !important; line-height: 9pt !important; margin-bottom: 3pt !important; }
-            .summary-text { font-size: 9pt !important; line-height: 11pt !important; }
+            .skills-section p { font-size: 9pt !important; line-height: 9pt !important; margin-bottom: 2pt !important; }
+            .summary-text { font-size: 9pt !important; line-height: 10pt !important; }
         }
     </style>
 </head>
@@ -69,17 +69,16 @@
     <!-- Summary -->
     <div class="section">
         <h2 class="section-title">SUMMARY</h2>
-        <div class="summary-text">MS Computer Engineering (ASU, GPA 3.81, May 2026) who likes building AI products that make complicated workflows feel simple and trustworthy. Shipped Trezzit, a live AI application serving <strong>600+ users</strong>, where I improved receipt understanding from <strong>60% to 95%+</strong> through fast iteration, quality evaluation, and product tradeoffs around reliability and cost, and built SiliconCrew, an LLM-based workflow product with self-correction, observability, and eval loops for multi-step tasks.</div>
+        <div class="summary-text">MS Computer Engineering (ASU, GPA 3.81, May 2026) who builds production agents on LangGraph and iterates them to reliability. Designed SiliconCrew &mdash; a 21-tool LangGraph ReAct agent with eval-driven self-correction, multi-provider orchestration, and a full MCP server &mdash; scoring <strong>37/92 on CVDP</strong> benchmarks. Sole-built Trezzit (trezzit.com), a production AI SaaS serving <strong>600+ users</strong> for 12+ months, iterating an LLM pipeline from <strong>60% &rarr; 95%+</strong> accuracy across 4 providers.</div>
     </div>
 
     <!-- Technical Skills -->
     <div class="section">
         <h2 class="section-title">TECHNICAL SKILLS</h2>
         <div class="skills-section">
-            <p><strong>AI Product Engineering:</strong> LLM Evaluation | RAG Pipelines | Vector Embeddings | Prompt Engineering | Multi-provider LLM Routing | LangGraph | LangChain</p>
-            <p><strong>Frontend / Product:</strong> React | TypeScript | Next.js | UX Iteration | Real-Time Interfaces</p>
-            <p><strong>Backend / Systems:</strong> Python | FastAPI | Django REST Framework | PostgreSQL | Redis | WebSocket | Docker | GitHub Actions CI/CD</p>
-            <p><strong>Models &amp; APIs:</strong> OpenAI API | Gemini API | Anthropic (Claude) API | Streaming APIs | Pydantic Output Validation</p>
+            <p><strong>Agent Architecture:</strong> LangGraph | LangChain | ReAct Agents | MCP Protocol | Eval &amp; Self-Correction Pipelines | Multi-provider LLM Orchestration | RAG Pipelines | Tool Use / Function Calling | Pydantic Validation</p>
+            <p><strong>Full-Stack:</strong> Python | TypeScript | FastAPI | Django REST Framework | React | Next.js | WebSocket | Async Python | PostgreSQL | Redis | Celery</p>
+            <p><strong>Infra &amp; Observability:</strong> Docker | GitHub Actions CI/CD | DigitalOcean | AWS | Nginx | Per-provider LLM Cost &amp; Latency Tracking | Linux</p>
         </div>
     </div>
 
@@ -119,13 +118,13 @@
         <!-- SiliconCrew -->
         <div class="entry">
             <div class="entry-header">
-                <div class="entry-title">SiliconCrew &mdash; Autonomous LLM Agent for Code Generation &amp; Verification</div>
+                <div class="entry-title">SiliconCrew &mdash; Production LangGraph Agent with Eval Framework &amp; MCP Server</div>
                 <div class="entry-date">Nov 2025 &ndash; Present</div>
             </div>
             <div class="bullet-list">
-                <div class="bullet-item">Built an LLM-based workflow product with a React/Next.js frontend and FastAPI + WebSocket backend so users could inspect generated outputs, execution traces, and workflow state in real time instead of treating the system like a black box.</div>
-                <div class="bullet-item">Implemented automated evaluation and self-correction loops that analyze failures, patch outputs, and re-run workflows without human input; achieved 37/92 first-pass and 5/5 on structured code generation benchmarks.</div>
-                <div class="bullet-item">Added artifact viewers, structured report panels, and per-session token/cost tracking to improve debugging speed and make quality, latency, and cost tradeoffs visible during iteration.</div>
+                <div class="bullet-item">Built a 21-tool LangGraph ReAct agent with multi-provider orchestration (Gemini, OpenAI, Anthropic) and provider-specific quirk handling &mdash; chose LangGraph over linear chains for its state-machine graph structure, enabling conditional branching between generation, evaluation, and self-correction nodes; implemented a full MCP server (stdio/SSE/HTTP, auto-discovery of LangChain @tool functions) for Claude Desktop, VS Code, and any MCP client.</div>
+                <div class="bullet-item">Designed the eval-driven self-correction loop: on task failure the agent reads diagnostic output, identifies root cause, patches its generation, and re-verifies without human input &mdash; mandatory 3-iteration policy drives correctness where single-shot generation fails; achieved <strong>37/92 first-pass</strong> and <strong>5/5 perfect score</strong> on structured code generation benchmarks; a generalizable eval pattern applicable to any agent domain.</div>
+                <div class="bullet-item">Built end-to-end agent observability: real-time WebSocket streaming of tool-call execution traces, per-session token + cost tracking across all LLM providers enabling compute-aware model selection, and pipeline-stage artifact inspection &mdash; making agent reasoning transparent and debuggable without re-running jobs; FastAPI backend, Next.js + TypeScript frontend.</div>
             </div>
         </div>
 
@@ -136,8 +135,8 @@
                 <div class="entry-date">Feb 2025 &ndash; Present</div>
             </div>
             <div class="bullet-list">
-                <div class="bullet-item">Sole-built and shipped Trezzit (trezzit.com), a live AI application serving <strong>600+ users</strong>, to make receipt splitting less manual and more reliable; evolved the core workflow from simple extraction to a two-pass system with validation and correction, improving parsing accuracy from ~60% to 95%+.</div>
-                <div class="bullet-item">Owned the product end to end: React PWA frontend, Django/FastAPI backend, PostgreSQL, Redis, auth, notifications, and deployment; made practical tradeoffs around latency, model quality, and infrastructure cost while supporting 60+ REST endpoints and <strong>995-test</strong> CI.</div>
+                <div class="bullet-item">Sole-built and shipped Trezzit (trezzit.com, <strong>600+ users</strong>, 12+ months live) &mdash; iterated receipt parsing from ~60% to <strong>95%+</strong> by diagnosing specific LLM failure modes (hallucinated item counts, currency ambiguity, multi-page layouts) and building a two-pass eval pipeline: extract structured data &rarr; semantically validate &rarr; escalate to a stronger model on failure; provider-abstracted registry across Gemini, OpenAI, Claude, and Grok.</div>
+                <div class="bullet-item">Production monitoring tracks per-provider LLM cost and latency used to make ongoing model selection decisions; <strong>995 tests</strong> on every push via GitHub Actions CI with live PostgreSQL; <strong>60+ REST endpoints, 40 Django models, 341 React components</strong>; Redis, Celery, DigitalOcean VPS.</div>
             </div>
         </div>
 
@@ -148,7 +147,18 @@
                 <div class="entry-date">Sep &ndash; Nov 2025</div>
             </div>
             <div class="bullet-list">
-                <div class="bullet-item">Won 1st place at Devlabs Hackathon; built a custom RAG pipeline over uploaded PDFs with chunking, embeddings, cosine-similarity retrieval, confidence scoring, and automated response generation via Gemini; FastAPI backend, React + TypeScript frontend, developed in a fast feedback loop with teammates.</div>
+                <div class="bullet-item">Won 1st place at Devlabs Hackathon; built a custom RAG pipeline without an external vector database &mdash; PDF chunking with 2-sentence overlap, Google text-embedding-004 (768-dim) embeddings, cosine similarity retrieval with confidence scoring, and automated FDCPA-compliant dispute email generation via Gemini; FastAPI backend, React + TypeScript frontend.</div>
+            </div>
+        </div>
+
+        <!-- Intel OSS -->
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Intel Automated Self-Checkout &mdash; Open Source Contribution</div>
+                <div class="entry-date">Jan &ndash; Feb 2025</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Contributed a real-time sensor data pipeline to <strong>Intel&rsquo;s official open-source self-checkout reference architecture</strong> &mdash; multi-transport ingestion layer (MQTT, Kafka, HTTP) for LiDAR and weight sensor streams, Grafana dashboard, and integration documentation; navigated an external production codebase, incorporated reviewer feedback, and had <strong>PR #655 accepted by Intel engineers</strong>.</div>
             </div>
         </div>
 
@@ -160,7 +170,7 @@
 
         <div class="entry">
             <div class="entry-header">
-                <div class="entry-title">Systems Engineer</div>
+                <div class="entry-title">Software Developer (Sole Engineer)</div>
                 <div class="entry-date">Oct 2022 &ndash; Apr 2024</div>
             </div>
             <div class="entry-subtitle">
@@ -178,8 +188,8 @@
     <div class="section">
         <h2 class="section-title">AWARDS &amp; HONORS</h2>
         <div class="bullet-list">
-            <div class="bullet-item">Won <strong>&lsquo;Best Use of AI&rsquo;</strong> at Strategy X DevHacks&rsquo;25 (ASU) &mdash; built AdaptED AI, a Gemini-powered platform generating personalized flashcards, quizzes, and learning paths from uploaded documents in a 24-hour hackathon.</div>
             <div class="bullet-item">Won <strong>1st place at Devlabs Hackathon</strong> &mdash; HEAL.AI, an AI healthcare assistant with a custom RAG pipeline for insurance Q&amp;A and automated medical bill dispute generation.</div>
+            <div class="bullet-item">Won <strong>&lsquo;Best Use of AI&rsquo;</strong> at Strategy X DevHacks&rsquo;25 (ASU) &mdash; built AdaptED AI, a Gemini-powered platform generating personalized flashcards, quizzes, and learning paths from uploaded documents in a 24-hour hackathon.</div>
             <div class="bullet-item">Secured <strong>2nd place at Hack SoDA 2024</strong> (Amazon-sponsored, 24-hour) &mdash; built PassGen, a secure offline Chrome Extension for password generation.</div>
         </div>
     </div>

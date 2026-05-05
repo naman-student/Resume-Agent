@@ -8,6 +8,21 @@ user_invocable: true
 
 Operating procedure for tailoring Naman Yeshwanth Kumar's resume. The output of this skill is **always one finished HTML file** for the user to save into `Resume/Drafts/` themselves. This skill does not push to GitHub and does not generate PDFs.
 
+## Pipeline execution learnings (read this first)
+
+Hard-won lessons from dozens of tailored drafts. Follow these in order:
+
+1. **Copy base → edit in place. Never write from scratch.** CSS drift causes overflow and wastes tokens.
+2. **Tighten CSS BEFORE writing content.** Apply the callback-getter pattern (0.38in padding, 11pt sections, 4pt entries, 10pt bullet line-height, 1pt bullet margins) immediately after copying. You'll overflow otherwise and have to redo work.
+3. **Draft → Review → Targeted fix, not Draft → Rewrite.** Spawn a reviewer subagent with the JD, the draft, strategy files, AND the two callback-getting resumes as the quality bar. Then only fix what the reviewer flags that you agree with — don't blindly follow every suggestion.
+4. **The reviewer will always say "the summary is too generic."** They're usually right. The callback-getting resumes committed to ONE laser-specific identity in the first clause. If your summary has 3+ identity claims, it's unfocused.
+5. **Don't list skills you can't back with a bullet.** PyTorch in skills with zero PyTorch in bullets is worse than no PyTorch — it invites a question you can't answer. Either transplant a project that proves it or drop it.
+6. **Verify postings are open before tailoring.** Half the researched_jobs inbox was dead. Web-search first, always.
+7. **Reframe projects, don't rewrite them.** SiliconCrew has been 6+ different things across drafts. The bullet body stays ~80% the same — what changes is the title, lead phrase, and which details get pulled to the front. The strategy files have swap guides for this.
+8. **Match content density to the callback-getters:** 4-5 projects / 7-8 bullets, 1-2 work entries, 3 awards, 3 skills rows. If your draft is lighter, it'll feel thin. If heavier, it'll overflow.
+9. **Bold only killer numbers.** 37/92, 600+ users, 995 tests, 60%→95%. Never bold tool names or section headers.
+10. **The "honest gap" in the plan matters.** If you score a role 55 and the gap is a core requirement (not a nice-to-have), tell the user to skip it. Don't waste tailoring time on bad fits.
+
 ## What this skill does NOT do
 
 - Push to GitHub. The Claude.ai web GitHub connector is read-only at the time of writing — write attempts return 403. Even if writes become available later, this skill stays in "produce HTML, hand to user" mode unless the user explicitly asks for a push.
@@ -47,6 +62,10 @@ These are not templates to copy — they're examples of how aggressively to cut 
 
 If the user gave a URL, fetch and read the JD. If only a company/role was given, web-search and confirm with the user that the JD found is the one they meant. If a `researched_jobs` row was referenced and `job_description` is empty or under ~300 characters, web-search to enrich it (do not silently update Supabase — ask first).
 
+**Ashby URLs** (`jobs.ashbyhq.com`) are JS-rendered SPAs — `WebFetch` will get an empty shell. Instead, web-search `<company> "<role title>" job description` and fetch from a mirror site (jobright.ai, tealhq.com, peerlist.io usually have the full text). Greenhouse and Lever URLs generally work with `WebFetch` directly.
+
+**IMPORTANT: Always verify the posting is still open before tailoring.** The `researched_jobs` table may contain stale entries. Web-search `<company> "<exact role title>" 2026` and check whether the listing is still active. If the posting appears closed or the publish date is old (6+ months), flag it to the user before proceeding. Do not waste time tailoring for a dead listing.
+
 ### Phase 2 — Pick the base
 
 Use the heuristic from `RESUME_AGENT_GUIDE.md`:
@@ -80,7 +99,14 @@ If the user explicitly says "skip the planning step" or "directly edit," still o
 
 ### Phase 4 — Generate the HTML
 
-Take the chosen base, apply the planned changes, output the **complete HTML file** as a code block in chat. Do not push, do not commit.
+**IMPORTANT: Copy the base file to `Resume/Drafts/` first, then edit it in place.** Do NOT write the entire HTML from scratch — it wastes tokens and risks drift from the base's CSS/structure. Use the Edit tool to make targeted changes to the copy.
+
+```
+Copy base → Resume/Drafts/resume_<company-slug>-<role-slug>.html
+Then edit: summary, skills, project entries, work title, awards order
+```
+
+Do not push, do not commit.
 
 After the file, post a short summary:
 
@@ -90,13 +116,27 @@ After the file, post a short summary:
 - Suggested filename for `Resume/Drafts/`
 - Reminder that the user should open the HTML locally and check for two-page overflow
 
-### Phase 5 — Supabase row (optional, with confirmation)
+### Phase 5 — Supabase row (with confirmation)
 
-Only do this if the user says yes. Per `RESUME_AGENT_GUIDE.md`:
+Per `RESUME_AGENT_GUIDE.md`:
 
 - If a matching `public.jobs` row exists → ask whether to update it (`status='tailored'`, set `base_resume`, set `draft_resume_path='Resume/Drafts/<filename>'`)
 - If only a `researched_jobs` row exists → ask whether to promote it; preserve `researched_job_id` on the new `jobs` row; set `researched_jobs.decision='promoted'`
 - Never set `applied` — only the user does that after submitting
+
+**When the user confirms they applied**, do both of these in sequence:
+1. **Promote to `jobs`**: Insert a row with `status='applied'`, `applied_at=now()`, `base_resume`, `draft_resume_path`, `fit_score`, `url`, `location`, `reason` (brief match summary + gaps), `user_id`, and `researched_job_id` linking back to the research row.
+2. **Update `researched_jobs`**: Set `decision='promoted'`, `updated_at=now()`.
+
+The Supabase project ID is `rztpwtpqmjkqnbojbujj` and Naman's `user_id` is `7ceded32-2d69-463c-a492-a3497252347b`.
+
+### Phase 6 — File management after application
+
+When the user confirms they applied and the PDF exists:
+1. **Move** (not copy) the HTML from `Resume/Drafts/` to `Resume/Applied/`
+2. **Move** the PDF from `Downloads/` (or wherever it was generated) to `Resume/Applied/`
+3. **Delete** any remaining copies in Drafts or Downloads — Applied is the single source of truth
+4. Unapplied drafts that won't be used should be deleted from Drafts to keep it clean
 
 ## Editing rules (the patterns that aren't fully captured in `RESUME_AGENT_GUIDE.md`)
 
@@ -190,6 +230,7 @@ Recommended score bands:
 ## Anti-patterns to avoid
 
 - Editing `Master_Resume/current/` directly. Always work from a copy.
+- Writing the entire HTML from scratch instead of copying the base and editing. Copy first, edit in place — preserves CSS fidelity, saves tokens, prevents structural drift.
 - Cutting content before trying CSS tightening.
 - Stacking 4+ metrics in the summary. Pick 2–3, let them land.
 - Listing API names as skills. "Gemini API | OpenAI API | Claude API" proves nothing. Show system behaviors: "Multi-provider LLM Routing | Quality-based Fallback | RAG Pipelines."
@@ -209,6 +250,34 @@ Recommended score bands:
 - HEAL.AI: 1st place Devlabs, 768-dim embeddings, custom RAG without external vector DB
 - GitHub portfolio: `github.com/naman-ranka` (separate from the Resume-Agent repo account `naman-student`)
 - Email: nyeshwan@asu.edu | Phone: (623) 249-1265 | LinkedIn: linkedin.com/in/namany
+- **Implicit skills** (Naman knows these; add when JD calls for them even if not on a base): PyTorch, TensorFlow, Linux, Git — infer from his CUDA MLP work, AI/RL coursework, and production deployment experience
+
+## Interview-signal patterns (resumes that got callbacks)
+
+As of May 2026, these resumes got interview callbacks — study what they did:
+
+- **`resume_chipagents-fullstack-ai-engineer.html`** — laser-specific identity ("intersection of agentic AI and chip design"), 3 skills rows, tightened CSS, aggressive project selection
+- **`resume_openai-hardware-tooling.html`** — extremely role-specific identity ("hardware tooling and compiler infrastructure"), dropped Trezzit entirely, skills labels exactly mirrored the JD vocabulary, included IISc research
+
+Common patterns from callbacks:
+1. **Identity specificity > breadth** — the summary names the exact niche, not "full-stack AI engineer"
+2. **3 skills rows** — always collapsed from 4, tighter visual signal
+3. **Ruthless pruning** — projects that don't serve THIS role are cut without hesitation
+4. **Skills labels mirror JD exactly** — not generic categories
+5. **CSS was already tightened** in both
+
+Use these as the quality bar. If a draft doesn't feel as tight and targeted as these two, it probably isn't.
+
+## Reviewer subagent pattern
+
+After generating a draft, spawn a `general-purpose` subagent to review it. Include in the prompt:
+1. The JD (full text)
+2. The draft resume path
+3. The strategy files for relevant projects (e.g., `resume_strategy/trezzit.md`, `resume_strategy_eda/siliconcrew.md`)
+4. Both callback-getting resumes as the quality bar (`Resume/Archive_Drafts/2026-05-01_pre_db_cleanup/resume_chipagents-fullstack-ai-engineer.html` and `resume_openai-hardware-tooling.html`)
+5. The base resume it was derived from
+
+Ask the reviewer to score on 7-8 dimensions relevant to the JD, give top 3 strengths/weaknesses, and suggest specific text edits. Then apply only the edits you agree with — don't blindly follow everything. Common patterns: reviewers always say the summary is too generic (usually right), always want more keywords added (sometimes right), and sometimes suggest fabricating experience (always wrong).
 
 ## When in doubt
 

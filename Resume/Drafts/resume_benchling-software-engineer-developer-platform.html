@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naman Yeshwanth Kumar - Resume</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Times New Roman", serif; background: #f5f5f5; padding: 15px; line-height: 1.1; font-size: 11pt; }
+        .resume-container { max-width: 8.5in; width: 100%; margin: 0 auto; background: white; padding: 0.3in 0.5in; box-shadow: 0 0 10px rgba(0,0,0,0.1); min-height: 11in; }
+        .header { text-align: center; border-bottom: 1pt solid white; padding-bottom: 2pt; margin-bottom: 12pt; margin-top: 4pt; }
+        .header h1 { font-size: 17pt; font-weight: bold; margin-bottom: 3pt; line-height: 17pt; letter-spacing: 0.5pt; }
+        .header .contact-info { font-size: 9pt; line-height: 9pt; }
+        .header .contact-info a { color: #0563C1; text-decoration: none; }
+        .header .contact-info .separator { color: black; margin: 0 4px; }
+        .section { margin-bottom: 11pt; }
+        .section-title { font-size: 9pt; font-weight: bold; text-transform: uppercase; border-bottom: 1.5pt solid black; padding-bottom: 0pt; margin-bottom: 4pt; line-height: 9pt; }
+        .entry { margin-bottom: 4pt; }
+        .entry:last-child { margin-bottom: 0pt; }
+        .entry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1pt; line-height: 9pt; }
+        .entry-title { font-size: 9pt; font-weight: bold; flex: 1; }
+        .entry-date { font-size: 9pt; font-weight: bold; text-align: right; }
+        .entry-subtitle { font-size: 9pt; font-weight: normal; margin-bottom: 2pt; display: flex; justify-content: space-between; align-items: flex-start; line-height: 9pt; }
+        .entry-location { font-size: 9pt; font-weight: bold; text-align: right; }
+        .bullet-list { margin-bottom: 0pt; }
+        .bullet-item { font-size: 9pt; line-height: 10pt; margin-left: 0.12in; text-indent: -8pt; padding-left: 8pt; margin-bottom: 1pt; }
+        .bullet-item:before { content: "● "; font-family: "Times New Roman", serif; font-size: 8pt; margin-right: 2pt; vertical-align: middle; position: relative; left: -8pt; }
+        .skills-section { font-size: 9pt; line-height: 9pt; }
+        .skills-section p { margin-bottom: 3pt; }
+        .summary-text { font-size: 9pt; line-height: 10pt; }
+        @media print {
+            @page { size: A4; margin: 0; }
+            body { background: white !important; padding: 0 !important; margin: 0 !important; font-size: 11pt !important; line-height: 1.0 !important; -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
+            * { box-sizing: border-box !important; }
+            .resume-container { box-shadow: none !important; margin: 0 !important; padding: 0.3in 0.5in !important; max-width: 8.5in !important; width: 100% !important; min-height: auto !important; }
+            .header { margin-top: 4pt !important; margin-bottom: 12pt !important; }
+            .header h1 { font-size: 17pt !important; letter-spacing: 0.5pt !important; }
+            .header .contact-info { font-size: 9pt !important; line-height: 9pt !important; }
+            .section { page-break-inside: avoid; margin-bottom: 11pt !important; }
+            .section-title { font-size: 9pt !important; border-bottom: 1.5pt solid black !important; padding-bottom: 0pt !important; margin-bottom: 4pt !important; }
+            .entry { page-break-inside: avoid; margin-bottom: 4pt !important; }
+            .entry-title, .entry-date, .entry-subtitle, .entry-location { font-size: 9pt !important; line-height: 9pt !important; }
+            .entry-header { margin-bottom: 1pt !important; }
+            .entry-subtitle { margin-bottom: 2pt !important; }
+            .bullet-item { font-size: 9pt !important; line-height: 10pt !important; margin-left: 0.12in !important; text-indent: -8pt !important; padding-left: 8pt !important; margin-bottom: 1pt !important; }
+            .bullet-item:before { content: "● " !important; font-family: "Times New Roman", serif !important; font-size: 8pt !important; margin-right: 2pt !important; position: relative !important; left: -8pt !important; }
+            .skills-section p { font-size: 9pt !important; line-height: 9pt !important; margin-bottom: 3pt !important; }
+            .summary-text { font-size: 9pt !important; line-height: 10pt !important; }
+        }
+    </style>
+</head>
+<body>
+<div class="resume-container">
+
+    <!-- Header -->
+    <div class="header">
+        <h1>NAMAN YESHWANTH KUMAR</h1>
+        <div class="contact-info">
+            <a href="https://linkedin.com/in/namany">linkedin.com/in/namany</a>
+            <span class="separator">|</span>
+            <a href="https://github.com/naman-ranka">github.com/naman-ranka</a>
+            <span class="separator">|</span>
+            <a href="mailto:nyeshwan@asu.edu">nyeshwan@asu.edu</a>
+            <span class="separator">|</span>
+            (623) 249-1265
+        </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="section">
+        <div class="section-title">SUMMARY</div>
+        <div class="summary-text">Full-stack engineer (MS Computer Engineering, ASU &mdash; GPA 3.81, May 2026) building developer platforms end-to-end &mdash; REST APIs, services, and integrations that other engineers and AI agents build on top of. Built Trezzit (app.trezzit.com), a production Python + React 19 platform serving <strong>600+ users</strong> for 12+ months with <strong>60+ REST endpoints, 40 DB models, 995 tests</strong>, and an MCP server letting AI assistants take actions across the platform via the same auth and data layer as the web app. Merged <strong>PR #655</strong> into Intel&rsquo;s official self-checkout reference architecture &mdash; track record of shipping systems that solved hard problems.</div>
+    </div>
+
+    <!-- Technical Skills -->
+    <div class="section">
+        <div class="section-title">TECHNICAL SKILLS</div>
+        <div class="skills-section">
+            <p><strong>Developer Platform &amp; APIs:</strong> Python | TypeScript | REST API Design | Django REST Framework | FastAPI | Node.js | MCP Protocol | Tool Use / Function Calling | Async Python | WebSocket Streaming | Pydantic Validation</p>
+            <p><strong>Backend &amp; Data:</strong> PostgreSQL | Redis (caching + rate limiting) | Celery (async background jobs) | Cookie JWT + OAuth + OTP | Multi-tenant RBAC | Optimistic Locking | Audit Trails | Encrypted Backups | Per-endpoint p95 Latency + Per-provider Cost Telemetry</p>
+            <p><strong>Frontend &amp; Cloud:</strong> React 19 | Next.js | Tailwind | Material-UI | PWA | AWS | DigitalOcean | Vercel | Supabase | Docker | Nginx | GitHub Actions CI/CD | Linux | Cursor | Claude Code</p>
+        </div>
+    </div>
+
+    <!-- Project Experience -->
+    <div class="section">
+        <div class="section-title">PROJECT EXPERIENCE</div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Trezzit &mdash; Production Multi-Tenant Platform with API + MCP Surface, Sole Engineer (app.trezzit.com)</div>
+                <div class="entry-date">Feb 2025 &ndash; Present</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Solo-shipped Trezzit front-to-back &mdash; multi-tenant Python + React 19 platform serving <strong>600+ users</strong> for 12+ months with <strong>341 components, 60+ REST endpoints, 40 DB models, 995 tests</strong>; Django 5.1 + DRF, PostgreSQL (Supabase), Redis (caching + rate limits 100/hr anon, 10k/hr auth), Celery + Celery Beat + Flower for async background jobs; DigitalOcean VPS (prod) + AWS Lightsail (staging) + Vercel; GitHub Actions CI/CD with prod&rarr;staging DB sync and encrypted backups.</div>
+                <div class="bullet-item">Built a two-stage AI data pipeline routing across Gemini, OpenAI, Claude, and Grok &mdash; pass 1 + semantic validation gate + automatic model-upgrade fallback on failure &mdash; iterated parsing accuracy from <strong>~60% &rarr; 95%+</strong>; production observability layer captures per-endpoint p95 latency, error rates, and per-provider tokens / cost via dedicated LLM-call and API-performance models &mdash; the dashboard surface researchers and operators actually use.</div>
+                <div class="bullet-item">Multi-tenant access &amp; security: cookie-based JWT with auto-refresh + failed-request queuing, Google OAuth via django-allauth, email OTP; group-based RBAC and placeholder users (add collaborators without accounts, claimed on signup); full audit trail with BalanceUpdateLog + BalanceValidationSnapshot, periodic reconciliation, and zero-sum invariant enforcement.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">SiliconCrew &mdash; Developer Platform: MCP Server (3 Transports), 21 Tools, Streaming UI</div>
+                <div class="entry-date">Nov 2025 &ndash; Present</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Built a researcher-facing platform for evaluating autonomous LLM agents on a structured benchmark &mdash; Next.js 14 web UI (3-panel layout, Monaco editor, 6 artifact tabs, WebSocket-streamed tool-call cards) over a FastAPI + LangGraph backend (21 tools, multi-provider routing, async ThreadPoolExecutor) with full MCP server (stdio/SSE/HTTP); per-session token / cost tracking, on-disk run-recovery for long evaluation jobs; achieved <strong>37/92 on CVDP</strong> (Comprehensive Verilog Design Problems); public at <strong>github.com/naman-ranka/siliconcrew</strong>.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">HEAL.AI &mdash; RAG Pipeline &amp; Structured Output Generation (Devlabs Hackathon)</div>
+                <div class="entry-date">Sep &ndash; Nov 2025</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Built HEAL.AI at Devlabs Hackathon &mdash; custom RAG pipeline (PDF chunking + 768-dim Google text-embedding-004 + cosine-similarity retrieval with confidence scoring) over uploaded documents, with automated structured-output generation (FDCPA-compliant dispute emails) via Gemini 2.5; FastAPI + Next.js + TypeScript, Dockerized.</div>
+            </div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Intel Automated Self-Checkout &mdash; Open Source Contribution</div>
+                <div class="entry-date">Jan &ndash; Feb 2025</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Contributed sensor analytics microservice to <strong>Intel&rsquo;s official self-checkout reference architecture</strong> &mdash; configurable data pipeline (MQTT, Kafka, HTTP) for real-time LiDAR and weight sensor data with Grafana dashboard; <strong>PR #655 merged upstream</strong> after Intel engineering review.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Work Experience -->
+    <div class="section">
+        <div class="section-title">WORK EXPERIENCE</div>
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Software Developer (Sole Engineer)</div>
+                <div class="entry-date">Oct 2022 &ndash; Apr 2024</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>NCR GOLD</div>
+                <div class="entry-location">Bengaluru, India</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Engineered a production Django platform (PostgreSQL + Celery + Nginx on DigitalOcean) processing <strong>18,000+ orders over 3 years</strong>; built 3 role-based portals (admin, artisan, customer) with multi-method auth &mdash; automated PDF invoice generation and WhatsApp Business API delivery on every state transition, eliminating <strong>~20 min</strong> of manual relay per order.</div>
+                <div class="bullet-item">Reverse-engineered third-party Jwelly ERP (<strong>zero public API</strong>) through direct SQL schema analysis; built bidirectional bridge model syncing production weights and ERP status in real time; engineered inbound WhatsApp state-machine chatbot (JSON state per user, admin + customer flows) &mdash; full accountability loop across all three portals without disrupting legacy system.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Education -->
+    <div class="section">
+        <div class="section-title">EDUCATION</div>
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Master of Science &mdash; Computer Engineering (GPA 3.81/4.0)</div>
+                <div class="entry-date">Expected May 2026</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>Arizona State University &mdash; Coursework: Artificial Intelligence &middot; Foundations of Algorithms &middot; Reinforcement Learning in Robotics &middot; Perception in Robotics &middot; Algorithm/Hardware Co-Design</div>
+                <div class="entry-location">Tempe, AZ</div>
+            </div>
+        </div>
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Bachelor of Engineering &mdash; Electrical and Electronics</div>
+                <div class="entry-date">August 2022</div>
+            </div>
+            <div class="entry-subtitle">
+                <div>BMS College of Engineering</div>
+                <div class="entry-location">Bengaluru, India</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Awards -->
+    <div class="section">
+        <div class="section-title">AWARDS &amp; HONORS</div>
+        <div class="bullet-list">
+            <div class="bullet-item">Two consecutive Devlabs Hackathon placements &mdash; <strong>1st place with BillBusters</strong> (team), then <strong>2nd place solo with HEAL.AI</strong>, an AI billing assistant with a custom RAG pipeline (768-dim embeddings, cosine-similarity retrieval) for insurance Q&amp;A and automated dispute-email generation.</div>
+            <div class="bullet-item">Won <strong>&lsquo;Best Use of AI&rsquo;</strong> at Strategy X DevHacks&rsquo;25 (ASU) &mdash; built AdaptED AI, a Gemini-powered platform generating personalized flashcards, quizzes, and learning paths from uploaded documents in a 24-hour hackathon.</div>
+            <div class="bullet-item">Secured <strong>2nd place at Hack SoDA 2024</strong> (Amazon-sponsored, 24-hour) &mdash; built PassGen, a secure offline Chrome Extension for unique password generation.</div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

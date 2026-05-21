@@ -1,29 +1,58 @@
 # Resume Project
 
-This repo is the working system for tailoring resumes, generating PDFs, and tracking job applications through the Supabase-backed dashboard.
+This repo is the working system for tailoring resumes, generating PDFs, and tracking job applications through the Supabase-backed dashboard. It runs as a Claude Code project — most operations are driven by a tailoring skill and a reviewer subagent defined under `.claude/`.
 
 ## Current Workflow
 
 ```text
-Job description
-  -> Agent reads RESUME_AGENT_GUIDE.md
-  -> Agent copies one base resume from Master_Resume/current/
-  -> Agent edits the copy in Resume/Drafts/
-  -> Scripts/html_to_pdf.py creates a PDF in Resume/To_Apply/
+Research agent populates Supabase researched_jobs
+  -> Resume-tailor skill picks a JD + base resume
+  -> JD-fetcher subagent returns the verbatim JD (or pauses if it can't)
+  -> Skill copies a base from Master_Resume/current/ to Resume/Drafts/
+  -> Skill edits the draft in place (summary, skills, projects, awards)
+  -> resume-reviewer subagent scores 9 dimensions + returns confidence-tagged edits
+     (MUST-FIX / STRONG REC / CONSIDER / OPTIONAL)
+  -> Targeted fixes applied (MUST-FIX automatically; rest judged in-context)
+  -> Scripts/html_to_pdf.py creates a PDF locally
   -> User applies
-  -> Final PDF is stored in Resume/Applied/
+  -> Post-applied pipeline moves HTML + PDF to Resume/Applied/, inserts jobs row,
+     flips researched_jobs.decision = 'promoted'
   -> Supabase dashboard tracks status
 ```
+
+## Agent System (under `.claude/`)
+
+```text
+.claude/
+  skills/
+    resume-tailor/SKILL.md       Methodology: phases 0-6, density rules,
+                                  callback patterns, anti-patterns, JD-fetch
+                                  protocol, reviewer-subagent invocation
+  agents/
+    resume-reviewer.md            Dual-lens (ATS + human recruiter) reviewer
+                                  with confidence-tagged edits + honesty audit
+                                  calibration list of what's real vs. not
+  settings.json                   Project-level Claude Code settings
+```
+
+Two non-negotiable rules baked into the agents:
+
+- **JD verbatim is non-negotiable.** If the JD-fetcher can't get the real text from a mirror, it returns `JD_FETCH_FAILED` and the skill pauses for the user — never reconstructs from sibling roles.
+- **Reviewer is opinion, not command.** Apply MUST-FIX automatically (factual errors, fabrications). Evaluate STRONG REC. Skip CONSIDER unless you agree. The confidence tags exist so the main agent doesn't blindly follow every suggestion.
 
 ## Active Structure
 
 ```text
 Resume Project/
   README.md
-  RESUME_AGENT_GUIDE.md
-  RESEARCH_AGENT_GUIDE.md
-  index.html
-  job-dashboard-supabase.html
+  RESUME_AGENT_GUIDE.md         Top-level tailoring guide (deferred-to by SKILL.md)
+  RESEARCH_AGENT_GUIDE.md       Research-agent protocol for populating researched_jobs
+  index.html                    GitHub Pages entry
+  job-dashboard-supabase.html   Live dashboard
+
+  .claude/
+    skills/resume-tailor/SKILL.md
+    agents/resume-reviewer.md
 
   Master_Resume/current/
     resume_fullstack_ai.html
@@ -32,17 +61,18 @@ Resume Project/
     resume_autonomous.html
 
   Resume/
-    Drafts/          Tailored HTML drafts currently being worked on
+    Drafts/          Tailored HTML drafts being worked on
+    Applied/         HTML + PDF actually used for applications (single source of truth)
     To_Apply/        PDFs ready to submit
-    Applied/         PDFs actually used for applications
     Archive/         Optional archive for completed HTML drafts
-    Archive_Drafts/  Historical tailored HTMLs
+    Archive_Drafts/  Historical tailored HTMLs (incl. callback-getter quality bar)
     Archive_Applied/ Historical applied PDFs
     Archive_Legacy/  Older resume generations
+    Skipped/         Drafts that didn't go out
 
-  resume_strategy/          Full-stack AI source notes
+  resume_strategy/          Full-stack AI source notes (Trezzit, SiliconCrew, HEAL.AI, etc.)
   resume_strategy_ai_eng/   AI engineer source notes
-  resume_strategy_eda/      AI/EDA source notes
+  resume_strategy_eda/      AI/EDA source notes (GCN ASIC, MIPS, STA, gem5, IISc, etc.)
   resume_strategy_av/       Autonomous systems source notes
 
   Scripts/

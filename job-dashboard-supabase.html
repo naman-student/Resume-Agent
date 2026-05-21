@@ -90,7 +90,7 @@
 
     .toolbar {
       display: grid;
-      grid-template-columns: 1fr 190px 150px auto;
+      grid-template-columns: 1fr 150px auto;
       gap: 12px;
       padding: 12px;
       margin-bottom: 12px;
@@ -112,6 +112,56 @@
       background: var(--accent);
       color: white;
       border-color: var(--accent);
+    }
+
+    .tab-count,
+    .chip-count {
+      display: inline-block;
+      background: rgba(0, 0, 0, 0.08);
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 1px 8px;
+      margin-left: 5px;
+      min-width: 18px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .tab.active .tab-count,
+    .chip.active .chip-count {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+    }
+
+    .chips {
+      display: flex;
+      gap: 6px;
+      margin: 0 0 12px;
+      flex-wrap: wrap;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .chip {
+      background: rgba(255, 253, 247, 0.78);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .chip.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .chip.interviewing-chip:not(.active) {
+      background: #daf7ff;
+      color: #196070;
+      border-color: #aee0ed;
     }
 
     .view[hidden] {
@@ -319,6 +369,7 @@
       display: flex;
       gap: 6px;
       align-items: center;
+      flex-wrap: wrap;
       min-width: 190px;
     }
 
@@ -345,6 +396,16 @@
       white-space: nowrap;
     }
 
+    .compact-link.danger {
+      background: #f8e2df;
+      color: #8a302b;
+    }
+
+    .compact-link.warning {
+      background: #ffe5cf;
+      color: #8a4a1b;
+    }
+
     .fit {
       font-weight: 900;
       white-space: nowrap;
@@ -353,6 +414,14 @@
     .date {
       color: var(--muted);
       white-space: nowrap;
+    }
+
+    .stale-dot {
+      color: var(--accent-2);
+      font-size: 0.9rem;
+      margin-left: 5px;
+      vertical-align: middle;
+      cursor: help;
     }
 
     .num {
@@ -504,22 +573,19 @@
     </section>
 
     <section class="tabs">
-      <button id="researchTabButton" class="tab" type="button">Research Inbox</button>
-      <button id="jobsTabButton" class="tab active" type="button">Pipeline</button>
-      <button id="companiesTabButton" class="tab" type="button">Companies</button>
+      <button id="researchTabButton" class="tab active" type="button">Inbox <span class="tab-count" id="researchTabCount">0</span></button>
+      <button id="jobsTabButton" class="tab" type="button">Pipeline <span class="tab-count" id="jobsTabCount">0</span></button>
+      <button id="companiesTabButton" class="tab" type="button">Companies <span class="tab-count" id="companiesTabCount">0</span></button>
     </section>
 
-    <section id="researchView" class="view" hidden>
+    <section id="researchView" class="view">
+      <section class="chips">
+        <button class="chip active" data-research-bucket="new" type="button">New <span class="chip-count" id="researchChipNewCount">0</span></button>
+        <button class="chip" data-research-bucket="promoted" type="button">Promoted <span class="chip-count" id="researchChipPromotedCount">0</span></button>
+        <button class="chip" data-research-bucket="archive" type="button">Archive <span class="chip-count" id="researchChipArchiveCount">0</span></button>
+      </section>
       <section class="toolbar panel">
         <input id="researchSearchInput" type="search" placeholder="Search researched jobs, company, role, reasoning">
-        <select id="researchDecisionFilter">
-          <option value="">All decisions</option>
-          <option value="interesting">Interesting</option>
-          <option value="promoted">Promoted</option>
-          <option value="skipped">Skipped</option>
-          <option value="closed">Closed</option>
-          <option value="duplicate">Duplicate</option>
-        </select>
         <select id="researchSortSelect">
           <option value="fit_score.desc">Best fit</option>
           <option value="discovered_at.desc">Newest</option>
@@ -529,19 +595,15 @@
       </section>
     </section>
 
-    <section id="jobsView" class="view">
+    <section id="jobsView" class="view" hidden>
+      <section class="chips">
+        <button class="chip active" data-pipeline-bucket="active" type="button">Active <span class="chip-count" id="pipelineChipActiveCount">0</span></button>
+        <button class="chip interviewing-chip" data-pipeline-bucket="interviewing" type="button">Interviewing <span class="chip-count" id="pipelineChipInterviewingCount">0</span></button>
+        <button class="chip" data-pipeline-bucket="all" type="button">All <span class="chip-count" id="pipelineChipAllCount">0</span></button>
+        <button class="chip" data-pipeline-bucket="closed" type="button">Closed <span class="chip-count" id="pipelineChipClosedCount">0</span></button>
+      </section>
       <section class="toolbar panel">
         <input id="searchInput" type="search" placeholder="Search company, role, location, notes">
-        <select id="statusFilter">
-          <option value="">All statuses</option>
-          <option value="tailoring">Tailoring</option>
-          <option value="tailored">Tailored</option>
-          <option value="applied">Applied</option>
-          <option value="interviewing">Interviewing</option>
-          <option value="offer">Offer</option>
-          <option value="rejected">Rejected</option>
-          <option value="withdrawn">Withdrawn</option>
-        </select>
         <select id="sortSelect">
           <option value="applied_at.desc">Recently active</option>
           <option value="created_at.desc">Newest added</option>
@@ -553,10 +615,10 @@
 
       <section class="stats">
         <div class="stat panel"><strong id="statTotal">0</strong><span>Total</span></div>
-        <div class="stat panel"><strong id="statNew">0</strong><span>Tailoring</span></div>
-        <div class="stat panel"><strong id="statShortlisted">0</strong><span>Ready</span></div>
-        <div class="stat panel"><strong id="statTailored">0</strong><span>Applied</span></div>
-        <div class="stat panel"><strong id="statApplied">0</strong><span>Active Apps</span></div>
+        <div class="stat panel"><strong id="statTailoring">0</strong><span>Tailoring</span></div>
+        <div class="stat panel"><strong id="statTailored">0</strong><span>Tailored</span></div>
+        <div class="stat panel"><strong id="statApplied">0</strong><span>Applied</span></div>
+        <div class="stat panel"><strong id="statActive">0</strong><span>Active Apps</span></div>
       </section>
     </section>
 
@@ -635,6 +697,7 @@
       interesting: "Interesting",
       promoted: "Promoted",
       duplicate: "Duplicate",
+      stale: "Stale",
       tailoring: "Tailoring",
       tailored: "Tailored",
       applied: "Applied",
@@ -655,12 +718,27 @@
       withdrawn: ["applied", "tailored", "tailoring"]
     };
 
+    const RESEARCH_BUCKETS = {
+      new: (d) => d === "new" || d === "interesting",
+      promoted: (d) => d === "promoted",
+      archive: (d) => ["closed", "skipped", "duplicate", "stale"].includes(d)
+    };
+    const PIPELINE_BUCKETS = {
+      active: (s) => ["tailoring", "tailored", "applied"].includes(s),
+      interviewing: (s) => ["interviewing", "offer"].includes(s),
+      all: () => true,
+      closed: (s) => ["rejected", "withdrawn"].includes(s)
+    };
+    const STALE_THRESHOLD_MS = 7 * 24 * 60 * 60 * 1000;
+
     const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let currentUser = null;
     let jobs = [];
     let researchedJobs = [];
     let companies = [];
-    let activeView = "jobs";
+    let activeView = "research";
+    let researchBucket = "new";
+    let pipelineBucket = "active";
 
     const els = {
       emailInput: document.querySelector("#emailInput"),
@@ -673,6 +751,16 @@
       researchTabButton: document.querySelector("#researchTabButton"),
       jobsTabButton: document.querySelector("#jobsTabButton"),
       companiesTabButton: document.querySelector("#companiesTabButton"),
+      researchTabCount: document.querySelector("#researchTabCount"),
+      jobsTabCount: document.querySelector("#jobsTabCount"),
+      companiesTabCount: document.querySelector("#companiesTabCount"),
+      researchChipNewCount: document.querySelector("#researchChipNewCount"),
+      researchChipPromotedCount: document.querySelector("#researchChipPromotedCount"),
+      researchChipArchiveCount: document.querySelector("#researchChipArchiveCount"),
+      pipelineChipActiveCount: document.querySelector("#pipelineChipActiveCount"),
+      pipelineChipInterviewingCount: document.querySelector("#pipelineChipInterviewingCount"),
+      pipelineChipAllCount: document.querySelector("#pipelineChipAllCount"),
+      pipelineChipClosedCount: document.querySelector("#pipelineChipClosedCount"),
       researchView: document.querySelector("#researchView"),
       jobsView: document.querySelector("#jobsView"),
       companiesView: document.querySelector("#companiesView"),
@@ -680,10 +768,8 @@
       refreshButton: document.querySelector("#refreshButton"),
       refreshCompaniesButton: document.querySelector("#refreshCompaniesButton"),
       researchSearchInput: document.querySelector("#researchSearchInput"),
-      researchDecisionFilter: document.querySelector("#researchDecisionFilter"),
       researchSortSelect: document.querySelector("#researchSortSelect"),
       searchInput: document.querySelector("#searchInput"),
-      statusFilter: document.querySelector("#statusFilter"),
       sortSelect: document.querySelector("#sortSelect"),
       companySearchInput: document.querySelector("#companySearchInput"),
       companyPriorityFilter: document.querySelector("#companyPriorityFilter"),
@@ -697,10 +783,10 @@
       companyForm: document.querySelector("#companyForm"),
       cancelCompanyButton: document.querySelector("#cancelCompanyButton"),
       statTotal: document.querySelector("#statTotal"),
-      statNew: document.querySelector("#statNew"),
-      statShortlisted: document.querySelector("#statShortlisted"),
+      statTailoring: document.querySelector("#statTailoring"),
       statTailored: document.querySelector("#statTailored"),
-      statApplied: document.querySelector("#statApplied")
+      statApplied: document.querySelector("#statApplied"),
+      statActive: document.querySelector("#statActive")
     };
 
     function escapeHtml(value) {
@@ -710,6 +796,27 @@
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+    }
+
+    function loadStoredState() {
+      try {
+        const savedView = localStorage.getItem("jt.view");
+        if (savedView && ["research", "jobs", "companies"].includes(savedView)) {
+          activeView = savedView;
+        }
+        const savedResearchBucket = localStorage.getItem("jt.researchBucket");
+        if (savedResearchBucket && Object.keys(RESEARCH_BUCKETS).includes(savedResearchBucket)) {
+          researchBucket = savedResearchBucket;
+        }
+        const savedPipelineBucket = localStorage.getItem("jt.pipelineBucket");
+        if (savedPipelineBucket && Object.keys(PIPELINE_BUCKETS).includes(savedPipelineBucket)) {
+          pipelineBucket = savedPipelineBucket;
+        }
+      } catch {}
+    }
+
+    function persist(key, value) {
+      try { localStorage.setItem(key, value); } catch {}
     }
 
     function showMessage(text, isError = false) {
@@ -742,6 +849,7 @@
         jobs = [];
         researchedJobs = [];
         companies = [];
+        updateCounts();
         renderActiveView();
         showMessage("Sign in to view and update your jobs.");
       }
@@ -773,6 +881,7 @@
 
     function setActiveView(view) {
       activeView = view;
+      persist("jt.view", view);
       els.researchView.hidden = view !== "research";
       els.jobsView.hidden = view !== "jobs";
       els.companiesView.hidden = view !== "companies";
@@ -780,6 +889,33 @@
       els.jobsTabButton.classList.toggle("active", view === "jobs");
       els.companiesTabButton.classList.toggle("active", view === "companies");
       renderActiveView();
+    }
+
+    function setResearchBucket(bucket) {
+      researchBucket = bucket;
+      persist("jt.researchBucket", bucket);
+      document.querySelectorAll("[data-research-bucket]").forEach((el) => {
+        el.classList.toggle("active", el.dataset.researchBucket === bucket);
+      });
+      renderResearchTable();
+    }
+
+    function setPipelineBucket(bucket) {
+      pipelineBucket = bucket;
+      persist("jt.pipelineBucket", bucket);
+      document.querySelectorAll("[data-pipeline-bucket]").forEach((el) => {
+        el.classList.toggle("active", el.dataset.pipelineBucket === bucket);
+      });
+      renderJobsTable();
+    }
+
+    function syncChipsToState() {
+      document.querySelectorAll("[data-research-bucket]").forEach((el) => {
+        el.classList.toggle("active", el.dataset.researchBucket === researchBucket);
+      });
+      document.querySelectorAll("[data-pipeline-bucket]").forEach((el) => {
+        el.classList.toggle("active", el.dataset.pipelineBucket === pipelineBucket);
+      });
     }
 
     function renderActiveView() {
@@ -796,7 +932,32 @@
       await loadResearchedJobs(false);
       await loadJobs(false);
       await loadCompanies(false);
+      updateCounts();
       renderActiveView();
+    }
+
+    function updateCounts() {
+      const r = researchedJobs;
+      const j = jobs;
+      const newCount = r.filter((x) => RESEARCH_BUCKETS.new(x.decision)).length;
+      const promotedCount = r.filter((x) => RESEARCH_BUCKETS.promoted(x.decision)).length;
+      const archiveCount = r.filter((x) => RESEARCH_BUCKETS.archive(x.decision)).length;
+      const activeCount = j.filter((x) => PIPELINE_BUCKETS.active(x.status)).length;
+      const interviewingCount = j.filter((x) => PIPELINE_BUCKETS.interviewing(x.status)).length;
+      const closedCount = j.filter((x) => PIPELINE_BUCKETS.closed(x.status)).length;
+
+      els.researchTabCount.textContent = newCount;
+      els.jobsTabCount.textContent = activeCount + interviewingCount;
+      els.companiesTabCount.textContent = companies.length;
+
+      els.researchChipNewCount.textContent = newCount;
+      els.researchChipPromotedCount.textContent = promotedCount;
+      els.researchChipArchiveCount.textContent = archiveCount;
+
+      els.pipelineChipActiveCount.textContent = activeCount;
+      els.pipelineChipInterviewingCount.textContent = interviewingCount;
+      els.pipelineChipAllCount.textContent = j.length;
+      els.pipelineChipClosedCount.textContent = closedCount;
     }
 
     function researchSortOptions() {
@@ -826,6 +987,7 @@
       }
 
       researchedJobs = data || [];
+      updateCounts();
       if (render) renderActiveView();
     }
 
@@ -856,6 +1018,7 @@
       }
 
       jobs = data || [];
+      updateCounts();
       if (render) renderActiveView();
     }
 
@@ -879,14 +1042,15 @@
       }
 
       companies = data || [];
+      updateCounts();
       if (render) renderActiveView();
     }
 
     function filteredJobs() {
       const term = els.searchInput.value.trim().toLowerCase();
-      const status = els.statusFilter.value;
+      const bucketFilter = PIPELINE_BUCKETS[pipelineBucket] || (() => true);
       return jobs.filter((job) => {
-        const statusOk = !status || job.status === status;
+        if (!bucketFilter(job.status)) return false;
         const haystack = [
           job.company,
           job.role,
@@ -897,15 +1061,15 @@
           job.base_resume,
           job.draft_resume_path
         ].join(" ").toLowerCase();
-        return statusOk && (!term || haystack.includes(term));
+        return !term || haystack.includes(term);
       });
     }
 
     function filteredResearchedJobs() {
       const term = els.researchSearchInput.value.trim().toLowerCase();
-      const decision = els.researchDecisionFilter.value;
+      const bucketFilter = RESEARCH_BUCKETS[researchBucket] || (() => true);
       return researchedJobs.filter((job) => {
-        const decisionOk = !decision || job.decision === decision;
+        if (!bucketFilter(job.decision)) return false;
         const haystack = [
           job.company,
           job.role,
@@ -915,7 +1079,7 @@
           job.research_notes,
           job.job_description
         ].join(" ").toLowerCase();
-        return decisionOk && (!term || haystack.includes(term));
+        return !term || haystack.includes(term);
       });
     }
 
@@ -983,17 +1147,24 @@
       return visibleCompanies;
     }
 
-    function renderStats(sourceJobs) {
-      els.statTotal.textContent = sourceJobs.length;
-      els.statNew.textContent = sourceJobs.filter((job) => job.status === "tailoring").length;
-      els.statShortlisted.textContent = sourceJobs.filter((job) => job.status === "tailored").length;
-      els.statTailored.textContent = sourceJobs.filter((job) => job.status === "applied").length;
-      els.statApplied.textContent = sourceJobs.filter((job) => ["applied", "interviewing", "offer"].includes(job.status)).length;
+    function renderStats() {
+      els.statTotal.textContent = jobs.length;
+      els.statTailoring.textContent = jobs.filter((job) => job.status === "tailoring").length;
+      els.statTailored.textContent = jobs.filter((job) => job.status === "tailored").length;
+      els.statApplied.textContent = jobs.filter((job) => job.status === "applied").length;
+      els.statActive.textContent = jobs.filter((job) => ["applied", "interviewing", "offer"].includes(job.status)).length;
     }
 
     function formatDate(value) {
       if (!value) return "";
       return new Date(value).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    }
+
+    function isStale(value) {
+      if (!value) return false;
+      const ts = new Date(value).getTime();
+      if (Number.isNaN(ts)) return false;
+      return Date.now() - ts > STALE_THRESHOLD_MS;
     }
 
     function statusBadge(status) {
@@ -1086,16 +1257,24 @@
       const visibleJobs = filteredResearchedJobs();
 
       if (!visibleJobs.length) {
-        els.jobsGrid.innerHTML = `<div class="empty panel">No researched jobs match this view.</div>`;
+        const labels = { new: "New", promoted: "Promoted", archive: "Archive" };
+        els.jobsGrid.innerHTML = `<div class="empty panel">No researched jobs in <strong>${escapeHtml(labels[researchBucket] || researchBucket)}</strong>.</div>`;
         return;
       }
 
       const rows = visibleJobs.map((job) => {
         const fit = job.fit_score == null ? "No score" : `${job.fit_score}%`;
         const discovered = job.discovered_at || job.created_at;
+        const stale = researchBucket === "new" && isStale(discovered)
+          ? `<span class="stale-dot" title="Discovered &gt; 7 days ago — may need re-verification">●</span>`
+          : "";
         const promoteButton = job.decision === "promoted"
           ? `<span class="subtle">Promoted</span>`
           : `<button class="compact-link" data-promote="${escapeHtml(job.id)}" type="button">Promote</button>`;
+        const quickButtons = researchBucket === "new"
+          ? `<button class="compact-link warning" data-research-quick="skipped" data-id="${escapeHtml(job.id)}" type="button">Skip</button>
+             <button class="compact-link danger" data-research-quick="closed" data-id="${escapeHtml(job.id)}" type="button">Close</button>`
+          : "";
 
         return `
           <tr>
@@ -1104,7 +1283,7 @@
             <td>${statusBadge(job.decision)}</td>
             <td class="fit">${escapeHtml(fit)}</td>
             <td class="location truncate">${escapeHtml(job.location || "Location not set")}</td>
-            <td class="date">${escapeHtml(formatDate(discovered))}<div class="subtle">Discovered</div></td>
+            <td class="date">${escapeHtml(formatDate(discovered))}${stale}<div class="subtle">Discovered</div></td>
             <td class="notes-cell"><div class="truncate">${escapeHtml(job.fit_reason || job.research_notes || "No reasoning yet.")}</div></td>
             <td>
               <div class="row-actions">
@@ -1116,6 +1295,7 @@
             <td>
               <div class="row-actions">
                 ${promoteButton}
+                ${quickButtons}
                 ${researchDecisionSelect(job)}
               </div>
             </td>
@@ -1143,55 +1323,6 @@
       `;
     }
 
-    function renderJobs() {
-      const visibleJobs = filteredJobs();
-      renderStats(jobs);
-
-      if (!visibleJobs.length) {
-        els.jobsGrid.innerHTML = `<div class="empty panel">No jobs match this view.</div>`;
-        return;
-      }
-
-      els.jobsGrid.innerHTML = visibleJobs.map((job) => {
-        const fit = job.fit_score == null ? "No score" : `${job.fit_score}% fit`;
-        const location = job.location || "Location not set";
-        const created = job.created_at ? new Date(job.created_at).toLocaleDateString() : "No date";
-        const resumeLink = job.draft_resume_path
-          ? `<a href="${escapeHtml(job.draft_resume_path)}" target="_blank" rel="noreferrer">Open draft</a>`
-          : "";
-        const pdfLink = job.pdf_path
-          ? `<a href="${escapeHtml(job.pdf_path)}" target="_blank" rel="noreferrer">Open PDF</a>`
-          : "";
-
-        return `
-          <article class="job panel">
-            <div>
-              <h2>${escapeHtml(job.company)} · ${escapeHtml(job.role)}</h2>
-              <div class="meta">
-                <span class="pill">${escapeHtml(job.status)}</span>
-                <span class="pill">${escapeHtml(fit)}</span>
-                <span class="pill">${escapeHtml(location)}</span>
-                <span class="pill">Added ${escapeHtml(created)}</span>
-              </div>
-              <p class="reason">${escapeHtml(job.reason || job.notes || "No notes yet.")}</p>
-              <div class="links">
-                <a href="${escapeHtml(job.url)}" target="_blank" rel="noreferrer">Open job</a>
-                ${resumeLink}
-                ${pdfLink}
-              </div>
-            </div>
-            <div class="actions">
-              ${statusButton(job, "tailoring", "Tailoring")}
-              ${statusButton(job, "tailored", "Tailored")}
-              ${statusButton(job, "applied", "Applied", "warning")}
-              ${statusButton(job, "rejected", "Rejected", "danger")}
-              ${statusButton(job, "withdrawn", "Withdrawn", "secondary")}
-            </div>
-          </article>
-        `;
-      }).join("");
-    }
-
     function statusButton(job, nextStatus, label, kind = "secondary") {
       const disabled = job.status === nextStatus ? "disabled" : "";
       return `<button class="${kind}" data-id="${job.id}" data-status="${nextStatus}" ${disabled}>${label}</button>`;
@@ -1199,10 +1330,11 @@
 
     function renderJobsTable() {
       const visibleJobs = filteredJobs();
-      renderStats(jobs);
+      renderStats();
 
       if (!visibleJobs.length) {
-        els.jobsGrid.innerHTML = `<div class="empty panel">No jobs match this view.</div>`;
+        const labels = { active: "Active", interviewing: "Interviewing", all: "All", closed: "Closed" };
+        els.jobsGrid.innerHTML = `<div class="empty panel">No pipeline jobs in <strong>${escapeHtml(labels[pipelineBucket] || pipelineBucket)}</strong>.</div>`;
         return;
       }
 
@@ -1347,6 +1479,7 @@
       }
 
       jobs = jobs.map((job) => job.id === id ? { ...job, ...patch } : job);
+      updateCounts();
       renderJobsTable();
     }
 
@@ -1424,6 +1557,7 @@
       }
 
       researchedJobs = researchedJobs.map((job) => job.id === id ? { ...job, ...patch } : job);
+      updateCounts();
       renderResearchTable();
     }
 
@@ -1486,8 +1620,16 @@
       }
 
       await loadAllData();
+      // After promote, snap research chip back to "new" so user sees the next decision-needed row
+      setResearchBucket("new");
       setActiveView("jobs");
+      setPipelineBucket("active");
     }
+
+    // Initialize from localStorage, then sync UI before refreshSession kicks in
+    loadStoredState();
+    setActiveView(activeView);
+    syncChipsToState();
 
     els.signInButton.addEventListener("click", signIn);
     els.signOutButton.addEventListener("click", signOut);
@@ -1500,10 +1642,8 @@
     els.refreshButton.addEventListener("click", loadJobs);
     els.refreshCompaniesButton.addEventListener("click", loadCompanies);
     els.researchSearchInput.addEventListener("input", renderResearchTable);
-    els.researchDecisionFilter.addEventListener("change", renderResearchTable);
     els.researchSortSelect.addEventListener("change", loadResearchedJobs);
     els.searchInput.addEventListener("input", renderJobsTable);
-    els.statusFilter.addEventListener("change", renderJobsTable);
     els.sortSelect.addEventListener("change", loadJobs);
     els.companySearchInput.addEventListener("input", renderCompaniesTable);
     els.companyPriorityFilter.addEventListener("change", renderCompaniesTable);
@@ -1517,7 +1657,22 @@
     els.cancelCompanyButton.addEventListener("click", () => els.companyDialog.close());
     els.jobForm.addEventListener("submit", addJob);
     els.companyForm.addEventListener("submit", addCompany);
+
+    // Chip click handlers
+    document.querySelectorAll("[data-research-bucket]").forEach((el) => {
+      el.addEventListener("click", () => setResearchBucket(el.dataset.researchBucket));
+    });
+    document.querySelectorAll("[data-pipeline-bucket]").forEach((el) => {
+      el.addEventListener("click", () => setPipelineBucket(el.dataset.pipelineBucket));
+    });
+
     els.jobsGrid.addEventListener("click", (event) => {
+      const quickButton = event.target.closest("button[data-research-quick]");
+      if (quickButton && currentUser) {
+        updateResearchDecision(quickButton.dataset.id, quickButton.dataset.researchQuick);
+        return;
+      }
+
       const promoteButton = event.target.closest("button[data-promote]");
       if (promoteButton && currentUser) {
         promoteResearchJob(promoteButton.dataset.promote);

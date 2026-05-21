@@ -7,3 +7,7 @@ career-ops-fullstack-ai/
 .env
 __pycache__/
 *.pyc
+
+# Local-only files (research cache + per-machine Claude settings)
+.cache_newgrad.md
+.claude/settings.local.json

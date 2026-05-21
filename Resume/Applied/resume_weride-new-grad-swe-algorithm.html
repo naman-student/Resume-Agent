@@ -7,15 +7,15 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: "Times New Roman", serif; background: #f5f5f5; padding: 15px; line-height: 1.1; font-size: 11pt; }
-        .resume-container { max-width: 8.5in; width: 100%; margin: 0 auto; background: white; padding: 0.30in 0.40in; box-shadow: 0 0 10px rgba(0,0,0,0.1); min-height: 11in; }
-        .header { text-align: center; border-bottom: 1pt solid white; padding-bottom: 2pt; margin-bottom: 12pt; margin-top: 4pt; }
+        .resume-container { max-width: 8.5in; width: 100%; margin: 0 auto; background: white; padding: 0.32in 0.42in; box-shadow: 0 0 10px rgba(0,0,0,0.1); min-height: 11in; }
+        .header { text-align: center; padding-bottom: 2pt; margin-bottom: 12pt; margin-top: 4pt; }
         .header h1 { font-size: 17pt; font-weight: bold; margin-bottom: 2pt; line-height: 17pt; letter-spacing: 0.5pt; }
         .header .contact-info { font-size: 9pt; line-height: 9pt; }
         .header .contact-info a { color: #0563C1; text-decoration: none; }
         .header .contact-info .separator { color: black; margin: 0 4px; }
         .section { margin-bottom: 11pt; }
         h2.section-title { font-size: 9pt; font-weight: bold; text-transform: uppercase; border-bottom: 1.5pt solid black; padding-bottom: 0pt; margin-bottom: 3pt; line-height: 9pt; }
-        .entry { margin-bottom: 4pt; }
+        .entry { margin-bottom: 5pt; }
         .entry:last-child { margin-bottom: 0pt; }
         .entry-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1pt; line-height: 9pt; }
         .entry-title { font-size: 9pt; font-weight: bold; flex: 1; }
@@ -27,25 +27,25 @@
         .bullet-item:before { content: "● "; font-family: "Times New Roman", serif; font-size: 8pt; margin-right: 2pt; vertical-align: middle; position: relative; left: -8pt; }
         .skills-section { font-size: 9pt; line-height: 9pt; }
         .skills-section p { margin-bottom: 2pt; }
-        .summary-text { font-size: 9pt; line-height: 10pt; }
+        .summary-text { font-size: 9pt; line-height: 10.5pt; }
         @media print {
             @page { size: A4; margin: 0; }
             body { background: white !important; padding: 0 !important; margin: 0 !important; font-size: 11pt !important; line-height: 1.0 !important; -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
             * { box-sizing: border-box !important; }
-            .resume-container { box-shadow: none !important; margin: 0 !important; padding: 0.30in 0.40in !important; max-width: 8.5in !important; width: 100% !important; min-height: auto !important; }
+            .resume-container { box-shadow: none !important; margin: 0 !important; padding: 0.32in 0.42in !important; max-width: 8.5in !important; width: 100% !important; min-height: auto !important; }
             .header { margin-top: 4pt !important; margin-bottom: 12pt !important; }
             .header h1 { font-size: 17pt !important; letter-spacing: 0.5pt !important; }
             .header .contact-info { font-size: 9pt !important; line-height: 9pt !important; }
             .section { page-break-inside: avoid; margin-bottom: 11pt !important; }
             h2.section-title { font-size: 9pt !important; border-bottom: 1.5pt solid black !important; padding-bottom: 0pt !important; margin-bottom: 3pt !important; }
-            .entry { page-break-inside: avoid; margin-bottom: 4pt !important; }
+            .entry { page-break-inside: avoid; margin-bottom: 5pt !important; }
             .entry-title, .entry-date, .entry-subtitle, .entry-location { font-size: 9pt !important; line-height: 9pt !important; }
             .entry-header { margin-bottom: 1pt !important; }
             .entry-subtitle { margin-bottom: 1pt !important; }
             .bullet-item { font-size: 9pt !important; line-height: 10pt !important; margin-left: 0.12in !important; text-indent: -8pt !important; padding-left: 8pt !important; margin-bottom: 1pt !important; }
             .bullet-item:before { content: "● " !important; font-family: "Times New Roman", serif !important; font-size: 8pt !important; margin-right: 2pt !important; position: relative !important; left: -8pt !important; }
             .skills-section p { font-size: 9pt !important; line-height: 9pt !important; margin-bottom: 2pt !important; }
-            .summary-text { font-size: 9pt !important; line-height: 10pt !important; }
+            .summary-text { font-size: 9pt !important; line-height: 10.5pt !important; }
         }
     </style>
 </head>
@@ -69,16 +69,16 @@
     <!-- Summary -->
     <div class="section">
         <h2 class="section-title">SUMMARY</h2>
-        <div class="summary-text">MS Computer Engineering (ASU, GPA 3.81, May 2026) building AI-driven EDA systems that automate synthesis, verification, and physical design. Built SiliconCrew &mdash; an ML-powered agent that drives RTL through synthesis, placement, routing, and signoff, scoring <strong>37/92 on CVDP</strong> and <strong>5/5 on ASU Spec2Tapeout</strong> with zero human intervention, with a full MCP server (stdio/SSE/HTTP) for tool integration. Designed a GNN ASIC accelerator end-to-end on ASAP7 7nm (Synopsys DC + Cadence Innovus).</div>
+        <div class="summary-text">MS Computer Engineering (ASU, GPA 3.81, May 2026) with end-to-end autonomous-driving stack experience across perception, fusion, localization, planning, and control. Implemented the full self-driving pipeline in C++ from scratch on the <strong>Waymo Open Dataset</strong> and <strong>CARLA</strong> &mdash; Extended Kalman Filter sensor fusion, LiDAR localization via ICP/SVD with <strong>0.299 m pose error over 172 m (4&times; better than baseline, &ldquo;outstanding&rdquo; reviewer feedback)</strong>, FSM behavior planner with cubic spiral trajectories, and PID control. Also built a physical autonomous car as a hardware capstone and trained visuomotor robot policies in MuJoCo (PyTorch + Diffusion Policy).</div>
     </div>
 
     <!-- Technical Skills -->
     <div class="section">
         <h2 class="section-title">TECHNICAL SKILLS</h2>
         <div class="skills-section">
-            <p><strong>AI / ML for EDA:</strong> Python | PyTorch | TensorFlow | LangGraph | MCP Protocol | Multi-provider LLM Routing | RAG Pipelines | Prompt Engineering | CUDA</p>
-            <p><strong>EDA Tools &amp; Flows:</strong> Synopsys Design Compiler | Cadence Innovus | Voltus | OpenROAD | Yosys | SymbiYosys | Static Timing Analysis | NLDM Liberty | Tcl (SDC)</p>
-            <p><strong>RTL &amp; Architecture:</strong> SystemVerilog | Verilog | Cocotb | iverilog | C++ | ASAP7 7nm | SkyWater 130nm | gem5 | Docker | Linux</p>
+            <p><strong>C++ &amp; AV Stack:</strong> C++ | CMake | Eigen | OpenCV | PCL (Point Cloud Library) | CARLA Simulator | MuJoCo | Real-Time Systems | I2C / Embedded | Python | Linux | Git</p>
+            <p><strong>Perception, Fusion &amp; Localization:</strong> LiDAR Point Cloud Processing | Bird&rsquo;s-Eye View Projection | 3D Object Detection | Extended Kalman Filter | Multi-Object Tracking | ICP / SVD (from scratch) | NDT | Scan Matching | YOLOv4 | SSD ResNet18/50 | Waymo Open Dataset</p>
+            <p><strong>Planning, Control &amp; ML:</strong> Behavior FSM | Motion Planning | Cubic Spiral Trajectories | PID Control | PyTorch | TensorFlow | Diffusion Policy | Visuomotor Policy Learning</p>
         </div>
     </div>
 
@@ -89,13 +89,13 @@
         <div class="entry">
             <div class="entry-header">
                 <div class="entry-title">Master of Science &mdash; Computer Engineering (GPA 3.81/4.0)</div>
-                <div class="entry-date">May 2026</div>
+                <div class="entry-date">Expected May 2026</div>
             </div>
             <div class="entry-subtitle">
                 <div>Arizona State University</div>
                 <div class="entry-location">Tempe, AZ</div>
             </div>
-            <div class="skills-section" style="margin-top:2pt;"><p>Coursework: VLSI Design &middot; VLSI Design Automation &middot; Advanced Computer Architecture &middot; Algorithm/Hardware Co-Design &middot; SoC Design</p></div>
+            <div class="skills-section" style="margin-top:2pt;"><p>Coursework: Perception in Robotics &middot; Reinforcement Learning in Robotics &middot; Artificial Intelligence &middot; Foundations of Algorithms &middot; Algorithm/Hardware Co-Design</p></div>
         </div>
 
         <div class="entry">
@@ -115,61 +115,60 @@
     <div class="section">
         <h2 class="section-title">PROJECT EXPERIENCE</h2>
 
+        <!-- Full AV Pipeline -->
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">End-to-End Self-Driving Pipeline &mdash; C++, Waymo Open Dataset, CARLA Simulator</div>
+                <div class="entry-date">Feb 2023</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item"><strong>Perception &amp; Sensor Fusion:</strong> Detected vehicles in 3D LiDAR point clouds via bird&rsquo;s-eye view projection using YOLOv4 (Darknet) and FPN ResNet18 on the Waymo Open Dataset; implemented an Extended Kalman Filter from scratch fusing LiDAR and camera measurements &mdash; full predict/update cycle, Mahalanobis distance data association, and track lifecycle (initialization, confirmation, deletion); validated via RMSE across multi-frame sequences.</div>
+                <div class="bullet-item"><strong>Mapping &amp; Localization:</strong> Implemented ICP from scratch using SVD decomposition (KdTree nearest-neighbor association, centroid alignment, iterative convergence) and benchmarked against NDT and PCL-based ICP; achieved <strong>0.299 m pose error over 172 m traveled</strong> (requirement: &lt;1.2 m) &mdash; <strong>4&times; better than baseline</strong>, earning &ldquo;outstanding&rdquo; reviewer feedback.</div>
+                <div class="bullet-item"><strong>Planning &amp; Control:</strong> Built an FSM behavior planner (lane follow, nudge, lane change, intersection stop) with a motion planner generating cubic spiral trajectories evaluated by collision and lane-deviation cost functions; implemented PID controllers from scratch for steering (cross-track error) and throttle in CARLA simulator.</div>
+            </div>
+        </div>
+
+        <!-- Raspberry Pi Autonomous Car -->
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Autonomous Car &mdash; Physical Hardware Capstone (Raspberry Pi + Arduino)</div>
+                <div class="entry-date">Jan &ndash; Jun 2022</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Built a full physical autonomous car as bachelor's capstone &mdash; OpenCV lane detection driving a PID steering controller, cascade classifiers for real-time traffic sign and obstacle detection (stop, U-turn, avoidance), Bluetooth remote control for manual data collection; Arduino motor driver controlled via I2C from Raspberry Pi, Python perception feeding C++ control logic.</div>
+            </div>
+        </div>
+
+        <!-- Diffusion Policy -->
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Diffusion Policy &mdash; Visuomotor Policy Learning in MuJoCo Simulation</div>
+                <div class="entry-date">Apr 2025</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Adapted the Columbia Diffusion Policy architecture (RSS 2023) for learning robot control policies from demonstrations &mdash; configured MuJoCo simulation environments, ran end-to-end PyTorch training and rollout evaluation; team project in CSE598 Perception in Robotics.</div>
+            </div>
+        </div>
+
         <!-- SiliconCrew -->
         <div class="entry">
             <div class="entry-header">
-                <div class="entry-title">SiliconCrew &mdash; AI-Driven EDA Automation with MCP Integration</div>
+                <div class="entry-title">SiliconCrew &mdash; Autonomous LLM Agent for Code Generation &amp; Verification</div>
                 <div class="entry-date">Nov 2025 &ndash; Present</div>
             </div>
             <div class="bullet-list">
-                <div class="bullet-item">Built SiliconCrew, an ML-powered agent (21 tools) that automates the end-to-end EDA flow &mdash; RTL generation &rarr; lint &rarr; simulation &rarr; Yosys synthesis &rarr; OpenROAD placement and routing &rarr; post-synthesis simulation &rarr; GDSII &mdash; across SkyWater 130nm and ASAP7 7nm PDKs; built a full MCP server (stdio/SSE/HTTP) for Claude Desktop and VS Code; curates simulation outputs, VCD waveforms, and synthesis reports into structured datasets for iterative agent improvement.</div>
-                <div class="bullet-item">Closes the gap between AI-driven EDA and sign-off: on simulation failure, reads VCD waveforms, diagnoses signal-level bugs, patches RTL, and re-verifies autonomously; enforces SDC constraint validation, RTL-vs-netlist equivalence checking, and signoff guardrails &mdash; every simulation cycle yields actionable diagnostic data for the next iteration.</div>
-                <div class="bullet-item">Achieved <strong>37/92 first-pass on CVDP</strong> (Comprehensive Verilog Design Problems) and <strong>5/5 on ASU Spec2Tapeout</strong> with zero human intervention; multi-provider ML inference routing across Gemini, OpenAI, and Anthropic with provider-specific optimization.</div>
-            </div>
-        </div>
-
-        <!-- GCN ASIC -->
-        <div class="entry">
-            <div class="entry-header">
-                <div class="entry-title">Graph Neural Network ASIC Accelerator &mdash; Full RTL-to-GDSII on ASAP7 7nm</div>
-                <div class="entry-date">Spring 2025</div>
-            </div>
-            <div class="bullet-list">
-                <div class="bullet-item">Designed an 11-module Graph Neural Network ASIC accelerator in SystemVerilog &mdash; 8 parallel MACs for 96-element dot products and a 12-state FSM for bidirectional COO edge aggregation &mdash; and completed the full RTL-to-GDSII flow: Synopsys Design Compiler synthesis on ASAP7 7nm RVT (1 ns clock, 10,878 cells), Cadence Innovus APR with CTS, and Voltus post-APR power analysis driven by VCD activity files.</div>
-                <div class="bullet-item">Achieved 50,300 &mu;m&sup2; chip area at 50.6% core density, 52.29 mW total power (64.8% switching), and 99.2 ns end-to-end latency.</div>
-            </div>
-        </div>
-
-        <!-- CUDA MLP -->
-        <div class="entry">
-            <div class="entry-header">
-                <div class="entry-title">CUDA MLP &mdash; Neural Network Training on GPU</div>
-                <div class="entry-date">Fall 2024</div>
-            </div>
-            <div class="bullet-list">
-                <div class="bullet-item">Implemented 6 CUDA kernels in C++ (linear forward/backward, ReLU forward/backward) for MLP training on MNIST &mdash; compiled via nvcc to shared libraries, bound to Python/PyTorch through ctypes FFI, with manual cudaMalloc/cudaMemcpy buffer management; end-to-end ML training pipeline from raw data to converged model.</div>
-            </div>
-        </div>
-
-        <!-- STA Engine -->
-        <div class="entry">
-            <div class="entry-header">
-                <div class="entry-title">Static Timing Analysis Engine &mdash; Python</div>
-                <div class="entry-date">Fall 2025 &ndash; Spring 2026</div>
-            </div>
-            <div class="bullet-list">
-                <div class="bullet-item">Built a complete Static Timing Analysis engine in Python from scratch &mdash; Liberty NLDM parser (7&times;7 delay/slew LUTs with bilinear interpolation), .bench circuit-graph parser, topological sort via Kahn&rsquo;s algorithm, forward arrival-time and slew propagation, backward RAT/slack computation, and critical path extraction; validated against ISCAS benchmarks c17, b15, and c7552.</div>
+                <div class="bullet-item">Built a LangGraph ReAct agent (21 tools) with multi-provider LLM routing (Gemini/OpenAI/Anthropic), autonomous self-correction loop (failure &rarr; diagnose &rarr; patch &rarr; re-verify with zero human input), and a full MCP server (stdio/SSE/HTTP); achieved 37/92 first-pass and 5/5 on structured code generation benchmarks.</div>
             </div>
         </div>
 
         <!-- Trezzit -->
         <div class="entry">
             <div class="entry-header">
-                <div class="entry-title">Trezzit &mdash; Production ML System (trezzit.com)</div>
+                <div class="entry-title">Trezzit &mdash; Production AI SaaS (trezzit.com)</div>
                 <div class="entry-date">Feb 2025 &ndash; Present</div>
             </div>
             <div class="bullet-list">
-                <div class="bullet-item">Sole-built and shipped a production ML system serving <strong>600+ users</strong> for 12+ months &mdash; multi-provider inference pipeline (Gemini, OpenAI, Claude, Grok) that improved parsing accuracy from <strong>~60% &rarr; 95%+</strong> via two-pass semantic validation with automatic model-upgrade fallback; <strong>995 tests</strong>, GitHub Actions CI/CD, data pipeline tracking per-provider cost and latency in production.</div>
+                <div class="bullet-item">Sole-built and shipped a production AI SaaS serving <strong>600+ users</strong> &mdash; two-pass LLM receipt pipeline with provider-abstracted registry across Gemini, OpenAI, Claude, and Grok; GitHub Actions CI with 995 automated tests; live at trezzit.com.</div>
             </div>
         </div>
 
@@ -179,7 +178,6 @@
     <div class="section">
         <h2 class="section-title">WORK EXPERIENCE</h2>
 
-        <!-- NCR GOLD -->
         <div class="entry">
             <div class="entry-header">
                 <div class="entry-title">Systems Engineer</div>
@@ -200,9 +198,9 @@
     <div class="section">
         <h2 class="section-title">AWARDS &amp; HONORS</h2>
         <div class="bullet-list">
-            <div class="bullet-item">Won <strong>&lsquo;Best Use of AI&rsquo;</strong> at Strategy X DevHacks&rsquo;25 (ASU) &mdash; built AdaptED AI, a Gemini-powered platform that generates personalized flashcards, quizzes, and learning paths from uploaded documents in a 24-hour hackathon.</div>
             <div class="bullet-item">Ranked <strong>Top 10 nationally</strong> in e-Yantra Robotics Competition (IIT Bombay) &mdash; designed a self-balancing vehicle in CoppeliaSim, February 2022.</div>
-            <div class="bullet-item">Secured <strong>2nd place at Hack SoDA 2024</strong> (Amazon-sponsored, 24-hour) &mdash; built PassGen, a secure offline Chrome Extension for unique password generation.</div>
+            <div class="bullet-item">Won <strong>&lsquo;Best Use of AI&rsquo;</strong> at Strategy X DevHacks&rsquo;25 (ASU) &mdash; built AdaptED AI, a Gemini-powered platform generating personalized flashcards, quizzes, and learning paths from uploaded documents in a 24-hour hackathon.</div>
+            <div class="bullet-item">Won <strong>1st place at Devlabs Hackathon</strong> &mdash; HEAL.AI, a healthcare AI assistant with a custom RAG pipeline (768-dim embeddings, cosine similarity retrieval) for insurance Q&amp;A and medical bill error detection.</div>
         </div>
     </div>
 

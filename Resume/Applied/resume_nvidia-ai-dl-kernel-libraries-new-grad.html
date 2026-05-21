@@ -7,7 +7,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: "Times New Roman", serif; background: #f5f5f5; padding: 15px; line-height: 1.1; font-size: 11pt; }
-        .resume-container { max-width: 8.5in; width: 100%; margin: 0 auto; background: white; padding: 0.30in 0.40in; box-shadow: 0 0 10px rgba(0,0,0,0.1); min-height: 11in; }
+        .resume-container { max-width: 8.5in; width: 100%; margin: 0 auto; background: white; padding: 0.38in 0.45in; box-shadow: 0 0 10px rgba(0,0,0,0.1); min-height: 11in; }
         .header { text-align: center; border-bottom: 1pt solid white; padding-bottom: 2pt; margin-bottom: 12pt; margin-top: 4pt; }
         .header h1 { font-size: 17pt; font-weight: bold; margin-bottom: 2pt; line-height: 17pt; letter-spacing: 0.5pt; }
         .header .contact-info { font-size: 9pt; line-height: 9pt; }
@@ -32,7 +32,7 @@
             @page { size: A4; margin: 0; }
             body { background: white !important; padding: 0 !important; margin: 0 !important; font-size: 11pt !important; line-height: 1.0 !important; -webkit-print-color-adjust: exact !important; color-adjust: exact !important; }
             * { box-sizing: border-box !important; }
-            .resume-container { box-shadow: none !important; margin: 0 !important; padding: 0.30in 0.40in !important; max-width: 8.5in !important; width: 100% !important; min-height: auto !important; }
+            .resume-container { box-shadow: none !important; margin: 0 !important; padding: 0.38in 0.45in !important; max-width: 8.5in !important; width: 100% !important; min-height: auto !important; }
             .header { margin-top: 4pt !important; margin-bottom: 12pt !important; }
             .header h1 { font-size: 17pt !important; letter-spacing: 0.5pt !important; }
             .header .contact-info { font-size: 9pt !important; line-height: 9pt !important; }
@@ -69,16 +69,16 @@
     <!-- Summary -->
     <div class="section">
         <h2 class="section-title">SUMMARY</h2>
-        <div class="summary-text">MS Computer Engineering (ASU, GPA 3.81, May 2026) building AI-driven EDA systems that automate synthesis, verification, and physical design. Built SiliconCrew &mdash; an ML-powered agent that drives RTL through synthesis, placement, routing, and signoff, scoring <strong>37/92 on CVDP</strong> and <strong>5/5 on ASU Spec2Tapeout</strong> with zero human intervention, with a full MCP server (stdio/SSE/HTTP) for tool integration. Designed a GNN ASIC accelerator end-to-end on ASAP7 7nm (Synopsys DC + Cadence Innovus).</div>
+        <div class="summary-text">MS Computer Engineering (ASU, GPA 3.81, May 2026) focused on GPU kernel development and ML systems. Wrote 6 CUDA kernels in C++ by hand for end-to-end MLP training on MNIST &mdash; manual cudaMalloc/cudaMemcpy, nvcc, ctypes FFI to Python &mdash; and extended gem5&rsquo;s C++ cache subsystem with a first-class LRU-IPV SimObject. Backed by a full RTL-to-GDSII ASIC flow on ASAP7 7nm and an open-source contribution merged upstream into Intel&rsquo;s reference architecture (<strong>PR #655</strong>) &mdash; kernel work grounded in how the silicon underneath actually behaves.</div>
     </div>
 
     <!-- Technical Skills -->
     <div class="section">
         <h2 class="section-title">TECHNICAL SKILLS</h2>
         <div class="skills-section">
-            <p><strong>AI / ML for EDA:</strong> Python | PyTorch | TensorFlow | LangGraph | MCP Protocol | Multi-provider LLM Routing | RAG Pipelines | Prompt Engineering | CUDA</p>
-            <p><strong>EDA Tools &amp; Flows:</strong> Synopsys Design Compiler | Cadence Innovus | Voltus | OpenROAD | Yosys | SymbiYosys | Static Timing Analysis | NLDM Liberty | Tcl (SDC)</p>
-            <p><strong>RTL &amp; Architecture:</strong> SystemVerilog | Verilog | Cocotb | iverilog | C++ | ASAP7 7nm | SkyWater 130nm | gem5 | Docker | Linux</p>
+            <p><strong>GPU Kernels &amp; CUDA:</strong> CUDA C/C++ (hand-written kernels) | nvcc | cudaMalloc/cudaMemcpy | Block/Thread Tuning | Python &harr; C++ FFI (ctypes) | PyTorch | TensorFlow | NumPy</p>
+            <p><strong>Computer Architecture &amp; Performance:</strong> gem5 (C++ SimObject internals) | Cache Hierarchy | 5-Stage Pipeline | SystemVerilog | Verilog | Cocotb | Synopsys Design Compiler | Cadence Innovus | Voltus | OpenROAD | Yosys | ASAP7 7nm | SkyWater 130nm</p>
+            <p><strong>Languages, Tools &amp; OSS:</strong> Python | C/C++ | Linux | Docker | Git | FastAPI | LangGraph | LangChain | Multi-provider LLM Routing | MCP Protocol | Intel reference architecture (PR #655 merged) | GitHub Actions CI/CD</p>
         </div>
     </div>
 
@@ -95,7 +95,7 @@
                 <div>Arizona State University</div>
                 <div class="entry-location">Tempe, AZ</div>
             </div>
-            <div class="skills-section" style="margin-top:2pt;"><p>Coursework: VLSI Design &middot; VLSI Design Automation &middot; Advanced Computer Architecture &middot; Algorithm/Hardware Co-Design &middot; SoC Design</p></div>
+            <div class="skills-section" style="margin-top:2pt;"><p>Coursework: GPU Architecture (CUDA) &middot; Advanced Computer Architecture &middot; Algorithm/Hardware Co-Design &middot; Artificial Intelligence &middot; SoC Design</p></div>
         </div>
 
         <div class="entry">
@@ -115,61 +115,59 @@
     <div class="section">
         <h2 class="section-title">PROJECT EXPERIENCE</h2>
 
-        <!-- SiliconCrew -->
+        <!-- CUDA MLP -->
         <div class="entry">
             <div class="entry-header">
-                <div class="entry-title">SiliconCrew &mdash; AI-Driven EDA Automation with MCP Integration</div>
-                <div class="entry-date">Nov 2025 &ndash; Present</div>
+                <div class="entry-title">CUDA MLP &mdash; Hand-Written GPU Kernels for Neural Network Training</div>
+                <div class="entry-date">Fall 2024</div>
             </div>
             <div class="bullet-list">
-                <div class="bullet-item">Built SiliconCrew, an ML-powered agent (21 tools) that automates the end-to-end EDA flow &mdash; RTL generation &rarr; lint &rarr; simulation &rarr; Yosys synthesis &rarr; OpenROAD placement and routing &rarr; post-synthesis simulation &rarr; GDSII &mdash; across SkyWater 130nm and ASAP7 7nm PDKs; built a full MCP server (stdio/SSE/HTTP) for Claude Desktop and VS Code; curates simulation outputs, VCD waveforms, and synthesis reports into structured datasets for iterative agent improvement.</div>
-                <div class="bullet-item">Closes the gap between AI-driven EDA and sign-off: on simulation failure, reads VCD waveforms, diagnoses signal-level bugs, patches RTL, and re-verifies autonomously; enforces SDC constraint validation, RTL-vs-netlist equivalence checking, and signoff guardrails &mdash; every simulation cycle yields actionable diagnostic data for the next iteration.</div>
-                <div class="bullet-item">Achieved <strong>37/92 first-pass on CVDP</strong> (Comprehensive Verilog Design Problems) and <strong>5/5 on ASU Spec2Tapeout</strong> with zero human intervention; multi-provider ML inference routing across Gemini, OpenAI, and Anthropic with provider-specific optimization.</div>
+                <div class="bullet-item">Implemented 6 CUDA kernels in C++ by hand for end-to-end MLP training on MNIST &mdash; <strong>linear forward</strong> (matmul + bias), <strong>linear backward</strong> (gradients w.r.t. inputs / weights / biases), and <strong>ReLU forward/backward</strong>; tuned block/thread launch geometry per kernel for the matmul and elementwise shapes, and managed host&harr;device data movement explicitly with cudaMalloc/cudaMemcpy rather than relying on a framework runtime.</div>
+                <div class="bullet-item">Compiled kernels via nvcc into shared libraries and bound them to Python through ctypes FFI for an end-to-end training pipeline that ran the full forward/backward/update loop from raw CUDA &mdash; not a framework wrapper &mdash; closing the loop from kernel code to a converged model on MNIST.</div>
             </div>
         </div>
 
-        <!-- GCN ASIC -->
+        <!-- Intel OSS Contribution -->
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">Intel Automated Self-Checkout &mdash; Open-Source Contribution (PR #655 Merged)</div>
+                <div class="entry-date">Jan &ndash; Feb 2025</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Contributed a sensor analytics microservice to <strong>Intel&rsquo;s official self-checkout reference architecture</strong> &mdash; configurable real-time data pipeline (MQTT, Kafka, HTTP) for LiDAR and weight-sensor streams with Grafana dashboard; <strong>PR #655 merged upstream</strong> after Intel engineering review &mdash; concrete OSS ownership across an external production-grade codebase.</div>
+            </div>
+        </div>
+
+        <!-- LRU-IPV gem5 -->
+        <div class="entry">
+            <div class="entry-header">
+                <div class="entry-title">LRU-IPV Cache Replacement Policy &mdash; gem5 C++ Internals (Performance Study)</div>
+                <div class="entry-date">Fall 2024</div>
+            </div>
+            <div class="bullet-list">
+                <div class="bullet-item">Implemented LRU with Insertion Position Vector (IPV) replacement policy from scratch inside gem5&rsquo;s C++ source as a first-class SimObject, integrating all 4 cache interface methods (reset, touch, getVictim, invalidate); modified 5 gem5 source files and validated across 3 L2 cache configurations (128/256/512 kB), observing L2 replacements collapse from <strong>637 &rarr; 112 &rarr; 2</strong> as cache capacity grew &mdash; isolating capacity-vs-policy effects at 41.8M instructions, 2.04 IPC.</div>
+            </div>
+        </div>
+
+        <!-- GNN ASIC -->
         <div class="entry">
             <div class="entry-header">
                 <div class="entry-title">Graph Neural Network ASIC Accelerator &mdash; Full RTL-to-GDSII on ASAP7 7nm</div>
                 <div class="entry-date">Spring 2025</div>
             </div>
             <div class="bullet-list">
-                <div class="bullet-item">Designed an 11-module Graph Neural Network ASIC accelerator in SystemVerilog &mdash; 8 parallel MACs for 96-element dot products and a 12-state FSM for bidirectional COO edge aggregation &mdash; and completed the full RTL-to-GDSII flow: Synopsys Design Compiler synthesis on ASAP7 7nm RVT (1 ns clock, 10,878 cells), Cadence Innovus APR with CTS, and Voltus post-APR power analysis driven by VCD activity files.</div>
-                <div class="bullet-item">Achieved 50,300 &mu;m&sup2; chip area at 50.6% core density, 52.29 mW total power (64.8% switching), and 99.2 ns end-to-end latency.</div>
+                <div class="bullet-item">Designed an 11-module GNN ASIC accelerator in SystemVerilog (8 parallel MACs + 12-state FSM for COO edge aggregation) and drove the full sign-off flow: Synopsys Design Compiler synthesis on ASAP7 7nm RVT, Cadence Innovus place-and-route with CTS, Voltus post-APR power analysis &mdash; <strong>50,300 &mu;m&sup2;</strong> area, <strong>52.29 mW</strong> power, <strong>99.2 ns</strong> latency &mdash; full intuition for what an AI accelerator looks like at the silicon level.</div>
             </div>
         </div>
 
-        <!-- CUDA MLP -->
+        <!-- SiliconCrew -->
         <div class="entry">
             <div class="entry-header">
-                <div class="entry-title">CUDA MLP &mdash; Neural Network Training on GPU</div>
-                <div class="entry-date">Fall 2024</div>
+                <div class="entry-title">SiliconCrew &mdash; LangGraph Agent with Async Job Engine &amp; Multi-Provider LLM Routing</div>
+                <div class="entry-date">Nov 2025 &ndash; Present</div>
             </div>
             <div class="bullet-list">
-                <div class="bullet-item">Implemented 6 CUDA kernels in C++ (linear forward/backward, ReLU forward/backward) for MLP training on MNIST &mdash; compiled via nvcc to shared libraries, bound to Python/PyTorch through ctypes FFI, with manual cudaMalloc/cudaMemcpy buffer management; end-to-end ML training pipeline from raw data to converged model.</div>
-            </div>
-        </div>
-
-        <!-- STA Engine -->
-        <div class="entry">
-            <div class="entry-header">
-                <div class="entry-title">Static Timing Analysis Engine &mdash; Python</div>
-                <div class="entry-date">Fall 2025 &ndash; Spring 2026</div>
-            </div>
-            <div class="bullet-list">
-                <div class="bullet-item">Built a complete Static Timing Analysis engine in Python from scratch &mdash; Liberty NLDM parser (7&times;7 delay/slew LUTs with bilinear interpolation), .bench circuit-graph parser, topological sort via Kahn&rsquo;s algorithm, forward arrival-time and slew propagation, backward RAT/slack computation, and critical path extraction; validated against ISCAS benchmarks c17, b15, and c7552.</div>
-            </div>
-        </div>
-
-        <!-- Trezzit -->
-        <div class="entry">
-            <div class="entry-header">
-                <div class="entry-title">Trezzit &mdash; Production ML System (trezzit.com)</div>
-                <div class="entry-date">Feb 2025 &ndash; Present</div>
-            </div>
-            <div class="bullet-list">
-                <div class="bullet-item">Sole-built and shipped a production ML system serving <strong>600+ users</strong> for 12+ months &mdash; multi-provider inference pipeline (Gemini, OpenAI, Claude, Grok) that improved parsing accuracy from <strong>~60% &rarr; 95%+</strong> via two-pass semantic validation with automatic model-upgrade fallback; <strong>995 tests</strong>, GitHub Actions CI/CD, data pipeline tracking per-provider cost and latency in production.</div>
+                <div class="bullet-item">Built a 21-tool LangGraph ReAct agent driving a complete RTL-to-GDSII flow; <strong>async job engine</strong> with ThreadPoolExecutor, per-run isolation, exponential backoff (30s &rarr; 10min), and on-disk recovery; multi-provider LLM routing (Gemini / OpenAI / Anthropic) with factory pattern + provider-specific quirk handling; full MCP server (stdio/SSE/HTTP); achieved <strong>37/92 on CVDP</strong> and <strong>5/5 on ASU Spec2Tapeout</strong>; public at <strong>github.com/naman-ranka/siliconcrew</strong>.</div>
             </div>
         </div>
 
@@ -200,7 +198,7 @@
     <div class="section">
         <h2 class="section-title">AWARDS &amp; HONORS</h2>
         <div class="bullet-list">
-            <div class="bullet-item">Won <strong>&lsquo;Best Use of AI&rsquo;</strong> at Strategy X DevHacks&rsquo;25 (ASU) &mdash; built AdaptED AI, a Gemini-powered platform that generates personalized flashcards, quizzes, and learning paths from uploaded documents in a 24-hour hackathon.</div>
+            <div class="bullet-item">Won <strong>'Best Use of AI'</strong> at Strategy X DevHacks&rsquo;25 (ASU) &mdash; built AdaptED AI, a Gemini-powered platform that generates personalized flashcards, quizzes, and learning paths from uploaded documents in a 24-hour hackathon.</div>
             <div class="bullet-item">Ranked <strong>Top 10 nationally</strong> in e-Yantra Robotics Competition (IIT Bombay) &mdash; designed a self-balancing vehicle in CoppeliaSim, February 2022.</div>
             <div class="bullet-item">Secured <strong>2nd place at Hack SoDA 2024</strong> (Amazon-sponsored, 24-hour) &mdash; built PassGen, a secure offline Chrome Extension for unique password generation.</div>
         </div>

@@ -36,6 +36,21 @@ These are hard rules. A row that violates any of them is bad data and must be sk
 
 Research agents write to `researched_jobs` only. If a target company has no specific posting today, log a note in `companies.notes` instead of inserting a placeholder.
 
+## Candidate Profile Constraints
+
+These are non-negotiable for the current candidate (Naman Yeshwanth Kumar). Any role that violates them is bad data and must be rejected, regardless of fit_score:
+
+- **Visa status:** F-1 international graduate. MS Computer Engineering, ASU, May 2026 grad. Eligible for OPT and STEM-OPT.
+- **Location:** US-based or US-remote only. Reject postings whose primary location is India, China, EU, UK, or any other non-US country, even when the company is otherwise a strong target. Exception: explicit US-remote postings that don't restrict to citizens.
+- **Hard visa/clearance blockers** — automatic reject regardless of fit_score:
+  - "US Citizenship required" / "US-Person required"
+  - "Active US security clearance required" / "Must be eligible for security clearance"
+  - "No sponsorship available" / "Must not require visa sponsorship now or in the future"
+  - "ITAR / EAR restricted" / "Export-controlled position"
+  - Posting primary location in a country other than the US
+
+These are hard blockers, not penalty points — surfacing them wastes the candidate's tailoring time. If a target company keeps posting US-Citizens-only or India-only roles, log it in `companies.notes` so the dashboard surfaces the pattern rather than retrying every research run.
+
 ## Required Read Order
 
 ### 1. Read Base Resumes
@@ -83,12 +98,44 @@ Read additional strategy files only when needed for a specific role category.
 Before searching, read:
 
 ```sql
+-- Exclusion + current state
 select company, role, url, status from public.jobs;
 select company, role, url, decision, fit_score, last_seen_at from public.researched_jobs;
 select name, careers_url, priority, notes from public.companies;
+
+-- Positive signal: which tracks has the candidate actually been applying to?
+select base_resume, count(*) as n
+from public.jobs
+where status in ('applied','tailored','interviewing','offer')
+  and applied_at > now() - interval '60 days'
+group by base_resume
+order by n desc;
+
+-- Soft calibration signal: which roles did the candidate recently skip,
+-- and what was the reason? Use this to anticipate near-misses,
+-- NOT as a hard exclusion rule.
+select company, role, fit_score, fit_reason
+from public.researched_jobs
+where decision in ('skipped','closed')
+  and updated_at > now() - interval '90 days'
+order by updated_at desc
+limit 50;
 ```
 
-Use these tables to build exclusions and search targets.
+Use these tables to build exclusions, search targets, and signal weightings (described in §Scoring).
+
+**Applied-history is a positive signal.** Tracks the candidate has been applying to recently are validated preferences. Tracks with frequency ≥ 3 in the last 60 days bump fit_score on new candidates in that track by **+3 to +5** (cap 100). Frequency 1–2 is a mild signal (**+2**). Frequency 0 → score normally.
+
+Map `base_resume` values to tracks: `fullstack_ai` → product/SaaS/agents, `ai_engineer` → LLM agents/RAG/MCP, `ai_eda` → silicon/EDA/AI-for-chips, `autonomous` → AV/robotics/perception.
+
+**Skipped-history is a soft calibration signal.** Read role titles + `fit_reason` of recently-skipped rows to surface repeating rejection patterns. Common ones to watch for:
+
+- Senior IC titles ("Member of Technical Staff", "Staff", "Senior", "Lead", "Principal", "Architect")
+- Hard YOE floors in JD body (3+, 5+, 8+ years) — extract from JD text, not title
+- Specific tool gaps the candidate hasn't bridged (UVM, TensorRT, Rust+CuTe DSL, K8s/Slurm at HPC scale)
+- Wrong archetype (FAE / customer success / strategist / consultant when candidate is a builder)
+
+If a candidate role matches a recently-skipped pattern, **soft-deduct 5–10 points** and add a one-line caveat to `fit_reason` (e.g., `"Note: title pattern resembles skipped roles X, Y — verify YOE floor"`). This is NOT a hard skip — the candidate may want to re-evaluate. The goal is to flag the resemblance, not silently filter.
 
 ## Exclusion Rules
 
@@ -321,6 +368,7 @@ autonomous systems / robotics / simulation
 new grad / early career / 0-2 years
 full-time
 US location or realistic relocation
+track alignment with candidate's recent applied pattern (+3 to +5 fit_score)
 ```
 
 Negative signals:
@@ -329,13 +377,23 @@ Negative signals:
 internship-only
 senior/staff/principal
 managerial role
-hard 3+ or 5+ years requirement
+hard 3+ or 5+ years requirement (extract from JD body, not just title)
+title contains "Member of Technical Staff" / "MoTS" / "Staff" / "Senior" / "Lead" / "Principal" / "Architect" (UNLESS also "Junior" / "Early Career" / "New Grad" / "Entry Level" / "University Grad")
+minimum salary band > $200K (senior IC proxy)
 unrelated enterprise IT with no AI/software depth
 domain mismatch with no transferable angle
 unverified or closed posting
 posting older than 90 days
-US-Person / clearance required (treat as hard blocker for F-1 candidates)
-non-US location unless candidate has confirmed openness to relocation
+
+Hard blockers (see §Candidate Profile Constraints for full list):
+US Citizenship / US-Person required
+Active security clearance required
+"No sponsorship available" / "Must not require visa sponsorship"
+ITAR / EAR restricted
+non-US primary location
+
+Soft signal (deduct 5-10, don't auto-skip):
+role pattern resembles a recently-skipped candidate role (see §Required Read Order step 3)
 ```
 
 ### Thresholds (insert policy)

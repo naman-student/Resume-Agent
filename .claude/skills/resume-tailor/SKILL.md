@@ -14,7 +14,7 @@ Hard-won lessons from dozens of tailored drafts. Follow these in order:
 
 1. **Copy base → edit in place. Never write from scratch.** CSS drift causes overflow and wastes tokens.
 2. **Tighten CSS BEFORE writing content.** Apply the callback-getter pattern (0.38in padding, 11pt sections, 4pt entries, 10pt bullet line-height, 1pt bullet margins) immediately after copying. You'll overflow otherwise and have to redo work.
-3. **Draft → Review → Targeted fix, not Draft → Rewrite.** Spawn a reviewer subagent with the JD, the draft, strategy files, AND the two callback-getting resumes as the quality bar. Then only fix what the reviewer flags that you agree with — don't blindly follow every suggestion.
+3. **Draft → Review → Targeted fix, not Draft → Rewrite.** Invoke the `resume-reviewer` subagent (`.claude/agents/resume-reviewer.md`) — it auto-loads Naman's profile, both callback-getters, and the strategy files. Pass the verbatim JD + draft path only. Apply 🔴 MUST-FIX automatically, evaluate 🟡 STRONG REC, surface 🔵 CONSIDER selectively, skip ⚪ OPTIONAL. The confidence tags exist so you don't blindly follow everything.
 4. **The reviewer will always say "the summary is too generic."** They're usually right. The callback-getting resumes committed to ONE laser-specific identity in the first clause. If your summary has 3+ identity claims, it's unfocused.
 5. **Don't list skills you can't back with a bullet.** PyTorch in skills with zero PyTorch in bullets is worse than no PyTorch — it invites a question you can't answer. Either transplant a project that proves it or drop it.
 6. **Verify postings are open before tailoring.** Half the researched_jobs inbox was dead. Web-search first, always.
@@ -65,6 +65,16 @@ If the user gave a URL, fetch and read the JD. If only a company/role was given,
 **Ashby URLs** (`jobs.ashbyhq.com`) are JS-rendered SPAs — `WebFetch` will get an empty shell. Instead, web-search `<company> "<role title>" job description` and fetch from a mirror site (jobright.ai, tealhq.com, peerlist.io usually have the full text). Greenhouse and Lever URLs generally work with `WebFetch` directly.
 
 **IMPORTANT: Always verify the posting is still open before tailoring.** The `researched_jobs` table may contain stale entries. Web-search `<company> "<exact role title>" 2026` and check whether the listing is still active. If the posting appears closed or the publish date is old (6+ months), flag it to the user before proceeding. Do not waste time tailoring for a dead listing.
+
+**JD verbatim is non-negotiable. Never guess.** When fetching JDs via a subagent, instruct it to return `JD_FETCH_FAILED` if it can't get the real verbatim text — *do not let it reconstruct from sibling roles or generic descriptions*. If the fetch fails, pause and ask the user to paste the JD. A reconstructed JD silently inflates the match score (the `researched_jobs.fit_score` field is often off by 5–15 points exactly because the original researcher hallucinated phrases the JD doesn't actually contain), and the reviewer's vocabulary-mirror scoring becomes meaningless. **One verified skip beats one optimistic stretch.** When a real JD reveals a required-qual the candidate can't honestly meet (e.g., "Practical experience with at least one interactive theorem prover" → Naman has none), mark the `researched_jobs` row as `skipped` with the honest match score and move on.
+
+**JD-fetcher subagent prompt pattern** (reuse this verbatim):
+- Ashby URLs are JS-rendered — skip WebFetch, go directly to jobright.ai → tealhq → simplyhired mirrors
+- Greenhouse usually works with WebFetch directly; falls back to `https://boards-api.greenhouse.io/v1/boards/<slug>/jobs/<id>` public JSON
+- Workday is JS-only — almost always needs jobright/teal mirror
+- Lever is mixed — try WebFetch first
+- Always ask for `ROLE / LOCATION / COMPENSATION / DEADLINE / ABOUT / RESPONSIBILITIES / REQUIRED / PREFERRED / KEY VOCABULARY` structure
+- Cap at ~400 words to avoid HTML bloat in your context
 
 ### Phase 2 — Pick the base
 
@@ -270,14 +280,36 @@ Use these as the quality bar. If a draft doesn't feel as tight and targeted as t
 
 ## Reviewer subagent pattern
 
-After generating a draft, spawn a `general-purpose` subagent to review it. Include in the prompt:
-1. The JD (full text)
-2. The draft resume path
-3. The strategy files for relevant projects (e.g., `resume_strategy/trezzit.md`, `resume_strategy_eda/siliconcrew.md`)
-4. Both callback-getting resumes as the quality bar (`Resume/Archive_Drafts/2026-05-01_pre_db_cleanup/resume_chipagents-fullstack-ai-engineer.html` and `resume_openai-hardware-tooling.html`)
-5. The base resume it was derived from
+After generating a draft, invoke the dedicated **`resume-reviewer`** subagent (`.claude/agents/resume-reviewer.md`). It auto-loads `RESUME_AGENT_GUIDE.md`, this `SKILL.md`, the 4 base resumes, both callback-getters (`chipagents-fullstack-ai-engineer.html`, `openai-hardware-tooling.html`), and the strategy files for whatever projects appear in the draft — so the call-time prompt only needs:
 
-Ask the reviewer to score on 7-8 dimensions relevant to the JD, give top 3 strengths/weaknesses, and suggest specific text edits. Then apply only the edits you agree with — don't blindly follow everything. Common patterns: reviewers always say the summary is too generic (usually right), always want more keywords added (sometimes right), and sometimes suggest fabricating experience (always wrong).
+```
+Agent({
+  subagent_type: "resume-reviewer",
+  prompt: "Review draft at <absolute path> for this JD.\n\n## JD\n<verbatim JD text>\n\n## Optional focus\n<any specific concerns or angles to weigh>"
+})
+```
+
+The agent returns **9-dimension scoring + confidence-tagged edits**:
+
+- 🔴 **MUST-FIX** — factual errors, fabrications, claims that will get pressed in an interview. Apply automatically.
+- 🟡 **STRONG REC** — clear ATS or JD-vocabulary miss. Apply unless you have a specific reason not to.
+- 🔵 **CONSIDER** — reviewer's opinion on style / wording / ordering. Apply selectively; skip if you disagree.
+- ⚪ **OPTIONAL** — pure preference. Skip unless you happen to agree.
+
+Then a one-line verdict: *"Send as-is" / "Send after MUST-FIX" / "Send after MUST-FIX + STRONG REC" / "Major revision needed."*
+
+**Use the tags to triage.** The whole point of the tagging is to make the SKILL.md anti-pattern ("don't blindly follow every suggestion") operationalizable. In practice ~70% of CONSIDER edits get skipped; that's correct.
+
+**What the reviewer is best at:**
+- **Honesty audits** — catches fabrications you let drift in (e.g., "MCP as SDK" when MCP is a protocol; "production-quality C++" for a nanodegree project; "for Annotation-Style Tasks" when the project doesn't have annotation). The agent has a calibration list of what's real vs. not in its system prompt.
+- **JD vocabulary mirror gaps** — quotes specific JD phrases and checks if the draft echoes them.
+- **Lead-bullet voice** — flags when a kernel-engineer JD gets a coursework-summary lead, etc.
+
+**What to be wary of:**
+- 🔵 CONSIDER edits about summary wording — about half the time the reviewer's rewrite is genuinely tighter; the other half it's just *different*. Trust your taste.
+- Anything that smells like "add more keywords to row 3" — only apply if the keywords are real and JD-asked-for, not generic.
+
+**JD verbatim is non-negotiable.** If the JD-fetcher subagent paraphrases or fails, the reviewer's vocabulary-mirror scoring is unreliable. Always pass the real verbatim JD — pause and ask the user for it if the fetcher can't get it cleanly.
 
 ## When in doubt
 
